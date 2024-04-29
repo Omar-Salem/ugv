@@ -1,167 +1,17 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <robot name="ugv" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:include filename="$(find ugv_description)/urdf/materials.xacro" />
-<xacro:include filename="$(find ugv_description)/urdf/ugv.trans" />
-<xacro:include filename="$(find ugv_description)/urdf/ugv.gazebo" />
-<link name="base_link">
-  <inertial>
-    <origin xyz="5.607037937277861e-05 0.0 0.05002394672452172" rpy="0 0 0"/>
-    <mass value="52.779744190122"/>
-    <inertia ixx="0.297294" iyy="0.389069" izz="0.598288" ixy="-0.0" iyz="0.0" ixz="-0.000163"/>
-  </inertial>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
+    <xacro:arg name="is_sim" default="true"/>
+    <xacro:include filename="ugv_core.xacro"/>
 
-<link name="front_left_wheel_1">
-  <inertial>
-    <origin xyz="0.0 0.018500000000000072 -6.938893903907228e-18" rpy="0 0 0"/>
-    <mass value="1.45996093797625"/>
-    <inertia ixx="0.000751" iyy="0.001168" izz="0.000751" ixy="0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.09841 -0.125 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/front_left_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.09841 -0.125 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/front_left_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="rear_left_wheel_1">
-  <inertial>
-    <origin xyz="-1.3877787807814457e-17 0.018500000000000072 -6.938893903907228e-18" rpy="0 0 0"/>
-    <mass value="1.45996093797625"/>
-    <inertia ixx="0.000751" iyy="0.001168" izz="0.000751" ixy="0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="0.09841 -0.125 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/rear_left_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="0.09841 -0.125 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/rear_left_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="rear_right_wheel_1">
-  <inertial>
-    <origin xyz="-1.3877787807814457e-17 -0.01849999999999999 -6.938893903907228e-18" rpy="0 0 0"/>
-    <mass value="1.45996093797625"/>
-    <inertia ixx="0.000751" iyy="0.001168" izz="0.000751" ixy="0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="0.09841 0.125 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/rear_right_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="0.09841 0.125 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/rear_right_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="front_right_wheel_1">
-  <inertial>
-    <origin xyz="-1.1102230246251565e-15 -0.018500000000000072 -6.938893903907228e-18" rpy="0 0 0"/>
-    <mass value="1.45996093797625"/>
-    <inertia ixx="0.000751" iyy="0.001168" izz="0.000751" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.09841 0.125 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/front_right_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.09841 0.125 -0.02" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/front_right_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="lidar_link_1">
-  <inertial>
-    <origin xyz="0.0 7.237528875152536e-18 0.009999999999999995" rpy="0 0 0"/>
-    <mass value="0.3082687791334984"/>
-    <inertia ixx="5.8e-05" iyy="5.8e-05" izz="9.6e-05" ixy="0.0" iyz="-0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.12 -0.0 -0.11" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/lidar_link_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.12 -0.0 -0.11" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ugv_description)/meshes/lidar_link_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<joint name="front_left_wheel_joint" type="continuous">
-  <origin xyz="0.09841 0.125 0.02" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="front_left_wheel_1"/>
-  <axis xyz="0.0 -1.0 0.0"/>
-</joint>
-
-<joint name="rear_left_wheel_joint" type="continuous">
-  <origin xyz="-0.09841 0.125 0.02" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="rear_left_wheel_1"/>
-  <axis xyz="0.0 1.0 0.0"/>
-</joint>
-
-<joint name="rear_right_wheel_joint" type="continuous">
-  <origin xyz="-0.09841 -0.125 0.02" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="rear_right_wheel_1"/>
-  <axis xyz="0.0 1.0 0.0"/>
-</joint>
-
-<joint name="front_right_wheel_joint" type="continuous">
-  <origin xyz="0.09841 -0.125 0.02" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="front_right_wheel_1"/>
-  <axis xyz="0.0 -1.0 0.0"/>
-</joint>
-
-<joint name="lidar_link_joint" type="fixed">
-  <origin xyz="0.12 0.0 0.11" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="lidar_link_1"/>
-</joint>
+    <xacro:if value="$(arg is_sim)">
+        <xacro:include filename="$(find ugv_description)/gazebo/gazebo.xacro"/>
+        <xacro:include filename="$(find ugv_description)/gazebo/gazebo_control.xacro"/>
+        <xacro:include filename="$(find ugv_description)/gazebo/lidar.xacro"/>
+        <!--        <xacro:include filename="gazebo/imu.xacro"/>-->
+    </xacro:if>
+    <xacro:unless value="$(arg is_sim)">
+        <xacro:include filename="$(find ugv_description)/control/ros2_control.xacro"/>
+    </xacro:unless>
 
 </robot>
