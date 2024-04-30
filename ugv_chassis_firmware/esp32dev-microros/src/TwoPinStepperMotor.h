@@ -7,7 +7,7 @@
 
 #include <AccelStepper.h>
 
-class FourPinStepperMotor {
+class TwoPinStepperMotor {
 private:
     AccelStepper *accelStepper;
     const int FULLSTEP = 4;
@@ -22,13 +22,9 @@ private:
     const long DEAD_MAN_SWITCH_TIMEOUT_MILLI_SEC=1000;
 
 public:
-    FourPinStepperMotor(byte firstPin,
-                        byte secondPin,
-                        byte thirdPin,
-                        byte fourthPin,
+    TwoPinStepperMotor(byte stepPin,
+                        byte dirPin,
                         bool isLeft);
-
-    double getAngularVelocity();
 
     double getPosition() const;
 

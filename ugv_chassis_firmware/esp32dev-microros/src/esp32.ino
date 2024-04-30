@@ -10,7 +10,7 @@
 
 #include <ugv_interfaces/msg/motor.h>
 #include <ugv_interfaces/msg/motors_odom.h>
-#include "FourPinStepperMotor.h"
+#include "TwoPinStepperMotor.h"
 
 #if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
 #error This example is only avaliable for Arduino framework with serial transport.
@@ -31,30 +31,30 @@ const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 
 const int front_left_1 = 15;
 const int front_left_2 = 2;
-const int front_left_3 = 0;
-const int front_left_4 = 4;
+//const int front_left_3 = 0;
+//const int front_left_4 = 4;
 
 const int rear_left_1 = 19;
 const int rear_left_2 = 18;
-const int rear_left_3 = 5;
-const int rear_left_4 = 17;
+//const int rear_left_3 = 5;
+//const int rear_left_4 = 17;
 
 
 const int front_right_1 = 13;
 const int front_right_2 = 12;
-const int front_right_3 = 14;
-const int front_right_4 = 27;
+//const int front_right_3 = 14;
+//const int front_right_4 = 27;
 
 const int rear_right_1 = 26;
 const int rear_right_2 = 25;
-const int rear_right_3 = 33;
-const int rear_right_4 = 32;
+//const int rear_right_3 = 33;
+//const int rear_right_4 = 32;
 
-FourPinStepperMotor front_left(front_left_1, front_left_2, front_left_3, front_left_4, true);
-FourPinStepperMotor rear_left(rear_left_1, rear_left_2, rear_left_3, rear_left_4, true);
+TwoPinStepperMotor front_left(front_left_1, front_left_2, true);
+TwoPinStepperMotor rear_left(rear_left_1, rear_left_2, true);
 
-FourPinStepperMotor front_right(front_right_1, front_right_2, front_right_3, front_right_4, false);
-FourPinStepperMotor rear_right(rear_right_1, rear_right_2, rear_right_3, rear_right_4, false);
+TwoPinStepperMotor front_right(front_right_1, front_right_2, false);
+TwoPinStepperMotor rear_right(rear_right_1, rear_right_2, false);
 
 // https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
 TaskHandle_t moveMotorsTask;
