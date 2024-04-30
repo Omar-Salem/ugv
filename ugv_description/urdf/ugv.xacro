@@ -6,12 +6,8 @@
 
     <xacro:if value="$(arg is_sim)">
         <xacro:include filename="$(find ugv_description)/gazebo/gazebo.xacro"/>
-        <xacro:include filename="$(find ugv_description)/gazebo/gazebo_control.xacro"/>
         <xacro:include filename="$(find ugv_description)/gazebo/lidar.xacro"/>
         <!--        <xacro:include filename="gazebo/imu.xacro"/>-->
     </xacro:if>
-    <xacro:unless value="$(arg is_sim)">
-        <xacro:include filename="$(find ugv_description)/control/ros2_control.xacro"/>
-    </xacro:unless>
 
 </robot>

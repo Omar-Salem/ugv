@@ -9,15 +9,6 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
-    share_dir = get_package_share_directory('ugv_description')
-    is_sim=False
-
-    xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
-    robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim' : 'false'})
-    robot_urdf = robot_description_config.toxml()
-
-    rviz_config_file = os.path.join(share_dir, 'config', 'display.rviz')
-
     gui_arg = DeclareLaunchArgument(
         name='gui',
         default_value='True'
@@ -25,14 +16,20 @@ def generate_launch_description():
 
     show_gui = LaunchConfiguration('gui')
 
+    share_dir = get_package_share_directory('ugv_description')
+    xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
+    robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'false'})
+    robot_urdf = robot_description_config.toxml()
+
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         name='robot_state_publisher',
         parameters=[
-            {'robot_description': robot_urdf,
-             'use_sim_time': is_sim
-             }
+            {
+                'robot_description': robot_urdf,
+                'use_sim_time': False
+            }
         ]
     )
 
@@ -50,6 +47,7 @@ def generate_launch_description():
         name='joint_state_publisher_gui'
     )
 
+    rviz_config_file = os.path.join(share_dir, 'config', 'display.rviz')
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
