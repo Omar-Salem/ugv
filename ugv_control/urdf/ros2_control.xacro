@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:include filename="joints.macro.xacro"/>
 
-    <ros2_control name="DiffDrive" type="system">
+    <ros2_control name="UGVChassisHardware" type="system">
         <hardware>
             <plugin>ugv_chassis_firmware/UGVChassisHardware</plugin>
         </hardware>
