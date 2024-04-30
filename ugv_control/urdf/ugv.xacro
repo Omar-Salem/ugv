@@ -2,7 +2,8 @@
 <robot name="ugv" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:arg name="is_sim" default="true"/>
-    <xacro:include filename="$(find ugv_description)/urdf/ugv.xacro"/>
+    <xacro:include filename="$(find ugv_description)/urdf/ugv.macro.xacro"/>
+    <xacro:ugv is_sim="$is_sim"/>
 
     <xacro:if value="$(arg is_sim)">
         <xacro:include filename="$(find ugv_control)/urdf/gazebo_control.xacro"/>
