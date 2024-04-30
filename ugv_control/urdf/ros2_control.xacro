@@ -4,7 +4,7 @@
 
     <ros2_control name="DiffDrive" type="system">
         <hardware>
-            <plugin>hw_interface/DiffDrive</plugin>
+            <plugin>ugv_chassis_firmware/UGVChassisHardware</plugin>
         </hardware>
         <xacro:joints/>
     </ros2_control>
