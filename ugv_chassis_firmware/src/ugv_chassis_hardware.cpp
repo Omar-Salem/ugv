@@ -122,6 +122,12 @@ namespace ugv_chassis_firmware {
 
     return_type UGVChassisHardware::write(
             const Time & /*time*/, const Duration & /*period*/) {
+
+//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
+//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
+//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
+//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
+
         setMotorsVelocity(frontLeftWheel->velocity_command,
                           frontRightWheel->velocity_command,
                           rearLeftWheel->velocity_command,
