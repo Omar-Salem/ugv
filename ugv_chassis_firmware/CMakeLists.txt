@@ -5,38 +5,44 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+set(CMAKE_CXX_STANDARD 17)
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
+find_package(ugv_interfaces REQUIRED)
+
+set(HW_INTERFACE_LIB "ugv_chassis_firmware")
 
 add_library(
-  ugv_chassis_firmware
+  ${HW_INTERFACE_LIB}
   SHARED
   src/ugv_chassis_hardware.cpp
 )
 target_include_directories(
-  ugv_chassis_firmware
+  ${HW_INTERFACE_LIB}
   PUBLIC
   include
 )
 ament_target_dependencies(
-  ugv_chassis_firmware
+  ${HW_INTERFACE_LIB}
   hardware_interface
   rclcpp
   rclcpp_lifecycle
+  ugv_interfaces
 )
 # prevent pluginlib from using boost
-target_compile_definitions(ugv_chassis_firmware PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+target_compile_definitions(${HW_INTERFACE_LIB} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
 pluginlib_export_plugin_description_file(
-  hardware_interface ugv_chassis_firmware.xml)
+  hardware_interface ${HW_INTERFACE_LIB}.xml)
 
 install(
   TARGETS
-  ugv_chassis_firmware
+  ${HW_INTERFACE_LIB}
   RUNTIME DESTINATION bin
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -74,7 +80,7 @@ ament_export_include_directories(
   include
 )
 ament_export_libraries(
-  ugv_chassis_firmware
+  ${HW_INTERFACE_LIB}
 )
 ament_export_dependencies(
   hardware_interface

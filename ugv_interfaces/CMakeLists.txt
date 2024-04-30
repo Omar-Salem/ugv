@@ -1,20 +1,21 @@
 cmake_minimum_required(VERSION 3.8)
-project(ugv_control)
+project(ugv_interfaces)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+set(CMAKE_CXX_STANDARD 17)
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(urdf REQUIRED)
-find_package(xacro REQUIRED)
-find_package(robot_state_publisher REQUIRED)
-find_package(ugv_chassis_firmware REQUIRED)
-#find_package(ugv_description REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Motor.msg"
+  "msg/MotorsOdom.msg"
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -27,10 +28,5 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
-
-install(
-        DIRECTORY config launch urdf
-        DESTINATION share/${PROJECT_NAME}
-)
 
 ament_package()

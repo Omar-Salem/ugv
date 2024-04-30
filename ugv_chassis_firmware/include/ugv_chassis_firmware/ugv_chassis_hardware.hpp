@@ -19,53 +19,68 @@
 #include <string>
 #include <vector>
 
-#include "ugv_chassis_firmware/visibility_control.h"
+#include "rclcpp/rclcpp.hpp"
 #include "hardware_interface/system_interface.hpp"
 #include "hardware_interface/handle.hpp"
 #include "hardware_interface/hardware_info.hpp"
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "rclcpp/macros.hpp"
 #include "rclcpp_lifecycle/state.hpp"
+#include "ugv_interfaces/msg/motor.hpp"
+#include "ugv_interfaces/msg/motors_odom.hpp"
+#include "Wheel.h"
 
-namespace ugv_chassis_firmware
-{
-class UGVChassisHardware : public hardware_interface::SystemInterface
-{
-public:
-  TEMPLATES__ROS2_CONTROL__VISIBILITY_PUBLIC
-  hardware_interface::CallbackReturn on_init(
-    const hardware_interface::HardwareInfo & info) override;
+using namespace std;
+using namespace rclcpp;
+using namespace rclcpp_lifecycle;
+using namespace hardware_interface;
+namespace ugv_chassis_firmware {
+    class UGVChassisHardware : public SystemInterface {
+    public:
+        UGVChassisHardware();
 
-  TEMPLATES__ROS2_CONTROL__VISIBILITY_PUBLIC
-  hardware_interface::CallbackReturn on_configure(
-    const rclcpp_lifecycle::State & previous_state) override;
+        CallbackReturn on_init(
+                const HardwareInfo &info) override;
 
-  TEMPLATES__ROS2_CONTROL__VISIBILITY_PUBLIC
-  std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 
-  TEMPLATES__ROS2_CONTROL__VISIBILITY_PUBLIC
-  std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
+        CallbackReturn on_configure(
+                const State &previous_state) override;
 
-  TEMPLATES__ROS2_CONTROL__VISIBILITY_PUBLIC
-  hardware_interface::CallbackReturn on_activate(
-    const rclcpp_lifecycle::State & previous_state) override;
 
-  TEMPLATES__ROS2_CONTROL__VISIBILITY_PUBLIC
-  hardware_interface::CallbackReturn on_deactivate(
-    const rclcpp_lifecycle::State & previous_state) override;
+        std::vector <StateInterface> export_state_interfaces() override;
 
-  TEMPLATES__ROS2_CONTROL__VISIBILITY_PUBLIC
-  hardware_interface::return_type read(
-    const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
-  TEMPLATES__ROS2_CONTROL__VISIBILITY_PUBLIC
-  hardware_interface::return_type write(
-    const rclcpp::Time & time, const rclcpp::Duration & period) override;
+        std::vector <CommandInterface> export_command_interfaces() override;
 
-private:
-  std::vector<double> hw_commands_;
-  std::vector<double> hw_states_;
-};
+
+        CallbackReturn on_activate(
+                const State &previous_state) override;
+
+
+        CallbackReturn on_deactivate(
+                const State &previous_state) override;
+
+
+        return_type read(
+                const rclcpp::Time &time, const rclcpp::Duration &period) override;
+
+
+        return_type write(
+                const rclcpp::Time &time, const rclcpp::Duration &period) override;
+
+    private:
+        unique_ptr <Wheel> frontLeftWheel;
+        unique_ptr <Wheel> frontRightWheel;
+        unique_ptr <Wheel> rearLeftWheel;
+        unique_ptr <Wheel> rearRightWheel;
+        std::shared_ptr <rclcpp::Node> node_;
+        rclcpp::Subscription<ugv_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
+        rclcpp::Publisher<ugv_interfaces::msg::MotorsOdom>::SharedPtr velocityPublisher;
+
+        void setMotorsVelocity(double frontLeft, double frontRight, double rearLeft, double rearRight);
+
+        void readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
+    };
 
 }  // namespace ugv_chassis_firmware
 

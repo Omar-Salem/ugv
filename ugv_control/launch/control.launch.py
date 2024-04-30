@@ -52,7 +52,7 @@ def create_controller_nodes(package_name, robot_description_config):
         ]
     package_dir = FindPackageShare(package_name)
     robot_controllers = PathJoinSubstitution(
-        [package_dir, "config", 'two_wheels_controllers.yaml']
+        [package_dir, "config", 'diff_drive_controllers.yaml']
     )
 
     control_node = Node(
