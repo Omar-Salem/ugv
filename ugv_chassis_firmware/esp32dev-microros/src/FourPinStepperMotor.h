@@ -2,8 +2,8 @@
 // Created by omar on 4/2/24.
 //
 
-#ifndef TWO_WHEELS_STEPPERMOTOR_H
-#define TWO_WHEELS_STEPPERMOTOR_H
+#ifndef UGV_STEPPERMOTOR_H
+#define UGV_STEPPERMOTOR_H
 
 #include <AccelStepper.h>
 
@@ -38,4 +38,4 @@ public:
 };
 
 
-#endif //TWO_WHEELS_STEPPERMOTOR_H
+#endif //UGV_STEPPERMOTOR_H
