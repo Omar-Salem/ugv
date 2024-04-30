@@ -11,7 +11,8 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    share_dir = get_package_share_directory('ugv_control')
+    package_name = 'ugv_control'
+    share_dir = get_package_share_directory(package_name)
     xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
     robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'false'})
     robot_urdf = robot_description_config.toxml()
@@ -28,7 +29,7 @@ def generate_launch_description():
         ]
     )
 
-    controller_nodes = create_controller_nodes()
+    controller_nodes = create_controller_nodes(package_name, robot_urdf)
 
     return LaunchDescription(
         [
@@ -38,11 +39,7 @@ def generate_launch_description():
     )
 
 
-def create_controller_nodes() -> list:
-    """
-
-    :rtype: list
-    """
+def create_controller_nodes(package_name, robot_description_config):
     robot_controller_names = ['joint_state_broadcaster', 'diff_drive_controller']
     robot_controller_spawners = []
     for controller in robot_controller_names:
@@ -50,7 +47,19 @@ def create_controller_nodes() -> list:
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=[controller]
+                arguments=[controller],
             )
         ]
+    package_dir = FindPackageShare(package_name)
+    robot_controllers = PathJoinSubstitution(
+        [package_dir, "config", 'two_wheels_controllers.yaml']
+    )
+
+    control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        output="both",
+        parameters=[{'robot_description': robot_description_config}, robot_controllers],
+    )
+    robot_controller_spawners.append(control_node)
     return robot_controller_spawners
