@@ -23,7 +23,7 @@ def generate_launch_description():
         parameters=[
             {
                 'robot_description': robot_urdf,
-                'use_sim_time': 'False'
+                'use_sim_time': False
             }
         ]
     )
