@@ -7,6 +7,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(urdf REQUIRED)
+find_package(xacro REQUIRED)
+find_package(robot_state_publisher REQUIRED)
 #find_package(ugv_description REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
