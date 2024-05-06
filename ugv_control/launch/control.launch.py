@@ -31,17 +31,22 @@ def generate_launch_description():
 
     controller_nodes = create_controller_nodes(package_name, robot_urdf)
 
-    rviz_config_file = os.path.join(share_dir, 'config', 'display.rviz')
+    rviz_config_file = DeclareLaunchArgument(
+        name='rviz_config_file',
+        default_value=os.path.join(share_dir, 'config', 'display.rviz')
+    )
+    
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        arguments=['-d', rviz_config_file],
+        arguments=['-d', LaunchConfiguration('rviz_config_file')],
         output='screen'
     )
 
     return LaunchDescription(
         [
+            rviz_config_file,
             robot_state_publisher_node,
             rviz_node
         ] +
