@@ -73,13 +73,19 @@ def create_gazebo_nodes() -> list:
 
     :rtype: list
     """
+    package_dir = FindPackageShare('ugv_control')
+    world = PathJoinSubstitution(
+        [package_dir, 'worlds', 'many_walls.world']
+    )
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
+        launch_arguments={'world': world}.items()
     )
     spawn_entity = Node(package='gazebo_ros',
                         executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
                                    '-entity', 'ugv'],
                         output='screen')
+    # launch.logging.launch_config.level = logging.WARN
     return [gazebo, spawn_entity]
