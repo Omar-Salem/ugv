@@ -22,8 +22,12 @@ def generate_launch_description():
     )
 
     package_dir = FindPackageShare(package_name)
+
     world = PathJoinSubstitution(
         [package_dir, 'worlds', 'many_walls.world']
+    )
+    rviz_config_file = PathJoinSubstitution(
+        [package_dir, 'config', 'display.rviz']
     )
 
     return LaunchDescription(
@@ -32,7 +36,8 @@ def generate_launch_description():
              PythonLaunchDescriptionSource([os.path.join(
                  get_package_share_directory('ugv_control'), 'launch', 'gazebo.launch.py'
              )]), launch_arguments={
-                 'gazebo_world': world
+                 'gazebo_world': world,
+                 'rviz_config_file': rviz_config_file
              }.items()
          )
          ]

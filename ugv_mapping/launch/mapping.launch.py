@@ -12,7 +12,6 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     package_name = 'ugv_mapping'
 
-
     rp_lidar_c1_launch_file_path = PathJoinSubstitution(
         [FindPackageShare(package_name), 'launch', 'view_sllidar_c1_launch.py'])
     rp_lidar_c1 = IncludeLaunchDescription(
@@ -31,14 +30,19 @@ def generate_launch_description():
             'is_sim': 'False'
         }.items()
     )
-
-    return LaunchDescription(
-                             [core,
-                              rp_lidar_c1,
-                              IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('ugv_control'), 'launch', 'control.launch.py'
-        )])
+    package_dir = FindPackageShare(package_name)
+    rviz_config_file = PathJoinSubstitution(
+        [package_dir, 'config', 'display.rviz']
     )
-                              ]
-                             )
+    return LaunchDescription(
+        [core,
+         rp_lidar_c1,
+         IncludeLaunchDescription(
+             PythonLaunchDescriptionSource([os.path.join(
+                 get_package_share_directory('ugv_control'), 'launch', 'control.launch.py'
+             )]), launch_arguments={
+                 'rviz_config_file': rviz_config_file
+             }.items()
+         )
+         ]
+    )
