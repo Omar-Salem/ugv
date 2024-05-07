@@ -35,7 +35,7 @@ def generate_launch_description():
         name='rviz_config_file',
         default_value=os.path.join(share_dir, 'config', 'display.rviz')
     )
-    
+
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -47,13 +47,14 @@ def generate_launch_description():
     return LaunchDescription(
         [
             DeclareLaunchArgument(
-        name='gazebo_world',default_value=''
-    ),
+                name='gazebo_world',
+                default_value=''
+            ),
             rviz_config_file,
             robot_state_publisher_node,
             rviz_node
         ] +
-         create_gazebo_nodes() +
+        create_gazebo_nodes() +
         controller_nodes
     )
 

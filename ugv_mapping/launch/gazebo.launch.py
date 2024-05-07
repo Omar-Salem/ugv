@@ -21,12 +21,19 @@ def generate_launch_description():
         }.items()
     )
 
-    return LaunchDescription(
-                             [core,
-                                               IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('ugv_control'), 'launch', 'gazebo.launch.py'
-        )])
+    package_dir = FindPackageShare(package_name)
+    world = PathJoinSubstitution(
+        [package_dir, 'worlds', 'many_walls.world']
     )
-                              ]
-                             )
+
+    return LaunchDescription(
+        [core,
+         IncludeLaunchDescription(
+             PythonLaunchDescriptionSource([os.path.join(
+                 get_package_share_directory('ugv_control'), 'launch', 'gazebo.launch.py'
+             )]), launch_arguments={
+                 'gazebo_world': world
+             }.items()
+         )
+         ]
+    )
