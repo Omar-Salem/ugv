@@ -51,6 +51,9 @@ def generate_launch_description():
             rviz_node
         ] +
         controller_nodes
+        # TODO microros
+        # source ~/microros_ws/install/local_setup.bash
+        # ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
     )
 
 
