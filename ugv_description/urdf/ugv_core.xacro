@@ -5,9 +5,9 @@
 
     <link name="base_link">
         <inertial>
-            <origin xyz="0.0 1.7728771913886266e-17 0.10999933880977349" rpy="0 0 0"/>
-            <mass value="2"/>
-            <inertia ixx="0.966516" iyy="1.898649" izz="2.169279" ixy="0.0" iyz="0.0" ixz="0.0"/>
+            <origin xyz="-0.001286687391743976 5.852613032120841e-06 0.0774595073842539" rpy="0 0 0"/>
+            <mass value="1.8659797599914978"/>
+            <inertia ixx="0.018308" iyy="0.036464" izz="0.054285" ixy="0.0" iyz="0.0" ixz="-2.4e-05"/>
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -26,19 +26,19 @@
 
     <link name="front_left_wheel">
         <inertial>
-            <origin xyz="0.0 0.020000000000000018 -6.938893903907228e-18" rpy="0 0 0"/>
-            <mass value="0.0956"/>
-            <inertia ixx="0.000842" iyy="0.001263" izz="0.000842" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+            <origin xyz="1.2352069053700454e-07 0.01999978800742533 2.9802318252114546e-10" rpy="0 0 0"/>
+            <mass value="1.578336149163512"/>
+            <inertia ixx="0.000842" iyy="0.001263" izz="0.000842" ixy="0.0" iyz="0.0" ixz="-0.0"/>
         </inertial>
         <visual>
-            <origin xyz="-0.13672 -0.122 -0.0409" rpy="0 0 0"/>
+            <origin xyz="-0.143415 -0.123006 -0.0425" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find ugv_description)/meshes/front_left_wheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="-0.13672 -0.122 -0.0409" rpy="0 0 0"/>
+            <origin xyz="-0.143415 -0.123006 -0.0425" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find ugv_description)/meshes/front_left_wheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
@@ -47,82 +47,82 @@
 
     <link name="rear_left_wheel">
         <inertial>
-            <origin xyz="-2.7755575615628914e-17 0.020000000000000018 -6.938893903907228e-18" rpy="0 0 0"/>
-            <mass value="0.0956"/>
-            <inertia ixx="0.000842" iyy="0.001263" izz="0.000842" ixy="-0.0" iyz="-0.0" ixz="0.0"/>
+            <origin xyz="1.235206903704711e-07 0.019999788007424774 2.9802318252114546e-10" rpy="0 0 0"/>
+            <mass value="1.578336149163512"/>
+            <inertia ixx="0.000842" iyy="0.001263" izz="0.000842" ixy="0.0" iyz="-0.0" ixz="0.0"/>
         </inertial>
         <visual>
-            <origin xyz="0.13672 -0.122 -0.0409" rpy="0 0 0"/>
+            <origin xyz="0.147785 -0.123006 -0.0425" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find ugv_description)/meshes/rear_left_wheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="0.13672 -0.122 -0.0409" rpy="0 0 0"/>
+            <origin xyz="0.147785 -0.123006 -0.0425" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find ugv_description)/meshes/rear_left_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <link name="rear_right_wheel">
-        <inertial>
-            <origin xyz="0.0 -0.020000000000000018 0.0" rpy="0 0 0"/>
-            <mass value="0.0956"/>
-            <inertia ixx="0.000842" iyy="0.001263" izz="0.000842" ixy="-0.0" iyz="0.0" ixz="0.0"/>
-        </inertial>
-        <visual>
-            <origin xyz="0.13672 0.122 -0.0409" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/rear_right_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
-        </visual>
-        <collision>
-            <origin xyz="0.13672 0.122 -0.0409" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/rear_right_wheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
     <link name="front_right_wheel">
         <inertial>
-            <origin xyz="0.0 -0.020000000000000018 0.0" rpy="0 0 0"/>
-            <mass value="0.0956"/>
-            <inertia ixx="0.000842" iyy="0.001263" izz="0.000842" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+            <origin xyz="1.235206901206709e-07 -0.020000211992574804 2.9802321027672107e-10" rpy="0 0 0"/>
+            <mass value="1.578336149163512"/>
+            <inertia ixx="0.000842" iyy="0.001263" izz="0.000842" ixy="0.0" iyz="0.0" ixz="0.0"/>
         </inertial>
         <visual>
-            <origin xyz="-0.13672 0.122 -0.0409" rpy="0 0 0"/>
+            <origin xyz="-0.143415 0.122994 -0.0425" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find ugv_description)/meshes/front_right_wheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="-0.13672 0.122 -0.0409" rpy="0 0 0"/>
+            <origin xyz="-0.143415 0.122994 -0.0425" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find ugv_description)/meshes/front_right_wheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
 
+    <link name="rear_right_wheel">
+        <inertial>
+            <origin xyz="1.2352069095333817e-07 -0.020000211992574915 2.9802314782667594e-10" rpy="0 0 0"/>
+            <mass value="1.578336149163512"/>
+            <inertia ixx="0.000842" iyy="0.001263" izz="0.000842" ixy="0.0" iyz="0.0" ixz="0.0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0.147785 0.122994 -0.0425" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find ugv_description)/meshes/rear_right_wheel.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="silver"/>
+        </visual>
+        <collision>
+            <origin xyz="0.147785 0.122994 -0.0425" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file://$(find ugv_description)/meshes/rear_right_wheel.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
     <link name="lidar_link">
         <inertial>
-            <origin xyz="-0.027115069985041318 3.5226945429821856e-06 -0.0020552178870618665" rpy="0 0 0"/>
+            <origin xyz="-0.00011494677727549862 3.3107019681208537e-06 0.017944782112938054" rpy="0 0 0"/>
             <mass value="0.7886321015037847"/>
             <inertia ixx="0.000269" iyy="0.000272" izz="0.000333" ixy="0.0" iyz="0.0" ixz="-1e-06"/>
         </inertial>
         <visual>
-            <origin xyz="-0.19 -0.0 -0.22" rpy="0 0 0"/>
+            <origin xyz="-0.186715 -6e-06 -0.091" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find ugv_description)/meshes/lidar_link.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="silver"/>
         </visual>
         <collision>
-            <origin xyz="-0.19 -0.0 -0.22" rpy="0 0 0"/>
+            <origin xyz="-0.186715 -6e-06 -0.091" rpy="0 0 0"/>
             <geometry>
                 <mesh filename="file://$(find ugv_description)/meshes/lidar_link.stl" scale="0.001 0.001 0.001"/>
             </geometry>
@@ -130,39 +130,39 @@
     </link>
 
     <joint name="front_left_wheel_joint" type="continuous">
-        <origin xyz="0.13672 0.122 0.0409" rpy="0 0 0"/>
+        <origin xyz="0.143415 0.123006 0.0425" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="front_left_wheel"/>
-        <axis xyz="0.0 1.0 0.0"/>
+        <axis xyz="0.0 -1.0 0.0"/>
     </joint>
 
     <joint name="rear_left_wheel_joint" type="continuous">
-        <origin xyz="-0.13672 0.122 0.0409" rpy="0 0 0"/>
+        <origin xyz="-0.147785 0.123006 0.0425" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="rear_left_wheel"/>
-        <axis xyz="0.0 1.0 0.0"/>
-    </joint>
-
-    <joint name="rear_right_wheel_joint" type="continuous">
-        <origin xyz="-0.13672 -0.122 0.0409" rpy="0 0 0"/>
-        <parent link="base_link"/>
-        <child link="rear_right_wheel"/>
-        <axis xyz="0.0 1.0 0.0"/>
+        <axis xyz="0.0 -1.0 0.0"/>
     </joint>
 
     <joint name="front_right_wheel_joint" type="continuous">
-        <origin xyz="0.13672 -0.122 0.0409" rpy="0 0 0"/>
+        <origin xyz="0.143415 -0.122994 0.0425" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="front_right_wheel"/>
-        <axis xyz="0.0 1.0 0.0"/>
+        <axis xyz="-0.0 1.0 -0.0"/>
+    </joint>
+
+    <joint name="rear_right_wheel_joint" type="continuous">
+        <origin xyz="-0.147785 -0.122994 0.0425" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="rear_right_wheel"/>
+        <axis xyz="-0.0 1.0 -0.0"/>
     </joint>
 
     <joint name="lidar_link_joint" type="fixed">
-        <origin xyz="0.19 0.0 0.22" rpy="0 0 0"/>
+        <origin xyz="0.186715 6e-06 0.091" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="lidar_link"/>
     </joint>
-
+    
     <link name="base_footprint"/>
 
     <joint name="base_footprint_joint" type="fixed">
