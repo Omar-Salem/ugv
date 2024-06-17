@@ -20,151 +20,121 @@
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace ugv_chassis_firmware {
-    UGVChassisHardware::UGVChassisHardware() : node_(std::make_shared<rclcpp::Node>("ugv_motors_hw_interface_node")) {
-        odomSubscription = node_->create_subscription<ugv_interfaces::msg::MotorsOdom>(
-                "ugv/motors_state", 10,
-                [this](const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
-                    this->readOdom(motorsOdom);
-                });
-        velocityPublisher = node_->create_publisher<ugv_interfaces::msg::MotorsOdom>("ugv/motors_cmd",
-                                                                                     10);
-    }
-
-    CallbackReturn UGVChassisHardware::on_init(
-            const HardwareInfo &info) {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_init ...please wait...");
-
-        if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
-            return CallbackReturn::ERROR;
+namespace ugv_chassis_firmware
+{
+        UGVChassisHardware::UGVChassisHardware() : node_(std::make_shared<rclcpp::Node>("ugv_motors_hw_interface_node"))
+        {
+                odomSubscription = node_->create_subscription<ugv_interfaces::msg::MotorsOdom>(
+                    "ugv/motors_state", 10,
+                    [this](const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom)
+                    {
+                            this->readOdom(motorsOdom);
+                    });
+                velocityPublisher = node_->create_publisher<ugv_interfaces::msg::MotorsOdom>("ugv/motors_cmd",
+                                                                                             10);
         }
-        frontLeftWheel = make_unique<Wheel>("front_left_wheel_joint");
-        frontRightWheel = make_unique<Wheel>("front_right_wheel_joint");
-        rearLeftWheel = make_unique<Wheel>("rear_left_wheel_joint");
-        rearRightWheel = make_unique<Wheel>("rear_right_wheel_joint");
-        return CallbackReturn::SUCCESS;
-    }
 
-    CallbackReturn UGVChassisHardware::on_configure(
-            const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_configure ...please wait...");
-        return CallbackReturn::SUCCESS;
-    }
+        CallbackReturn UGVChassisHardware::on_init(
+            const HardwareInfo &info)
+        {
+                RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_init ...please wait...");
 
-    vector <StateInterface> UGVChassisHardware::export_state_interfaces() {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_state_interfaces ...please wait...");
-        vector <StateInterface> state_interfaces;
+                if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
+                {
+                        return CallbackReturn::ERROR;
+                }
+                leftWheel = make_unique<Wheel>("front_left_wheel_joint");
+                rightWheel = make_unique<Wheel>("front_right_wheel_joint");
+                return CallbackReturn::SUCCESS;
+        }
 
-//        frontLeftWheel
-        state_interfaces.emplace_back(
-                frontLeftWheel->name, HW_IF_POSITION, &frontLeftWheel->position_state);
+        CallbackReturn UGVChassisHardware::on_configure(
+            const State & /*previous_state*/)
+        {
+                RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_configure ...please wait...");
+                return CallbackReturn::SUCCESS;
+        }
 
-//        state_interfaces.emplace_back(
-//                frontLeftWheel->name, HW_IF_VELOCITY, &frontLeftWheel->velocity_state);
+        vector<StateInterface> UGVChassisHardware::export_state_interfaces()
+        {
+                RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_state_interfaces ...please wait...");
+                vector<StateInterface> state_interfaces;
 
-//        frontRightWheel
-        state_interfaces.emplace_back(
-                frontRightWheel->name, HW_IF_POSITION, &frontRightWheel->position_state);
+                state_interfaces.emplace_back(
+                    leftWheel->name, HW_IF_POSITION, &leftWheel->position_state);
 
-//        state_interfaces.emplace_back(
-//                frontRightWheel->name, HW_IF_VELOCITY, &frontRightWheel->velocity_state);
+                state_interfaces.emplace_back(
+                    rightWheel->name, HW_IF_POSITION, &rightWheel->position_state);
 
-//        rearLeftWheel
-        state_interfaces.emplace_back(
-                rearLeftWheel->name, HW_IF_POSITION, &rearLeftWheel->position_state);
+                return state_interfaces;
+        }
 
-//        state_interfaces.emplace_back(
-//                rearLeftWheel->name, HW_IF_VELOCITY, &rearLeftWheel->velocity_state);
+        vector<CommandInterface> UGVChassisHardware::export_command_interfaces()
+        {
+                RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_command_interfaces ...please wait...");
+                vector<CommandInterface> command_interfaces;
+                command_interfaces.emplace_back(
+                    leftWheel->name, HW_IF_VELOCITY, &leftWheel->velocity_command);
+                command_interfaces.emplace_back(
+                    rightWheel->name, HW_IF_VELOCITY, &rightWheel->velocity_command);
 
-//        rearRightWheel
-        state_interfaces.emplace_back(
-                rearRightWheel->name, HW_IF_POSITION, &rearRightWheel->position_state);
+                return command_interfaces;
+        }
 
-//        state_interfaces.emplace_back(
-//                rearRightWheel->name, HW_IF_VELOCITY, &rearRightWheel->velocity_state);
+        CallbackReturn UGVChassisHardware::on_activate(
+            const State & /*previous_state*/)
+        {
+                RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_activate ...please wait...");
+                return CallbackReturn::SUCCESS;
+        }
 
-        return state_interfaces;
-    }
+        CallbackReturn UGVChassisHardware::on_deactivate(
+            const State & /*previous_state*/)
+        {
+                RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_deactivate ...please wait...");
+                setMotorsVelocity(0, 0);
+                return CallbackReturn::SUCCESS;
+        }
 
-    vector <CommandInterface> UGVChassisHardware::export_command_interfaces() {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_command_interfaces ...please wait...");
-        vector <CommandInterface> command_interfaces;
-        command_interfaces.emplace_back(
-                frontLeftWheel->name, HW_IF_VELOCITY, &frontLeftWheel->velocity_command);
-        command_interfaces.emplace_back(
-                frontRightWheel->name, HW_IF_VELOCITY, &frontRightWheel->velocity_command);
-        command_interfaces.emplace_back(
-                rearLeftWheel->name, HW_IF_VELOCITY, &rearLeftWheel->velocity_command);
-        command_interfaces.emplace_back(
-                rearRightWheel->name, HW_IF_VELOCITY, &rearRightWheel->velocity_command);
+        return_type UGVChassisHardware::read(
+            const Time & /*time*/, const Duration & /*period*/)
+        {
+                rclcpp::spin_some(node_);
+                return return_type::OK;
+        }
 
-        return command_interfaces;
-    }
+        return_type UGVChassisHardware::write(
+            const Time & /*time*/, const Duration & /*period*/)
+        {
 
-    CallbackReturn UGVChassisHardware::on_activate(
-            const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_activate ...please wait...");
-        return CallbackReturn::SUCCESS;
-    }
+                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
 
-    CallbackReturn UGVChassisHardware::on_deactivate(
-            const State & /*previous_state*/) {
-        RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_deactivate ...please wait...");
-        setMotorsVelocity(0, 0, 0, 0);
-        return CallbackReturn::SUCCESS;
-    }
+                setMotorsVelocity(leftWheel->velocity_command,
+                                  rightWheel->velocity_command);
+                return return_type::OK;
+        }
 
-    return_type UGVChassisHardware::read(
-            const Time & /*time*/, const Duration & /*period*/) {
-        rclcpp::spin_some(node_);
-        return return_type::OK;
-    }
+        void UGVChassisHardware::setMotorsVelocity(double left,
+                                                   double right)
+        {
+                auto cmd_msg = std::make_shared<ugv_interfaces::msg::MotorsOdom>();
+                cmd_msg->left.velocity = left;
+                cmd_msg->right.velocity = right;
+                velocityPublisher->publish(*cmd_msg);
+        }
 
-    return_type UGVChassisHardware::write(
-            const Time & /*time*/, const Duration & /*period*/) {
+        void UGVChassisHardware::readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom)
+        {
+                leftWheel->position_state = motorsOdom->left.position;
+                rightWheel->position_state = motorsOdom->right.position;
+        }
 
-//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
-//        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
-
-        setMotorsVelocity(frontLeftWheel->velocity_command,
-                          frontRightWheel->velocity_command,
-                          rearLeftWheel->velocity_command,
-                          rearRightWheel->velocity_command);
-        return return_type::OK;
-    }
-
-    void UGVChassisHardware::setMotorsVelocity(double frontLeft,
-                                               double frontRight,
-                                               double rearLeft,
-                                               double rearRight) {
-        auto cmd_msg = std::make_shared<ugv_interfaces::msg::MotorsOdom>();
-        cmd_msg->front_left.velocity = frontLeft;
-        cmd_msg->front_right.velocity = frontRight;
-        cmd_msg->rear_left.velocity = rearLeft;
-        cmd_msg->rear_right.velocity = rearRight;
-        velocityPublisher->publish(*cmd_msg);
-    }
-
-    void UGVChassisHardware::readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom) {
-        frontLeftWheel->position_state = motorsOdom->front_left.position;
-//        frontLeftWheel->velocity_state = motorsOdom->front_left.velocity;
-
-        frontRightWheel->position_state = motorsOdom->front_right.position;
-//        frontRightWheel->velocity_state = motorsOdom->front_right.velocity;
-
-        rearLeftWheel->position_state = motorsOdom->rear_left.position;
-//        rearLeftWheel->velocity_state = motorsOdom->rear_left.velocity;
-
-        rearRightWheel->position_state = motorsOdom->rear_right.position;
-//        rearRightWheel->velocity_state = motorsOdom->rear_right.velocity;
-    }
-
-}  // namespace ugv_chassis_firmware
+} // namespace ugv_chassis_firmware
 
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-        ugv_chassis_firmware::UGVChassisHardware, hardware_interface::SystemInterface
-)
+    ugv_chassis_firmware::UGVChassisHardware, hardware_interface::SystemInterface)
