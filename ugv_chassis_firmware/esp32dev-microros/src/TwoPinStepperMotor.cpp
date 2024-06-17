@@ -11,7 +11,7 @@ TwoPinStepperMotor::TwoPinStepperMotor(byte stepPin,
     commandLastPing_ = millis();
     accelStepper = new AccelStepper(1, stepPin, dirPin);
 
-    accelStepper->setMaxSpeed(MAX_STEPS_PER_SECOND);
+    accelStepper->setMaxSpeed(20000);
 }
 
 

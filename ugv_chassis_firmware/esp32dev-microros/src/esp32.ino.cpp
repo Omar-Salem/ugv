@@ -1,5 +1,8 @@
-// https://www.hackster.io/514301/micro-ros-on-esp32-using-arduino-ide-1360ca
-// https://github.com/micro-ROS/micro_ros_platformio
+# 1 "/tmp/tmpzb5k_6dc"
+#include <Arduino.h>
+# 1 "/home/omar/ugv_ws/src/ugv_chassis_firmware/esp32dev-microros/src/esp32.ino"
+
+
 
 #include <Arduino.h>
 #include <micro_ros_platformio.h>
@@ -37,20 +40,21 @@ const int left_step = 12;
 const int left_dir = 14;
 TwoPinStepperMotor left(left_step, left_dir, false);
 
-// https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
+
 TaskHandle_t moveMotorsTask;
 
 
-// #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
+
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){printf("NOOOOOOOOOOOOOO");}}
-
-// Error handle loop
-// void error_loop() {
-//     while (1) {
-//         delay(100);
-//     }
-// }
-
+# 54 "/home/omar/ugv_ws/src/ugv_chassis_firmware/esp32dev-microros/src/esp32.ino"
+void velocityCommandCallback(const void *msgin);
+void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time);
+void createStatePublisher();
+void createCommandSubscriber();
+void setup();
+void loop();
+void moveMotors(void *pvParameters);
+#line 54 "/home/omar/ugv_ws/src/ugv_chassis_firmware/esp32dev-microros/src/esp32.ino"
 void velocityCommandCallback(const void *msgin) {
     const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *) msgin;
     left.setVelocity(command->left.velocity);
@@ -87,7 +91,7 @@ void createStatePublisher() {
             type_support,
             "ugv/motors_state"));
 
-    // create timer
+
     RCSOFTCHECK(rclc_timer_init_default(
             &publisherTimer,
             &support,
@@ -95,7 +99,7 @@ void createStatePublisher() {
             odomStateTimerCallback));
 
 
-    // create executor
+
     RCSOFTCHECK(rclc_executor_init(&publisherExecutor, &support.context, 1, &allocator));
     RCSOFTCHECK(rclc_executor_add_timer(&publisherExecutor, &publisherTimer));
 }
@@ -135,13 +139,13 @@ void setup() {
     createCommandSubscriber();
 
     xTaskCreatePinnedToCore(
-            moveMotors,   /* Task function. */
-            "moveMotorsTask",     /* name of task. */
-            10000,       /* Stack size of task */
-            NULL,        /* parameter of the task */
-            0,           /* priority of the task */
-            &moveMotorsTask,      /* Task handle to keep track of created task */
-            0);          /* pin task to core 1 */
+            moveMotors,
+            "moveMotorsTask",
+            10000,
+            NULL,
+            0,
+            &moveMotorsTask,
+            0);
 
 }
 
@@ -156,3 +160,4 @@ void moveMotors(void *pvParameters) {
         right.move();
     }
 }
+# 1 "/home/omar/ugv_ws/src/ugv_chassis_firmware/esp32dev-microros/src/basic.ino"
