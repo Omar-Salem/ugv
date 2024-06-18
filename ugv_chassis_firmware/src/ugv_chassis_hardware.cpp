@@ -121,15 +121,15 @@ namespace ugv_chassis_firmware
                                                    double right)
         {
                 auto cmd_msg = std::make_shared<ugv_interfaces::msg::MotorsOdom>();
-                cmd_msg->left.velocity = left;
-                cmd_msg->right.velocity = right;
+                cmd_msg->left = left;
+                cmd_msg->right = right;
                 velocityPublisher->publish(*cmd_msg);
         }
 
         void UGVChassisHardware::readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom)
         {
-                leftWheel->position_state = motorsOdom->left.position;
-                rightWheel->position_state = motorsOdom->right.position;
+                leftWheel->position_state = motorsOdom->left;
+                rightWheel->position_state = motorsOdom->right;
         }
 
 } // namespace ugv_chassis_firmware
