@@ -2,22 +2,44 @@
 // // https://github.com/micro-ROS/micro_ros_platformio
 
 // #include <Arduino.h>
-// #include "TwoPinStepperMotor.h"
+// #include <micro_ros_platformio.h>
+// #include <AccelStepper.h>
+// #include <Stepper.h>
+// const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
+// const double ANGLES_PER_STEP = 1.8;
 
 // const int right_step = 4;
 // const int right_dir = 16;
-// TwoPinStepperMotor right(right_step, right_dir, true);
+// AccelStepper right(AccelStepper::DRIVER, right_step, right_dir);
 
 // const int left_step = 12;
 // const int left_dir = 14;
-// TwoPinStepperMotor left(left_step, left_dir, false);
+// AccelStepper left(AccelStepper::DRIVER, left_step, left_dir);
 
-// void setup() {
-//  left.setVelocity(4000);
-//     right.setVelocity(4000);
+
+// AccelStepper z(AccelStepper::DRIVER, 18, 19);
+
+// // Stepper stepper(200, left_step, left_dir);
+
+// void setup()
+// {
+
+//     left.setMaxSpeed(20000);
+//     left.setSpeed(1000);
+
+//     right.setMaxSpeed(20000);
+//     right.setSpeed(-1000);
+
+//     // z.setMaxSpeed(20000);
+//     // z.setSpeed(-1000);
+
+//     // accelStepper.setSpeed(-2000);
+//     // stepper.setSpeed(480);
 // }
 
-// void loop() {
-//         left.move();
-//         right.move();
+// void loop()
+// {
+//     left.runSpeed();
+//     right.runSpeed();
+//     // z.runSpeed();
 // }

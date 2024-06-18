@@ -58,7 +58,7 @@ double convertRadiansPerSecondToStepsPerSecond(double angularVelocity)
 void velocityCommandCallback(const void *msgin)
 {
     const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *)msgin;
-    left.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->left));
+    left.setSpeed(-1*convertRadiansPerSecondToStepsPerSecond(command->left));
     right.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->right));
 }
 
