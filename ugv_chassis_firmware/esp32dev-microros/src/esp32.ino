@@ -26,6 +26,7 @@ rcl_allocator_t allocator;
 rcl_node_t node;
 rcl_timer_t publisherTimer;
 const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
+const double ANGLES_PER_STEP = 1.8;
 
 const int right_step = 4;
 const int right_dir = 16;
@@ -48,11 +49,17 @@ TaskHandle_t moveMotorsTask;
         }                              \
     }
 
+double convertRadiansPerSecondToStepsPerSecond(double angularVelocity)
+{
+    const double angularVelocityDegrees = angularVelocity * RAD_TO_DEG;
+    return angularVelocityDegrees / ANGLES_PER_STEP;
+}
+
 void velocityCommandCallback(const void *msgin)
 {
     const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *)msgin;
-    left.setSpeed(command->left);
-    right.setSpeed(command->right);
+    left.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->left));
+    right.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->right));
 }
 
 void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time)
