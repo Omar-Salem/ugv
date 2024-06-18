@@ -15,7 +15,10 @@ ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
 source ~/microros_ws/install/local_setup.bash
 source install/setup.bash 
 
-ros2 topic list -t | grep ugv/motors #check for cmd and state topics
+ros2 topic list -t | grep ugv/motors #check for /ugv/motors_cmd and /ugv/motors_state
 
-ros2 topic pub -r 10 /ugv_interfaces/motors_cmd ugv_interfaces/msg/MotorsOdom "left: 4000.0
+ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "left: 4000.0
 right: 4000.0" 
+
+ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "left: 000.0
+right: 000.0" 

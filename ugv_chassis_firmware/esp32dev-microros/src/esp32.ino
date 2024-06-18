@@ -48,7 +48,6 @@ TaskHandle_t moveMotorsTask;
         }                              \
     }
 
-
 void velocityCommandCallback(const void *msgin)
 {
     const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *)msgin;
@@ -140,9 +139,6 @@ void setup()
 
     left.setMaxSpeed(20000);
     right.setMaxSpeed(20000);
-
-    left.setSpeed(4000);
-    right.setSpeed(4000);
 }
 
 void loop()
@@ -155,7 +151,6 @@ void moveMotors(void *pvParameters)
 {
     for (;;)
     {
-
         left.runSpeed();
         right.runSpeed();
     }
