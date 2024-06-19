@@ -10,9 +10,9 @@ controller_manager:
 
 diff_drive_controller:
   ros__parameters:
-    wheels_per_side: 2
-    left_wheel_names: [ "front_left_wheel_joint" ,"rear_left_wheel_joint" ]
-    right_wheel_names: [ "front_right_wheel_joint","rear_right_wheel_joint" ]
+    wheels_per_side: 1
+    left_wheel_names: [ "rear_left_wheel_joint" ]
+    right_wheel_names: [ "rear_right_wheel_joint" ]
 
     wheel_separation: 25.0
     wheel_radius: 4.0

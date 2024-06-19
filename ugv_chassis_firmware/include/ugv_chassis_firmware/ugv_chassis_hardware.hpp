@@ -66,16 +66,14 @@ namespace ugv_chassis_firmware
         private:
                 // unique_ptr <Wheel> frontLeftWheel;
                 // unique_ptr <Wheel> frontRightWheel;
-                // unique_ptr <Wheel> rearLeftWheel;
-                // unique_ptr <Wheel> rearRightWheel;
-                unique_ptr<Wheel> leftWheel;
-                unique_ptr<Wheel> rightWheel;
+                unique_ptr <Wheel> rearLeftWheel;
+                unique_ptr <Wheel> rearRightWheel;
 
                 std::shared_ptr<rclcpp::Node> node_;
                 rclcpp::Subscription<ugv_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
                 rclcpp::Publisher<ugv_interfaces::msg::MotorsOdom>::SharedPtr velocityPublisher;
 
-                void setMotorsVelocity(double left, double right);
+                void setMotorsVelocity(double rearLeft, double rearRight);
                 // void setMotorsVelocity(double frontLeft, double frontRight, double rearLeft, double rearRight);
 
                 void readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
