@@ -58,8 +58,8 @@ double convertRadiansPerSecondToStepsPerSecond(double angularVelocity)
 void velocityCommandCallback(const void *msgin)
 {
     const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *)msgin;
-    rearLeftWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->rearLeft));
-    rearRightWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->rearRight));
+    rearLeftWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->rear_left));
+    rearRightWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->rear_right));
 }
 
 void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time)
@@ -69,8 +69,8 @@ void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time)
     {
         ugv_interfaces__msg__MotorsOdom msg;
 
-        msg.rearLeft = rearLeftWheel.currentPosition();
-        msg.rearRight = rearRightWheel.currentPosition();
+        msg.rear_left = rearLeftWheel.currentPosition();
+        msg.rear_right = rearRightWheel.currentPosition();
 
         RCSOFTCHECK(rcl_publish(&odomStatePublisher, &msg, NULL));
     }
