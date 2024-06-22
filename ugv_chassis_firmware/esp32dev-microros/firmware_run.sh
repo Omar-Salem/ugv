@@ -4,6 +4,7 @@
 # check connections
 # check battery is on
 
+# clean platformio
 # flash esp32
 cd ~/ugv_ws
 colcon build --packages-select ugv_interfaces
@@ -27,21 +28,21 @@ source install/setup.bash
 ros2 topic list -t | grep ugv/motors #check for /ugv/motors_cmd and /ugv/motors_state
 
 # both same direction
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 200.0
-rear_right: 200.0" 
+ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 6.28
+rear_right: 6.28" 
 
 # stop
 ros2 topic pub --once /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 0.0
 rear_right: 0.0" 
 
 # reverse rear_left direction
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -200.0
-rear_right: 200.0" 
+ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -6.28
+rear_right: 6.28" 
 
 # reverse rear_right direction
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 200.0
-rear_right: -200.0" 
+ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 6.28
+rear_right: -6.28" 
 
 # reverse both
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -200.0
-rear_right: -200.0" 
+ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -6.28
+rear_right: -6.28" 

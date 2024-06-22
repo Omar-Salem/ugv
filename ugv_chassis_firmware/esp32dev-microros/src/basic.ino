@@ -2,10 +2,7 @@
 // // https://github.com/micro-ROS/micro_ros_platformio
 
 // #include <Arduino.h>
-// #include <micro_ros_platformio.h>
 // #include <AccelStepper.h>
-// #include <Stepper.h>
-// const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 // const double ANGLES_PER_STEP = 1.8;
 
 // const int right_step = 4;
@@ -16,19 +13,24 @@
 // const int left_dir = 14;
 // AccelStepper left(AccelStepper::DRIVER, left_step, left_dir);
 
-
 // AccelStepper z(AccelStepper::DRIVER, 18, 19);
 
-// // Stepper stepper(200, left_step, left_dir);
+// double convertRadiansPerSecondToStepsPerSecond(double angularVelocity)
+// {
+//     const double angularVelocityDegrees = angularVelocity * RAD_TO_DEG;
+//     return angularVelocityDegrees / ANGLES_PER_STEP;
+// }
 
 // void setup()
 // {
-
+//     // Serial.begin(115200);
+//     double speed = convertRadiansPerSecondToStepsPerSecond(2*3.14);
+//     // speed = 200;
 //     left.setMaxSpeed(20000);
-//     left.setSpeed(1000);
+//     left.setSpeed(speed);
 
 //     right.setMaxSpeed(20000);
-//     right.setSpeed(-1000);
+//     right.setSpeed(speed);
 
 //     // z.setMaxSpeed(20000);
 //     // z.setSpeed(-1000);
@@ -39,7 +41,7 @@
 
 // void loop()
 // {
-//     left.runSpeed();
+//     // left.runSpeed();
 //     right.runSpeed();
 //     // z.runSpeed();
 // }
