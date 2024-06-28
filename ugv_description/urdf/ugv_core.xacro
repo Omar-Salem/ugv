@@ -76,7 +76,7 @@
         </collision>
         <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}"
             z="${chassis_height}">
-            <origin xyz="${chassis_length/2} 0 ${chassis_height/2}" rpy="0 0 0" />
+            <origin rpy="0 0 0" xyz="0 0 ${chassis_offset_z}"/>
         </xacro:inertial_box>
     </link>
 
