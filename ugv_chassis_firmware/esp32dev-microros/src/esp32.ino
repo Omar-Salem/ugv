@@ -28,18 +28,22 @@ rcl_timer_t publisherTimer;
 const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 const double ANGLES_PER_STEP = 1.8;
 
+// X
 const int rear_right_step = 4;
 const int rear_right_dir = 16;
 AccelStepper rearRightWheel(1, rear_right_step, rear_right_dir);
 
+// Z
 const int front_right_step = 18;
 const int front_right_dir = 19;
 AccelStepper frontRightWheel(1, front_right_step, front_right_dir);
 
+// Y
 const int rear_left_step = 12;
 const int rear_left_dir = 14;
 AccelStepper rearLeftWheel(1, rear_left_step, rear_left_dir);
 
+// A
 const int front_left_step = 25;
 const int front_left_dir = 33;
 AccelStepper frontLeftWheel(1, front_left_step, front_left_dir);
