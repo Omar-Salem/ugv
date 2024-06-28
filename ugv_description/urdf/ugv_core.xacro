@@ -12,6 +12,10 @@
     <xacro:property name="wheel_thickness" value="0.0369" />
     <xacro:property name="wheel_mass" value="0.05" />
 
+    <xacro:property name="lidar_radius" value="0.04" />
+    <xacro:property name="lidar_thickness" value="0.0369" />
+    <xacro:property name="lidar_mass" value="0.05" />
+
 
     <xacro:property name="edge_to_motor_mount" value="0.04" />
     <xacro:property name="motor_mount_width" value="0.0417" />
@@ -47,6 +51,10 @@
         <color rgba="1 0.3 0.1 1" />
     </material>
 
+    <material name="yellow">
+        <color rgba="1 1 0 1" />
+    </material>
+
     <material name="black">
         <color rgba="0 0 0 1" />
     </material>
@@ -67,7 +75,7 @@
         </collision>
         <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}"
             z="${chassis_height}">
-            <origin rpy="0 0 0" xyz="0 0 ${wheel_radius}"/>
+            <origin xyz="${chassis_length/2} 0 ${chassis_height/2}" rpy="0 0 0" />
         </xacro:inertial_box>
     </link>
 
@@ -120,33 +128,30 @@
         <origin xyz="${-wheel_offset_x} ${wheel_offset_y} ${wheel_radius}" />
         <axis xyz="0.0 1.0 0.0" />
     </joint>
-    <!-- 
 
     <link name="lidar_link">
-        <inertial>
-            <origin xyz="-0.0001155547326693318 3.2715051849067412e-06 0.01794478211293804" rpy="0 0 0"/>
-            <mass value="0.7886321015037847"/>
-            <inertia ixx="0.000269" iyy="0.000272" izz="0.000333" ixy="0.0" iyz="0.0" ixz="-1e-06"/>
-        </inertial>
         <visual>
-            <origin xyz="-0.43536 6e-05 -0.091" rpy="0 0 0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/lidar_link.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
+                <cylinder radius="${lidar_radius}" length="${lidar_thickness}" />     </geometry>
+            <material name="yellow"/>
         </visual>
         <collision>
-            <origin xyz="-0.43536 6e-05 -0.091" rpy="0 0 0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/lidar_link.stl" scale="0.001 0.001 0.001"/>
+                <cylinder radius="${lidar_radius}" length="${lidar_thickness}" />    
             </geometry>
         </collision>
+        <xacro:inertial_cylinder mass="${lidar_mass}" length="${lidar_thickness}"
+            radius="${lidar_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:inertial_cylinder>
     </link>
 
     <joint name="lidar_link_joint" type="fixed">
         <parent link="base_link"/>
         <child link="lidar_link"/>
-        <origin xyz="0.43536 -6e-05 0.091" rpy="0 0 0"/>
-    </joint> -->
+        <origin xyz="${chassis_length/2} 0 ${wheel_radius}" rpy="0 0 0"/>
+    </joint> 
 
 </robot>
