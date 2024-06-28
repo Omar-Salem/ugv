@@ -13,8 +13,8 @@
     <xacro:property name="chassis_mass" value="1.0" />
     <xacro:property name="chassis_offset_z" value="${wheel_radius}" />
 
-    <xacro:property name="lidar_radius" value="0.04" />
-    <xacro:property name="lidar_thickness" value="0.0369" />
+    <xacro:property name="lidar_radius" value="0.02" />
+    <xacro:property name="lidar_thickness" value="0.1" />
     <xacro:property name="lidar_mass" value="0.05" />
 
 
@@ -148,7 +148,7 @@
     <joint name="lidar_link_joint" type="fixed">
         <parent link="base_link"/>
         <child link="lidar_link"/>
-        <origin xyz="${chassis_length/2-lidar_radius} 0 ${chassis_offset_z+chassis_height}" rpy="0 0 0"/>
+        <origin xyz="${chassis_length/2-lidar_radius} 0 ${chassis_offset_z+lidar_thickness/2}" rpy="0 0 0"/>
     </joint> 
 
 </robot>
