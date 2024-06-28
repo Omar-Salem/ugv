@@ -1,28 +1,126 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <robot name="ugv" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:include filename="$(find ugv_description)/urdf/materials.xacro"/>
+    <xacro:include filename="$(find ugv_description)/gazebo/common_inertias.xacro" />
+
+    <xacro:property name="chassis_length" value="0.34" />
+    <xacro:property name="chassis_width" value="0.285" />
+    <xacro:property name="chassis_height" value="0.02" />
+    <xacro:property name="chassis_mass" value="1.0" />
+
+    <xacro:property name="wheel_radius" value="0.04" />
+    <xacro:property name="wheel_thickness" value="0.0369" />
+    <xacro:property name="wheel_mass" value="0.05" />
+
+
+    <xacro:property name="edge_to_motor_mount" value="0.04" />
+    <xacro:property name="motor_mount_width" value="0.0417" />
+    <xacro:property name="motor_shaft_to_edge_x" value="${edge_to_motor_mount+motor_mount_width/2}" />
+
+    <xacro:property name="wheel_offset_x" value="${chassis_length/2-motor_shaft_to_edge_x}" />
+    <xacro:property name="wheel_offset_y" value="${chassis_width/2 + wheel_thickness/2 + 0.0029}"/>
+    <xacro:property name="wheel_offset_z" value="0.01" />
+
+    <xacro:macro name="wheel" params="prefix mass radius thickness">
+        <link name="${prefix}_wheel">
+            <visual>
+                <origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${radius}" length="${thickness}" />
+                </geometry>
+                <material name="orange" />
+            </visual>
+            <collision>
+                <origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${radius}" length="${thickness}" />
+                </geometry>
+            </collision>
+            <xacro:inertial_cylinder mass="${mass}" length="${thickness}"
+                radius="${radius}">
+                <origin xyz="0 0 0" rpy="0 0 0" />
+            </xacro:inertial_cylinder>
+        </link>
+    </xacro:macro>
+
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1" />
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1" />
+    </material>
 
     <link name="base_link">
-        <inertial>
-            <origin xyz="0.25539221363619424 -0.008191452128420306 0.07740258559841702" rpy="0 0 0"/>
-            <mass value="1.8582255296411472"/>
-            <inertia ixx="0.018307" iyy="0.036178" izz="0.054" ixy="-3e-06" iyz="-0.0" ixz="-5e-06"/>
-        </inertial>
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 ${wheel_radius}"/>
             <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}" />
             </geometry>
-            <material name="silver"/>
+            <material name="black" />
         </visual>
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 ${wheel_radius}"/>
             <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}" />
             </geometry>
         </collision>
+        <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}"
+            z="${chassis_height}">
+            <origin rpy="0 0 0" xyz="0 0 ${wheel_radius}"/>
+        </xacro:inertial_box>
     </link>
+
+    <link name="base_footprint" />
+
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="base_footprint" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <xacro:wheel prefix="front_right" mass="${wheel_mass}" radius="${wheel_radius}"
+        thickness="${wheel_thickness}" />
+
+
+    <joint name="front_right_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="front_right_wheel" />
+        <origin xyz="${wheel_offset_x} ${-wheel_offset_y} ${wheel_radius}" />
+        <axis xyz="0.0 1.0 0.0" />
+    </joint>
+
+
+    <xacro:wheel prefix="front_left" mass="${wheel_mass}" radius="${wheel_radius}"
+        thickness="${wheel_thickness}" />
+
+    <joint name="front_left_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="front_left_wheel" />
+        <origin xyz="${wheel_offset_x} ${wheel_offset_y} ${wheel_radius}" />
+        <axis xyz="0.0 1.0 0.0" />
+    </joint>
+
+    <xacro:wheel prefix="rear_right" mass="${wheel_mass}" radius="${wheel_radius}"
+        thickness="${wheel_thickness}" />
+
+    <joint name="rear_right_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="rear_right_wheel" />
+        <origin xyz="${-wheel_offset_x} ${-wheel_offset_y} ${wheel_radius}" />
+        <axis xyz="-0.0 1.0 0.0" />
+    </joint>
+
+    <xacro:wheel prefix="rear_left" mass="${wheel_mass}" radius="${wheel_radius}"
+        thickness="${wheel_thickness}" />
+
+    <joint name="rear_left_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="rear_left_wheel" />
+        <origin xyz="${-wheel_offset_x} ${wheel_offset_y} ${wheel_radius}" />
+        <axis xyz="0.0 1.0 0.0" />
+    </joint>
+    <!-- 
 
     <link name="lidar_link">
         <inertial>
@@ -45,130 +143,10 @@
         </collision>
     </link>
 
-    <link name="front_right_wheel">
-        <inertial>
-            <origin xyz="-3.129242420740752e-10 -0.018799999999999678 2.9802320333782717e-10" rpy="0 0 0"/>
-            <mass value="1.4688367113110694"/>
-            <inertia ixx="0.000755" iyy="0.001163" izz="0.000755" ixy="0.0" iyz="0.0" ixz="-0.0"/>
-        </inertial>
-        <visual>
-            <origin xyz="-0.4007 0.1312 -0.0425" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/front_right_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
-        </visual>
-        <collision>
-            <origin xyz="-0.4007 0.1312 -0.0425" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/front_right_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <link name="rear_right_wheel">
-        <inertial>
-            <origin xyz="-3.1292413105177275e-10 -0.018799999999999956 2.9802320333782717e-10" rpy="0 0 0"/>
-            <mass value="1.4688367113110694"/>
-            <inertia ixx="0.000755" iyy="0.001163" izz="0.000755" ixy="0.0" iyz="0.0" ixz="0.0"/>
-        </inertial>
-        <visual>
-            <origin xyz="-0.1095 0.1312 -0.0425" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/rear_right_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
-        </visual>
-        <collision>
-            <origin xyz="-0.1095 0.1312 -0.0425" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/rear_right_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <link name="rear_left_wheel">
-        <inertial>
-            <origin xyz="-3.129242143184996e-10 0.01880000000000008 2.980232241545089e-10" rpy="0 0 0"/>
-            <mass value="1.4688367113110694"/>
-            <inertia ixx="0.000755" iyy="0.001163" izz="0.000755" ixy="0.0" iyz="0.0" ixz="0.0"/>
-        </inertial>
-        <visual>
-            <origin xyz="-0.1095 -0.1148 -0.0425" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/rear_left_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
-        </visual>
-        <collision>
-            <origin xyz="-0.1095 -0.1148 -0.0425" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/rear_left_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <link name="front_left_wheel">
-        <inertial>
-            <origin xyz="-3.1292435309637767e-10 0.018800000000000303 2.980232241545089e-10" rpy="0 0 0"/>
-            <mass value="1.4688367113110694"/>
-            <inertia ixx="0.000755" iyy="0.001163" izz="0.000755" ixy="0.0" iyz="0.0" ixz="0.0"/>
-        </inertial>
-        <visual>
-            <origin xyz="-0.4007 -0.1148 -0.0425" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/front_left_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-            <material name="silver"/>
-        </visual>
-        <collision>
-            <origin xyz="-0.4007 -0.1148 -0.0425" rpy="0 0 0"/>
-            <geometry>
-                <mesh filename="file://$(find ugv_description)/meshes/front_left_wheel.stl" scale="0.001 0.001 0.001"/>
-            </geometry>
-        </collision>
-    </link>
-
     <joint name="lidar_link_joint" type="fixed">
-        <origin xyz="0.43536 -6e-05 0.091" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="lidar_link"/>
-    </joint>
-
-    <joint name="front_right_wheel_joint" type="continuous">
-        <origin xyz="0.4007 -0.1312 0.0425" rpy="0 0 0"/>
-        <parent link="base_link"/>
-        <child link="front_right_wheel"/>
-        <axis xyz="-0.0 1.0 -0.0"/>
-    </joint>
-
-    <joint name="rear_right_wheel_joint" type="continuous">
-        <origin xyz="0.1095 -0.1312 0.0425" rpy="0 0 0"/>
-        <parent link="base_link"/>
-        <child link="rear_right_wheel"/>
-        <axis xyz="-0.0 1.0 0.0"/>
-    </joint>
-
-    <joint name="rear_left_wheel_joint" type="continuous">
-        <origin xyz="0.1095 0.1148 0.0425" rpy="0 0 0"/>
-        <parent link="base_link"/>
-        <child link="rear_left_wheel"/>
-        <axis xyz="0.0 1.0 0.0"/>
-    </joint>
-
-    <joint name="front_left_wheel_joint" type="continuous">
-        <origin xyz="0.4007 0.1148 0.0425" rpy="0 0 0"/>
-        <parent link="base_link"/>
-        <child link="front_left_wheel"/>
-        <axis xyz="0.0 1.0 0.0"/>
-    </joint>
-    
-    <link name="base_footprint"/>
-
-    <joint name="base_footprint_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="base_footprint"/>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-    </joint>
+        <origin xyz="0.43536 -6e-05 0.091" rpy="0 0 0"/>
+    </joint> -->
 
 </robot>

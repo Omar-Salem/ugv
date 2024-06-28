@@ -28,13 +28,21 @@ rcl_timer_t publisherTimer;
 const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 const double ANGLES_PER_STEP = 1.8;
 
-const int right_step = 4;
-const int right_dir = 16;
-AccelStepper rearRightWheel(1, right_step, right_dir);
+const int rear_right_step = 4;
+const int rear_right_dir = 16;
+AccelStepper rearRightWheel(1, rear_right_step, rear_right_dir);
 
-const int left_step = 12;
-const int left_dir = 14;
-AccelStepper rearLeftWheel(1, left_step, left_dir);
+const int front_right_step = 18;
+const int front_right_dir = 19;
+AccelStepper frontRightWheel(1, front_right_step, front_right_dir);
+
+const int rear_left_step = 12;
+const int rear_left_dir = 14;
+AccelStepper rearLeftWheel(1, rear_left_step, rear_left_dir);
+
+const int front_left_step = 25;
+const int front_left_dir = 33;
+AccelStepper frontLeftWheel(1, front_left_step, front_left_dir);
 
 // https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
 TaskHandle_t moveMotorsTask;
@@ -59,7 +67,10 @@ void velocityCommandCallback(const void *msgin)
 {
     const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *)msgin;
     rearLeftWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->rear_left));
+    frontLeftWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->front_left));
+
     rearRightWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->rear_right));
+    frontRightWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->front_right));
 }
 
 void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time)
@@ -71,6 +82,9 @@ void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time)
 
         msg.rear_left = rearLeftWheel.currentPosition();
         msg.rear_right = rearRightWheel.currentPosition();
+
+        msg.front_left = frontLeftWheel.currentPosition();
+        msg.front_right = frontRightWheel.currentPosition();
 
         RCSOFTCHECK(rcl_publish(&odomStatePublisher, &msg, NULL));
     }
@@ -160,5 +174,7 @@ void moveMotors(void *pvParameters)
     {
         rearLeftWheel.runSpeed();
         rearRightWheel.runSpeed();
+        frontLeftWheel.runSpeed();
+        frontRightWheel.runSpeed();
     }
 }

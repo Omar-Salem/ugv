@@ -43,6 +43,8 @@ namespace ugv_chassis_firmware
                 {
                         return CallbackReturn::ERROR;
                 }
+                frontLeftWheel = make_unique<Wheel>("front_left_wheel_joint");
+                frontRightWheel = make_unique<Wheel>("front_right_wheel_joint");
                 rearLeftWheel = make_unique<Wheel>("rear_left_wheel_joint");
                 rearRightWheel = make_unique<Wheel>("rear_right_wheel_joint");
                 return CallbackReturn::SUCCESS;
@@ -92,7 +94,7 @@ namespace ugv_chassis_firmware
             const State & /*previous_state*/)
         {
                 RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_deactivate ...please wait...");
-                setMotorsVelocity(0, 0);
+                setMotorsVelocity(0, 0,0,0);
                 return CallbackReturn::SUCCESS;
         }
 
@@ -112,17 +114,23 @@ namespace ugv_chassis_firmware
                 //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
                 //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
 
-                setMotorsVelocity(rearLeftWheel->velocity_command,
+                setMotorsVelocity(frontLeftWheel->velocity_command,
+                                  frontRightWheel->velocity_command,
+                                  rearLeftWheel->velocity_command,
                                   rearRightWheel->velocity_command);
                 return return_type::OK;
         }
 
-        void UGVChassisHardware::setMotorsVelocity(double rearLeft,
+        void UGVChassisHardware::setMotorsVelocity(double frontLeft,
+                                                   double frontRight,
+                                                   double rearLeft,
                                                    double rearRight)
         {
                 auto cmd_msg = std::make_shared<ugv_interfaces::msg::MotorsOdom>();
                 cmd_msg->rear_left = rearLeft;
                 cmd_msg->rear_right = rearRight;
+                cmd_msg->front_left = frontLeft;
+                cmd_msg->front_right = frontRight;
                 velocityPublisher->publish(*cmd_msg);
         }
 
@@ -130,6 +138,8 @@ namespace ugv_chassis_firmware
         {
                 rearLeftWheel->position_state = motorsOdom->rear_left;
                 rearRightWheel->position_state = motorsOdom->rear_right;
+                frontLeftWheel->position_state = motorsOdom->front_left;
+                frontRightWheel->position_state = motorsOdom->front_right;
         }
 
 } // namespace ugv_chassis_firmware

@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /RobotModel1
         - /TF1
       Splitter Ratio: 0.5
     Tree Height: 405
@@ -81,11 +80,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        lidar_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         rear_left_wheel:
           Alpha: 1
           Show Axes: false
@@ -117,8 +111,6 @@ Visualization Manager:
           Value: true
         front_right_wheel:
           Value: true
-        lidar_link:
-          Value: true
         rear_left_wheel:
           Value: true
         rear_right_wheel:
@@ -136,13 +128,18 @@ Visualization Manager:
             {}
           front_right_wheel:
             {}
-          lidar_link:
-            {}
           rear_left_wheel:
             {}
           rear_right_wheel:
             {}
       Update Interval: 0
+      Value: true
+    - Class: rviz_default_plugins/Axes
+      Enabled: true
+      Length: 1
+      Name: Axes
+      Radius: 0.10000000149011612
+      Reference Frame: <Fixed Frame>
       Value: true
   Enabled: true
   Global Options:
@@ -205,10 +202,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.29979705810546875
+      Pitch: 0.5397969484329224
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.573571681976318
+      Yaw: 5.868574142456055
     Saved: ~
 Window Geometry:
   Displays:

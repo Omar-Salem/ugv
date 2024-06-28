@@ -26,7 +26,6 @@
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "rclcpp/macros.hpp"
 #include "rclcpp_lifecycle/state.hpp"
-#include "ugv_interfaces/msg/motor.hpp"
 #include "ugv_interfaces/msg/motors_odom.hpp"
 #include "Wheel.h"
 
@@ -64,8 +63,8 @@ namespace ugv_chassis_firmware
                     const rclcpp::Time &time, const rclcpp::Duration &period) override;
 
         private:
-                // unique_ptr <Wheel> frontLeftWheel;
-                // unique_ptr <Wheel> frontRightWheel;
+                unique_ptr <Wheel> frontLeftWheel;
+                unique_ptr <Wheel> frontRightWheel;
                 unique_ptr <Wheel> rearLeftWheel;
                 unique_ptr <Wheel> rearRightWheel;
 
@@ -73,8 +72,8 @@ namespace ugv_chassis_firmware
                 rclcpp::Subscription<ugv_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
                 rclcpp::Publisher<ugv_interfaces::msg::MotorsOdom>::SharedPtr velocityPublisher;
 
-                void setMotorsVelocity(double rearLeft, double rearRight);
-                // void setMotorsVelocity(double frontLeft, double frontRight, double rearLeft, double rearRight);
+                // void setMotorsVelocity(double rearLeft, double rearRight);
+                void setMotorsVelocity(double frontLeft, double frontRight, double rearLeft, double rearRight);
 
                 void readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
         };
