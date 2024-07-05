@@ -17,13 +17,15 @@
     <xacro:property name="lidar_thickness" value="0.1" />
     <xacro:property name="lidar_mass" value="0.05" />
 
-
-    <xacro:property name="edge_to_motor_mount" value="0.04" />
+    <xacro:property name="edge_thickness" value="0.02" />
+    <xacro:property name="edge_to_motor_mount" value="0.016" />
     <xacro:property name="motor_mount_width" value="0.0417" />
-    <xacro:property name="motor_shaft_to_edge_x" value="${edge_to_motor_mount+motor_mount_width/2}" />
-
+    <xacro:property name="motor_shaft_to_edge_x" value="${edge_thickness+edge_to_motor_mount+motor_mount_width/2}" />
     <xacro:property name="wheel_offset_x" value="${chassis_length/2-motor_shaft_to_edge_x}" />
-    <xacro:property name="wheel_offset_y" value="${chassis_width/2 + wheel_thickness/2 + 0.0029}"/>
+
+    <xacro:property name="wheels_y_distance_edge_to_edge" value=".36"/>
+    <xacro:property name="wheel_offset_y" value="${wheels_y_distance_edge_to_edge/2 - wheel_thickness/2}"/>
+
     <xacro:property name="wheel_offset_z" value="0.01" />
 
     <xacro:macro name="wheel" params="prefix">
