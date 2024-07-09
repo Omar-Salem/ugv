@@ -29,24 +29,24 @@ const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 const double ANGLES_PER_STEP = 1.8;
 
 // X
-const int rear_right_step = 4;
-const int rear_right_dir = 16;
-AccelStepper rearRightWheel(1, rear_right_step, rear_right_dir);
-
-// Z
-const int front_right_step = 18;
-const int front_right_dir = 19;
-AccelStepper frontRightWheel(1, front_right_step, front_right_dir);
-
-// Y
-const int rear_left_step = 12;
-const int rear_left_dir = 14;
+const int rear_left_step = 4; //Red:24
+const int rear_left_dir = 16; //Black:23
 AccelStepper rearLeftWheel(1, rear_left_step, rear_left_dir);
 
-// A
-const int front_left_step = 25;
-const int front_left_dir = 33;
+// Z
+const int rear_right_step = 18; //White:20
+const int rear_right_dir = 19;  //Blue:19
+AccelStepper rearRightWheel(1, rear_right_step, rear_right_dir);
+
+// Y
+const int front_left_step = 12; //Green:24
+const int front_left_dir = 14;  //Orange:23
 AccelStepper frontLeftWheel(1, front_left_step, front_left_dir);
+
+// A
+const int front_right_step = 25;  //Yellow:20
+const int front_right_dir = 33;   //violet:19
+AccelStepper frontRightWheel(1, front_right_step, front_right_dir);
 
 // https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
 TaskHandle_t moveMotorsTask;
