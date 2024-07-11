@@ -38,14 +38,8 @@ rear_right: 0.0
 front_left: 0.0
 front_right: 0.0" 
 
-# reverse rear_left direction
+# reverse direction
 ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -6.28
-rear_right: 6.28" 
-
-# reverse rear_right direction
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 6.28
-rear_right: -6.28" 
-
-# reverse both
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -6.28
-rear_right: -6.28" 
+rear_right: -6.28
+front_left: -6.28
+front_right: -6.28" 
