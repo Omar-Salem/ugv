@@ -8,7 +8,6 @@
 # flash esp32
 cd ~/ugv_ws
 colcon build --packages-select ugv_interfaces
-source ~/microros_ws/install/local_setup.bash
 source install/setup.bash 
 pio lib install # Install dependencies
 pio run # Build the firmware
@@ -20,7 +19,6 @@ ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
 # terminal 2
 cd ~/ugv_ws
 colcon build --packages-select ugv_interfaces
-source ~/microros_ws/install/local_setup.bash
 source install/setup.bash 
 
 ros2 topic list -t | grep ugv/motors #check for /ugv/motors_cmd and /ugv/motors_state
