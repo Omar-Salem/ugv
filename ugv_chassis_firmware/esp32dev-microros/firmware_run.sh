@@ -34,7 +34,9 @@ front_right: 6.28"
 
 # stop
 ros2 topic pub --once /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 0.0
-rear_right: 0.0" 
+rear_right: 0.0
+front_left: 0.0
+front_right: 0.0" 
 
 # reverse rear_left direction
 ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -6.28
