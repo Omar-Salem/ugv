@@ -29,9 +29,9 @@ const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 const double ANGLES_PER_STEP = 1.8;
 
 // X
-const int rear_left_step = 4; // Red:24
-const int rear_left_dir = 16; // Black:23
-AccelStepper rearLeftWheel(1, rear_left_step, rear_left_dir);
+const int REAR_LEFT_STEP = 4; // Red:24
+const int REAR_LEFT_DIR = 16; // Black:23
+AccelStepper rearLeftWheel(1, REAR_LEFT_STEP, REAR_LEFT_DIR);
 
 // Z
 const int rear_right_step = 18; // White:20

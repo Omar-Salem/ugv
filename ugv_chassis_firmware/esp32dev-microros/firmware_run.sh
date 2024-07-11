@@ -6,8 +6,7 @@
 
 # clean platformio
 # flash esp32
-pio lib install # Install dependencies
-pio run # Build the firmware
+pio pkg install # Install dependencies
 pio run --target upload # Flash the firmware
 
 # terminal 1
