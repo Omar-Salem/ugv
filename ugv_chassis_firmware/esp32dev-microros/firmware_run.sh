@@ -15,8 +15,7 @@ pio run # Build the firmware
 pio run --target upload # Flash the firmware
 
 # terminal 1
-source ~/microros_ws/install/local_setup.bash
-ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
+docker run -it --rm -v /dev:/dev -v /dev/shm:/dev/shm --privileged --net=host microros/micro-ros-agent:$ROS_DISTRO serial --dev /dev/ttyUSB0 -v6
 
 
 # terminal 2
