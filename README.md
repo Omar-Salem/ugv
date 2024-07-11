@@ -27,6 +27,10 @@ sudo apt install ros-jazzy-desktop -y
 echo 'export ROS_DOMAIN_ID=0' >> ~/.bashrc 
 echo 'source /opt/ros/jazzy/setup.bash' >> ~/.bashrc 
 source ~/.bashrc
+
+sudo rosdep init
+rosdep update
+rosdep install -i --from-path src --rosdistro ${ROS_DISTRO} -y
 ````
 ### Packages
 ````
