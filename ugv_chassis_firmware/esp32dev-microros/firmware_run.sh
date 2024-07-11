@@ -26,9 +26,11 @@ source install/setup.bash
 
 ros2 topic list -t | grep ugv/motors #check for /ugv/motors_cmd and /ugv/motors_state
 
-# both same direction
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 6.28
-rear_right: 6.28" 
+# same direction
+os2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 6.28
+rear_right: 6.28
+front_left: 6.28
+front_right: 6.28" 
 
 # stop
 ros2 topic pub --once /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 0.0
