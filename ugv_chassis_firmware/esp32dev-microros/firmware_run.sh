@@ -6,9 +6,6 @@
 
 # clean platformio
 # flash esp32
-cd ~/ugv_ws
-colcon build --packages-select ugv_interfaces
-source install/setup.bash 
 pio lib install # Install dependencies
 pio run # Build the firmware
 pio run --target upload # Flash the firmware
