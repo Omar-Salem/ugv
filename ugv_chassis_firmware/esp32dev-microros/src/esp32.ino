@@ -48,6 +48,8 @@ const int front_right_step = 25;  //Yellow:20
 const int front_right_dir = 33;   //violet:19
 AccelStepper frontRightWheel(1, front_right_step, front_right_dir);
 
+const int MAX_SPEED=500;
+
 // https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
 TaskHandle_t moveMotorsTask;
 
@@ -70,11 +72,11 @@ double convertRadiansPerSecondToStepsPerSecond(double angularVelocity)
 void velocityCommandCallback(const void *msgin)
 {
     const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *)msgin;
-    rearLeftWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->rear_left));
-    frontLeftWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->front_left));
+    rearLeftWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->rear_left));
+    frontLeftWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->front_left));
 
-    rearRightWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->rear_right));
-    frontRightWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->front_right));
+    rearRightWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->rear_right));
+    frontRightWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->front_right));
 }
 
 void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time)
@@ -162,8 +164,10 @@ void setup()
         &moveMotorsTask,  /* Task handle to keep track of created task */
         0);               /* pin task to core 1 */
 
-    rearLeftWheel.setMaxSpeed(20000);
-    rearRightWheel.setMaxSpeed(20000);
+    rearLeftWheel.setMaxSpeed(MAX_SPEED);
+    rearRightWheel.setMaxSpeed(MAX_SPEED);
+    frontLeftWheel.setMaxSpeed(MAX_SPEED);
+    frontRightWheel.setMaxSpeed(MAX_SPEED);
 }
 
 void loop()
