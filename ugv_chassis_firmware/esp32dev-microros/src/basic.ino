@@ -1,11 +1,12 @@
-// // https://www.hackster.io/514301/micro-ros-on-esp32-using-arduino-ide-1360ca
-// // https://github.com/micro-ROS/micro_ros_platformio
-// // https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html
+// https://www.hackster.io/514301/micro-ros-on-esp32-using-arduino-ide-1360ca
+// https://github.com/micro-ROS/micro_ros_platformio
+// https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html
+// https://www.makerstore.com.au/wp-content/uploads/filebase/publications/CNC-Shield-Guide-v1.0.pdf
 
 /*** CNC v3 connections : STEP/DIR
- * Red Black
- * Green Orange
- * White Blue
+ * Red    Black
+ * Green  Orange
+ * White  Blue
  * Yellow Violet
 ****/
 
