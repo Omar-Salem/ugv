@@ -2,6 +2,13 @@
 // // https://github.com/micro-ROS/micro_ros_platformio
 // // https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html
 
+/*** CNC v3 connections : STEP/DIR
+ * Red Black
+ * Green Orange
+ * White Blue
+ * Yellow Violet
+****/
+
 // #include <Arduino.h>
 // #include <AccelStepper.h>
 // const double ANGLES_PER_STEP = 1.8;
