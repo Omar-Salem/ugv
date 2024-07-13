@@ -3,11 +3,12 @@
 // https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html
 // https://www.makerstore.com.au/wp-content/uploads/filebase/publications/CNC-Shield-Guide-v1.0.pdf
 
-/*** CNC v3 connections : STEP/DIR
- * Red    Black
- * Green  Orange
- * White  Blue
- * Yellow Violet
+/*** CNC v3 connections :
+ *  STEP/DIR Brown  4  Grey   16
+ *  STEP/DIR Green  12 Orange 14
+ *  STEP/DIR White  18 Blue   19
+ *  STEP/DIR Yellow 25 Purple 33
+ *  5V/GND   Red    5V Black  GND
 ****/
 
 // #include <Arduino.h>
@@ -15,8 +16,8 @@
 // const double ANGLES_PER_STEP = 1.8;
 
 // // X
-// const int REAR_LEFT_STEP = 4; // Red:24
-// const int REAR_LEFT_DIR = 16; // Black:23
+// const int REAR_LEFT_STEP = 4; // Brown:24
+// const int REAR_LEFT_DIR = 16; // Grey:23
 // AccelStepper rearLeftWheel(AccelStepper::DRIVER, REAR_LEFT_STEP, REAR_LEFT_DIR);
 
 // // Z
@@ -31,7 +32,7 @@
 
 // // A
 // const int front_right_step = 25; // Yellow:20
-// const int front_right_dir = 33;  // violet:19
+// const int front_right_dir = 33;  // Purple:19
 // AccelStepper frontRightWheel(AccelStepper::DRIVER, front_right_step, front_right_dir);
 
 // const int MAX_SPEED = 500;
