@@ -2,6 +2,7 @@
 // https://github.com/micro-ROS/micro_ros_platformio
 // https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html
 // https://www.makerstore.com.au/wp-content/uploads/filebase/publications/CNC-Shield-Guide-v1.0.pdf
+// https://github.com/makerbase-mks/MKS-SERVO42C/wiki/Menu-instruction
 
 /*** CNC v3 connections :
  *  STEP/DIR Brown  4  Grey   16
