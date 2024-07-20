@@ -47,6 +47,10 @@ namespace ugv_chassis_firmware
                 frontRightWheel = make_unique<Wheel>("front_right_wheel_joint");
                 rearLeftWheel = make_unique<Wheel>("rear_left_wheel_joint");
                 rearRightWheel = make_unique<Wheel>("rear_right_wheel_joint");
+                motors.push_back(frontLeftWheel);
+                motors.push_back(frontRightWheel);
+                motors.push_back(rearLeftWheel);
+                motors.push_back(rearRightWheel);
                 return CallbackReturn::SUCCESS;
         }
 
@@ -62,17 +66,11 @@ namespace ugv_chassis_firmware
                 RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_state_interfaces ...please wait...");
                 vector<StateInterface> state_interfaces;
 
-                state_interfaces.emplace_back(
-                    rearLeftWheel->name, HW_IF_POSITION, &rearLeftWheel->position_state);
-
-                state_interfaces.emplace_back(
-                    rearRightWheel->name, HW_IF_POSITION, &rearRightWheel->position_state);
-
-                state_interfaces.emplace_back(
-                    frontLeftWheel->name, HW_IF_POSITION, &frontLeftWheel->position_state);
-
-                state_interfaces.emplace_back(
-                    frontRightWheel->name, HW_IF_POSITION, &frontRightWheel->position_state);
+                for (auto &m : motors)
+                {
+                        state_interfaces.emplace_back(
+                            m->name, HW_IF_POSITION, &m->position_state);
+                }
 
                 return state_interfaces;
         }
@@ -81,14 +79,11 @@ namespace ugv_chassis_firmware
         {
                 RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_command_interfaces ...please wait...");
                 vector<CommandInterface> command_interfaces;
-                command_interfaces.emplace_back(
-                    rearLeftWheel->name, HW_IF_VELOCITY, &rearLeftWheel->velocity_command);
-                command_interfaces.emplace_back(
-                    rearRightWheel->name, HW_IF_VELOCITY, &rearRightWheel->velocity_command);
-                command_interfaces.emplace_back(
-                    frontLeftWheel->name, HW_IF_VELOCITY, &frontLeftWheel->velocity_command);
-                command_interfaces.emplace_back(
-                    frontRightWheel->name, HW_IF_VELOCITY, &frontRightWheel->velocity_command);
+                for (auto &m : motors)
+                {
+                        command_interfaces.emplace_back(
+                            m->name, HW_IF_VELOCITY, &m->velocity_command);
+                }
 
                 return command_interfaces;
         }
@@ -119,10 +114,10 @@ namespace ugv_chassis_firmware
             const Time & /*time*/, const Duration & /*period*/)
         {
 
-                       RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
-                       RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
-                       RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
-                       RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
 
                 setMotorsVelocity(frontLeftWheel->velocity_command,
                                   frontRightWheel->velocity_command,
