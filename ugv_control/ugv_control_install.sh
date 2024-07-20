@@ -15,9 +15,9 @@ source install/setup.bash
 ros2 launch ugv_control gazebo.launch.py
 
 # terminal 3
-ros2 topic pub -r 10 /diff_drive_controller/cmd_vel geometry_msgs/msg/TwistStamped "
+ros2 topic pub --once /diff_drive_controller/cmd_vel geometry_msgs/msg/TwistStamped "
 twist:
   linear:
-    x: 0.1"
+    x: 0.01"
 
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/diff_drive_controller/cmd_vel
