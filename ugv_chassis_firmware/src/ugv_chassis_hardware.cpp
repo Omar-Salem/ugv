@@ -68,6 +68,12 @@ namespace ugv_chassis_firmware
                 state_interfaces.emplace_back(
                     rearRightWheel->name, HW_IF_POSITION, &rearRightWheel->position_state);
 
+                state_interfaces.emplace_back(
+                    frontLeftWheel->name, HW_IF_POSITION, &frontLeftWheel->position_state);
+
+                state_interfaces.emplace_back(
+                    frontRightWheel->name, HW_IF_POSITION, &frontRightWheel->position_state);
+
                 return state_interfaces;
         }
 
@@ -79,6 +85,10 @@ namespace ugv_chassis_firmware
                     rearLeftWheel->name, HW_IF_VELOCITY, &rearLeftWheel->velocity_command);
                 command_interfaces.emplace_back(
                     rearRightWheel->name, HW_IF_VELOCITY, &rearRightWheel->velocity_command);
+                command_interfaces.emplace_back(
+                    frontLeftWheel->name, HW_IF_VELOCITY, &frontLeftWheel->velocity_command);
+                command_interfaces.emplace_back(
+                    frontRightWheel->name, HW_IF_VELOCITY, &frontRightWheel->velocity_command);
 
                 return command_interfaces;
         }
@@ -94,7 +104,7 @@ namespace ugv_chassis_firmware
             const State & /*previous_state*/)
         {
                 RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_deactivate ...please wait...");
-                setMotorsVelocity(0, 0,0,0);
+                setMotorsVelocity(0, 0, 0, 0);
                 return CallbackReturn::SUCCESS;
         }
 
@@ -109,10 +119,10 @@ namespace ugv_chassis_firmware
             const Time & /*time*/, const Duration & /*period*/)
         {
 
-                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
-                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
-                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
-                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
+                       RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
+                       RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
+                       RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
+                       RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
 
                 setMotorsVelocity(frontLeftWheel->velocity_command,
                                   frontRightWheel->velocity_command,
