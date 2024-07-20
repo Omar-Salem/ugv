@@ -18,8 +18,8 @@ colcon build --packages-select ugv_interfaces
 source install/setup.bash 
 ros2 topic list -t | grep ugv/motors #check for /ugv/motors_cmd and /ugv/motors_state
 
-# same direction
-ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 6.28
+# forward
+ros2 topic pub --once /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: 6.28
 rear_right: 6.28
 front_left: 6.28
 front_right: 6.28" 
@@ -30,7 +30,7 @@ rear_right: 0.0
 front_left: 0.0
 front_right: 0.0" 
 
-# reverse direction
+# backward
 ros2 topic pub -r 10 /ugv/motors_cmd ugv_interfaces/msg/MotorsOdom "rear_left: -6.28
 rear_right: -6.28
 front_left: -6.28
