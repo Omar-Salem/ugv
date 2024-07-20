@@ -1,15 +1,15 @@
-// https://www.hackster.io/514301/micro-ros-on-esp32-using-arduino-ide-1360ca
-// https://github.com/micro-ROS/micro_ros_platformio
 // https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html
 // https://www.makerstore.com.au/wp-content/uploads/filebase/publications/CNC-Shield-Guide-v1.0.pdf
 // https://github.com/makerbase-mks/MKS-SERVO42C/wiki/Menu-instruction
 
 /*** CNC v3 connections :
- *  STEP/DIR Brown  4  Grey   16
- *  STEP/DIR Green  12 Orange 14
- *  STEP/DIR White  18 Blue   19
- *  STEP/DIR Yellow 25 Purple 33
- *  5V/GND   Red    5V Black  GND
+ ******STEP           DIR  
+ *  X  Brown  26      Purple 15
+ *  Y  Green  27      Blue    2
+ *  Z  White  14      Orange  0
+ *  A  Yellow 12      Grey    4
+ * 
+ ******Black  GND  
 ****/
 
 // #include <Arduino.h>
@@ -17,23 +17,23 @@
 // const double ANGLES_PER_STEP = 1.8;
 
 // // X
-// const int REAR_LEFT_STEP = 4; // Brown:24
-// const int REAR_LEFT_DIR = 16; // Grey:23
+// const int REAR_LEFT_STEP = 26; 
+// const int REAR_LEFT_DIR = 15; 
 // AccelStepper rearLeftWheel(AccelStepper::DRIVER, REAR_LEFT_STEP, REAR_LEFT_DIR);
 
 // // Z
-// const int rear_right_step = 18; // White:20
-// const int rear_right_dir = 19;  // Blue:19
+// const int rear_right_step = 14; 
+// const int rear_right_dir = 0;  
 // AccelStepper rearRightWheel(AccelStepper::DRIVER, rear_right_step, rear_right_dir);
 
 // // Y
-// const int front_left_step = 12; // Green:24
-// const int front_left_dir = 14;  // Orange:23
+// const int front_left_step = 27;
+// const int front_left_dir = 2;
 // AccelStepper frontLeftWheel(AccelStepper::DRIVER, front_left_step, front_left_dir);
 
 // // A
-// const int front_right_step = 25; // Yellow:20
-// const int front_right_dir = 33;  // Purple:19
+// const int front_right_step = 12; 
+// const int front_right_dir = 4;
 // AccelStepper frontRightWheel(AccelStepper::DRIVER, front_right_step, front_right_dir);
 
 // const int MAX_SPEED = 500;
