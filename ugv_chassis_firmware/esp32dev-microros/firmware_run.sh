@@ -16,7 +16,6 @@ ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
 cd ~/ugv_ws
 colcon build --packages-select ugv_interfaces
 source install/setup.bash 
-
 ros2 topic list -t | grep ugv/motors #check for /ugv/motors_cmd and /ugv/motors_state
 
 # same direction

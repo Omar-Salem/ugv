@@ -29,13 +29,13 @@ const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 const double ANGLES_PER_STEP = 1.8;
 
 // X
-const int REAR_LEFT_STEP = 26; 
-const int REAR_LEFT_DIR = 15; 
+const int REAR_LEFT_STEP = 26;
+const int REAR_LEFT_DIR = 15;
 AccelStepper rearLeftWheel(AccelStepper::DRIVER, REAR_LEFT_STEP, REAR_LEFT_DIR);
 
 // Z
-const int rear_right_step = 14; 
-const int rear_right_dir = 0;  
+const int rear_right_step = 14;
+const int rear_right_dir = 0;
 AccelStepper rearRightWheel(AccelStepper::DRIVER, rear_right_step, rear_right_dir);
 
 // Y
@@ -44,15 +44,15 @@ const int front_left_dir = 2;
 AccelStepper frontLeftWheel(AccelStepper::DRIVER, front_left_step, front_left_dir);
 
 // A
-const int front_right_step = 12; 
+const int front_right_step = 12;
 const int front_right_dir = 4;
 AccelStepper frontRightWheel(AccelStepper::DRIVER, front_right_step, front_right_dir);
 
 const int MAX_SPEED = 500;
-AccelStepper steppers[4] = {rearLeftWheel,
-                            frontLeftWheel,
-                            frontRightWheel,
-                            frontRightWheel};
+AccelStepper *steppers[4] = {&rearLeftWheel,
+                             &rearRightWheel,
+                             &frontLeftWheel,
+                             &frontRightWheel};
 
 // https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
 TaskHandle_t moveMotorsTask;
@@ -168,9 +168,9 @@ void setup()
         &moveMotorsTask,  /* Task handle to keep track of created task */
         0);               /* pin task to core 1 */
 
-    for (AccelStepper s : steppers)
+    for (auto s : steppers)
     {
-        s.setMaxSpeed(MAX_SPEED);
+        s->setMaxSpeed(MAX_SPEED);
     }
 }
 
@@ -184,9 +184,9 @@ void moveMotors(void *pvParameters)
 {
     for (;;)
     {
-        for (AccelStepper s : steppers)
+        for (auto s : steppers)
         {
-            s.runSpeed();
+            s->runSpeed();
         }
     }
 }
