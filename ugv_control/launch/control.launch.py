@@ -3,7 +3,7 @@ import os
 import xacro
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument,ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node
@@ -48,12 +48,10 @@ def generate_launch_description():
         [
             rviz_config_file,
             robot_state_publisher_node,
-            rviz_node
+            rviz_node,
+            ExecuteProcess(cmd=[os.path.join(share_dir, 'launch', 'microros.sh')],output='screen')
         ] +
         controller_nodes
-        # TODO microros
-        # source ~/microros_ws/install/local_setup.bash
-        # ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
     )
 
 

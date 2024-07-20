@@ -31,6 +31,7 @@ endif()
 install(
         DIRECTORY config launch urdf worlds
         DESTINATION share/${PROJECT_NAME}
+        USE_SOURCE_PERMISSIONS
 )
 
 ament_package()

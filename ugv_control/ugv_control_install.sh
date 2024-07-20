@@ -6,9 +6,6 @@ colcon build --packages-select ugv_control
 source install/setup.bash
 ros2 launch ugv_control control.launch.py
 
-# terminal 2
-ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
-
 cd ~/ugv_ws
 colcon build --packages-select ugv_control
 source install/setup.bash
