@@ -34,19 +34,19 @@ const int REAR_LEFT_DIR = 15;
 AccelStepper rearLeftWheel(AccelStepper::DRIVER, REAR_LEFT_STEP, REAR_LEFT_DIR);
 
 // Z
-const int rear_right_step = 14;
-const int rear_right_dir = 0;
-AccelStepper rearRightWheel(AccelStepper::DRIVER, rear_right_step, rear_right_dir);
+const int REAR_RIGHT_STEP = 14;
+const int REAR_RIGHT_DIR = 0;
+AccelStepper rearRightWheel(AccelStepper::DRIVER, REAR_RIGHT_STEP, REAR_RIGHT_DIR);
 
 // Y
-const int front_left_step = 27;
-const int front_left_dir = 2;
-AccelStepper frontLeftWheel(AccelStepper::DRIVER, front_left_step, front_left_dir);
+const int FRONT_LEFT_STEP = 27;
+const int FRONT_LEFT_DIR = 2;
+AccelStepper frontLeftWheel(AccelStepper::DRIVER, FRONT_LEFT_STEP, FRONT_LEFT_DIR);
 
 // A
-const int front_right_step = 12;
-const int front_right_dir = 4;
-AccelStepper frontRightWheel(AccelStepper::DRIVER, front_right_step, front_right_dir);
+const int FRONT_RIGHT_STEP = 12;
+const int FRONT_RIGHT_DIR = 4;
+AccelStepper frontRightWheel(AccelStepper::DRIVER, FRONT_RIGHT_STEP, FRONT_RIGHT_DIR);
 
 const int MAX_SPEED = 500;
 AccelStepper *steppers[4] = {&rearLeftWheel,
