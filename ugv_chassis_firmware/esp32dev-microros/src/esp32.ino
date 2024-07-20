@@ -2,8 +2,8 @@
 // https://github.com/micro-ROS/micro_ros_platformio
 
 #include <Arduino.h>
+#include <Motor.h>
 #include <micro_ros_platformio.h>
-#include <AccelStepper.h>
 #include <rcl/rcl.h>
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
@@ -26,33 +26,31 @@ rcl_allocator_t allocator;
 rcl_node_t node;
 rcl_timer_t publisherTimer;
 const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
-const double ANGLES_PER_STEP = 1.8;
 
 // X
 const int REAR_LEFT_STEP = 26;
 const int REAR_LEFT_DIR = 15;
-AccelStepper rearLeftWheel(AccelStepper::DRIVER, REAR_LEFT_STEP, REAR_LEFT_DIR);
+Motor rearLeftWheel(REAR_LEFT_STEP, REAR_LEFT_DIR);
 
 // Z
 const int REAR_RIGHT_STEP = 14;
 const int REAR_RIGHT_DIR = 0;
-AccelStepper rearRightWheel(AccelStepper::DRIVER, REAR_RIGHT_STEP, REAR_RIGHT_DIR);
+Motor rearRightWheel(REAR_RIGHT_STEP, REAR_RIGHT_DIR);
 
 // Y
 const int FRONT_LEFT_STEP = 27;
 const int FRONT_LEFT_DIR = 2;
-AccelStepper frontLeftWheel(AccelStepper::DRIVER, FRONT_LEFT_STEP, FRONT_LEFT_DIR);
+Motor frontLeftWheel(FRONT_LEFT_STEP, FRONT_LEFT_DIR);
 
 // A
 const int FRONT_RIGHT_STEP = 12;
 const int FRONT_RIGHT_DIR = 4;
-AccelStepper frontRightWheel(AccelStepper::DRIVER, FRONT_RIGHT_STEP, FRONT_RIGHT_DIR);
+Motor frontRightWheel(FRONT_RIGHT_STEP, FRONT_RIGHT_DIR);
 
-const int MAX_SPEED = 500;
-AccelStepper *steppers[4] = {&rearLeftWheel,
-                             &rearRightWheel,
-                             &frontLeftWheel,
-                             &frontRightWheel};
+Motor *motors[4] = {&rearLeftWheel,
+                    &rearRightWheel,
+                    &frontLeftWheel,
+                    &frontRightWheel};
 
 // https://randomnerdtutorials.com/esp32-dual-core-arduino-ide/
 TaskHandle_t moveMotorsTask;
@@ -67,20 +65,14 @@ TaskHandle_t moveMotorsTask;
         }                              \
     }
 
-double convertRadiansPerSecondToStepsPerSecond(double angularVelocity)
-{
-    const double angularVelocityDegrees = angularVelocity * RAD_TO_DEG;
-    return angularVelocityDegrees / ANGLES_PER_STEP;
-}
-
 void velocityCommandCallback(const void *msgin)
 {
     const ugv_interfaces__msg__MotorsOdom *command = (const ugv_interfaces__msg__MotorsOdom *)msgin;
-    rearLeftWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->rear_left));
-    frontLeftWheel.setSpeed(convertRadiansPerSecondToStepsPerSecond(command->front_left));
+    rearLeftWheel.setSpeed(command->rear_left);
+    frontLeftWheel.setSpeed(command->front_left);
 
-    rearRightWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->rear_right));
-    frontRightWheel.setSpeed(-1 * convertRadiansPerSecondToStepsPerSecond(command->front_right));
+    rearRightWheel.setSpeed(command->rear_right);
+    frontRightWheel.setSpeed(command->front_right);
 }
 
 void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time)
@@ -90,11 +82,11 @@ void odomStateTimerCallback(rcl_timer_t *timer, int64_t last_call_time)
     {
         ugv_interfaces__msg__MotorsOdom msg;
 
-        msg.rear_left = rearLeftWheel.currentPosition();
-        msg.rear_right = rearRightWheel.currentPosition();
+        msg.rear_left = rearLeftWheel.getCurrentPosition();
+        msg.rear_right = rearRightWheel.getCurrentPosition();
 
-        msg.front_left = frontLeftWheel.currentPosition();
-        msg.front_right = frontRightWheel.currentPosition();
+        msg.front_left = frontLeftWheel.getCurrentPosition();
+        msg.front_right = frontRightWheel.getCurrentPosition();
 
         RCSOFTCHECK(rcl_publish(&odomStatePublisher, &msg, NULL));
     }
@@ -167,11 +159,6 @@ void setup()
         0,                /* priority of the task */
         &moveMotorsTask,  /* Task handle to keep track of created task */
         0);               /* pin task to core 1 */
-
-    for (auto s : steppers)
-    {
-        s->setMaxSpeed(MAX_SPEED);
-    }
 }
 
 void loop()
@@ -184,9 +171,9 @@ void moveMotors(void *pvParameters)
 {
     for (;;)
     {
-        for (auto s : steppers)
+        for (auto s : motors)
         {
-            s->runSpeed();
+            s->run();
         }
     }
 }
