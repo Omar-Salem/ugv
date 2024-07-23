@@ -14,7 +14,7 @@ locale  # verify settings
 
 
 sudo apt install software-properties-common -y
-sudo add-apt-repository universe
+sudo add-apt-repository universe -y
 
 sudo apt install curl -y
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
@@ -28,12 +28,14 @@ echo 'export ROS_DOMAIN_ID=0' >> ~/.bashrc
 echo 'export QT_QPA_PLATFORM=xcb rviz2' >> ~/.bashrc 
 echo 'source /opt/ros/jazzy/setup.bash' >> ~/.bashrc 
 source ~/.bashrc
-apt-get install python3-rosdep
+sudo apt-get install python3-rosdep -y
+echo ${${ROS_DISTRO}}
 ````
 ### Packages
 ````bash
 sudo apt-get install -y ros-${ROS_DISTRO}-slam-toolbox ros-${ROS_DISTRO}-joint-state-publisher ros-${ROS_DISTRO}-robot-state-publisher ros-${ROS_DISTRO}-xacro
 sudo apt install -y ros-${ROS_DISTRO}-ros2-control
+sudo apt install -y ros-${ROS_DISTRO}-joint-state-publisher-gui
 sudo apt install -y ros-${ROS_DISTRO}-ros2-controllers
 sudo apt install -y ros-${ROS_DISTRO}-robot-localization
 sudo apt install -y ros-${ROS_DISTRO}-navigation2
@@ -50,9 +52,8 @@ sudo apt install -y ros-${ROS_DISTRO}-mqtt-client
 sudo apt install -y ros-${ROS_DISTRO}-launch-xml
 sudo apt install -y ros-${ROS_DISTRO}-rmw-cyclonedds-cpp ros-${ROS_DISTRO}-tf2-ros ros-${ROS_DISTRO}-tf2-tools
 sudo apt install -y python3-colcon-common-extensions
-
 sudo apt-get install -y ros-${ROS_DISTRO}-rviz2 
-sudo apt install -y ros-${ROS_DISTRO}-gazebo-ros-pkgs ros-${ROS_DISTRO}-gazebo-ros2-control ros-${ROS_DISTRO}-joint-state-publisher-gui
+sudo apt install -y ros-${ROS_DISTRO}-ros-gz
 sudo usermod -aG dialout ${USER}
 ````
 
