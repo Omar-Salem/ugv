@@ -76,7 +76,7 @@ echo 'source ~/microros_ws/install/local_setup.bash' >> ~/.bashrc
 ````bash
 mkdir -p ~/ugv_ws/src
 cd ~/ugv_ws/src 
-git clone git@github.com:Omar-Salem/ugv.git .
+git clone https://github.com/Omar-Salem/ugv.git .
 cd ~/ugv_ws
 colcon build 
 ````
