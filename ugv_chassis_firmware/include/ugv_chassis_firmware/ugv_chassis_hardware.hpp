@@ -35,48 +35,48 @@ using namespace rclcpp_lifecycle;
 using namespace hardware_interface;
 namespace ugv_chassis_firmware
 {
-        class UGVChassisHardware : public SystemInterface
-        {
-        public:
-                UGVChassisHardware();
+    class UGVChassisHardware : public SystemInterface
+    {
+    public:
+        UGVChassisHardware();
 
-                CallbackReturn on_init(
-                    const HardwareInfo &info) override;
+        CallbackReturn on_init(
+            const HardwareInfo &info) override;
 
-                CallbackReturn on_configure(
-                    const State &previous_state) override;
+        CallbackReturn on_configure(
+            const State &previous_state) override;
 
-                std::vector<StateInterface> export_state_interfaces() override;
+        vector<StateInterface> export_state_interfaces() override;
 
-                std::vector<CommandInterface> export_command_interfaces() override;
+        vector<CommandInterface> export_command_interfaces() override;
 
-                CallbackReturn on_activate(
-                    const State &previous_state) override;
+        CallbackReturn on_activate(
+            const State &previous_state) override;
 
-                CallbackReturn on_deactivate(
-                    const State &previous_state) override;
+        CallbackReturn on_deactivate(
+            const State &previous_state) override;
 
-                return_type read(
-                    const rclcpp::Time &time, const rclcpp::Duration &period) override;
+        return_type read(
+            const Time &time, const Duration &period) override;
 
-                return_type write(
-                    const rclcpp::Time &time, const rclcpp::Duration &period) override;
+        return_type write(
+            const Time &time, const Duration &period) override;
 
-        private:
-                unique_ptr <Wheel> frontLeftWheel;
-                unique_ptr <Wheel> frontRightWheel;
-                unique_ptr <Wheel> rearLeftWheel;
-                unique_ptr <Wheel> rearRightWheel;
-                std::vector<std::unique_ptr<Wheel>> motors;
+    private:
+        shared_ptr<Wheel> frontLeftWheel;
+        shared_ptr<Wheel> frontRightWheel;
+        shared_ptr<Wheel> rearLeftWheel;
+        shared_ptr<Wheel> rearRightWheel;
+        vector<shared_ptr<Wheel>> motors;
 
-                std::shared_ptr<rclcpp::Node> node_;
-                rclcpp::Subscription<ugv_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
-                rclcpp::Publisher<ugv_interfaces::msg::MotorsOdom>::SharedPtr velocityPublisher;
-                
-                void setMotorsVelocity(double frontLeft, double frontRight, double rearLeft, double rearRight);
+        shared_ptr<Node> node_;
+        Subscription<ugv_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
+        Publisher<ugv_interfaces::msg::MotorsOdom>::SharedPtr velocityPublisher;
 
-                void readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
-        };
+        void setMotorsVelocity(double frontLeft, double frontRight, double rearLeft, double rearRight);
+
+        void readOdom(const ugv_interfaces::msg::MotorsOdom::SharedPtr motorsOdom);
+    };
 
 } // namespace ugv_chassis_firmware
 

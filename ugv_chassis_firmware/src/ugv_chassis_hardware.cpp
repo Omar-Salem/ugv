@@ -43,10 +43,12 @@ namespace ugv_chassis_firmware
                 {
                         return CallbackReturn::ERROR;
                 }
-                frontLeftWheel = make_unique<Wheel>("front_left_wheel_joint");
-                frontRightWheel = make_unique<Wheel>("front_right_wheel_joint");
-                rearLeftWheel = make_unique<Wheel>("rear_left_wheel_joint");
-                rearRightWheel = make_unique<Wheel>("rear_right_wheel_joint");
+                
+                frontLeftWheel = make_shared<Wheel>("front_left_wheel_joint");
+                frontRightWheel = make_shared<Wheel>("front_right_wheel_joint");
+                rearLeftWheel = make_shared<Wheel>("rear_left_wheel_joint");
+                rearRightWheel = make_shared<Wheel>("rear_right_wheel_joint");
+
                 motors.push_back(frontLeftWheel);
                 motors.push_back(frontRightWheel);
                 motors.push_back(rearLeftWheel);
