@@ -4,7 +4,7 @@
         <xacro:include filename="$(find ugv_description)/urdf/ugv_core.xacro"/>
 
         <xacro:if value="$(arg is_sim)">
-            <xacro:include filename="$(find ugv_description)/gazebo/gazebo.xacro"/>
+            <!-- <xacro:include filename="$(find ugv_description)/gazebo/gazebo.xacro"/> -->
             <xacro:include filename="$(find ugv_description)/gazebo/lidar.xacro"/>
             <!--        <xacro:include filename="gazebo/imu.xacro"/>-->
         </xacro:if>

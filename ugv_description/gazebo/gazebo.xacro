@@ -1,35 +1,47 @@
 <?xml version="1.0" ?>
-<robot name="ugv" xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-    <xacro:property name="body_color" value="Gazebo/Silver"/>
-    <xacro:property name="wheels_color" value="Gazebo/Yellow"/>
-
-    <gazebo reference="base_link">
-        <material>${body_color}</material>
-    </gazebo>
-
-    <gazebo reference="front_left_wheel">
-        <material>${wheels_color}</material>
-        <mu1>0.001</mu1>
-        <mu2>0.001</mu2>
-    </gazebo>
-
-    <gazebo reference="rear_left_wheel">
-        <material>${wheels_color}</material>
-        <mu1>0.001</mu1>
-        <mu2>0.001</mu2>
-    </gazebo>
-
-    <gazebo reference="rear_right_wheel">
-        <material>${wheels_color}</material>
-        <mu1>0.001</mu1>
-        <mu2>0.001</mu2>
-    </gazebo>
-
-    <gazebo reference="front_right_wheel">
-        <material>${wheels_color}</material>
-        <mu1>0.001</mu1>
-        <mu2>0.001</mu2>
-    </gazebo>
-
+<robot name="ugv"
+	xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<gazebo reference="base_link">
+		<!-- <material>
+			<ambient>1 0 0 1</ambient>
+			<diffuse>1 0 0 1</diffuse>
+			<specular>0.1 0.1 0.1 1</specular>
+		</material> -->
+	</gazebo>
+	<gazebo reference="front_left_wheel">
+		<!-- <material>
+			<ambient>1 0 0 1</ambient>
+			<diffuse>1 0 0 1</diffuse>
+			<specular>0.1 0.1 0.1 1</specular>
+		</material> -->
+		<mu1>0.001</mu1>
+		<mu2>0.001</mu2>
+	</gazebo>
+	<gazebo reference="rear_left_wheel">
+		<!-- <material>
+			<ambient>1 0 0 1</ambient>
+			<diffuse>1 0 0 1</diffuse>
+			<specular>0.1 0.1 0.1 1</specular>
+		</material> -->
+		<mu1>0.001</mu1>
+		<mu2>0.001</mu2>
+	</gazebo>
+	<gazebo reference="rear_right_wheel">
+		<!-- <material>
+			<ambient>1 0 0 1</ambient>
+			<diffuse>1 0 0 1</diffuse>
+			<specular>0.1 0.1 0.1 1</specular>
+		</material> -->
+		<mu1>0.001</mu1>
+		<mu2>0.001</mu2>
+	</gazebo>
+	<gazebo reference="front_right_wheel">
+		<!-- <material>
+			<ambient>1 0 0 1</ambient>
+			<diffuse>1 0 0 1</diffuse>
+			<specular>0.1 0.1 0.1 1</specular>
+		</material> -->
+		<mu1>0.001</mu1>
+		<mu2>0.001</mu2>
+	</gazebo>
 </robot>
