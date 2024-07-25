@@ -17,38 +17,19 @@ def generate_launch_description():
     robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'false'})
     robot_urdf = robot_description_config.toxml()
 
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        parameters=[
-            {
-                'robot_description': robot_urdf,
-                'use_sim_time': False
-            }
-        ]
-    )
-
     controller_nodes = create_controller_nodes(package_name, robot_urdf)
-
-    rviz_config_file = DeclareLaunchArgument(
-        name='rviz_config_file',
-        default_value=os.path.join(share_dir, 'config', 'display.rviz')
-    )
-    
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', LaunchConfiguration('rviz_config_file')],
-        output='screen'
-    )
 
     return LaunchDescription(
         [
-            rviz_config_file,
-            robot_state_publisher_node,
-            rviz_node,
+            DeclareLaunchArgument(
+        name='rviz_config_file',
+        default_value=os.path.join(share_dir, 'config', 'display.rviz')
+    ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ugv_description'), 'launch'), '/display.launch.py']),
+        launch_arguments={'use_sim_time': 'False', 'rviz_config_file': LaunchConfiguration('rviz_config_file')}.items()
+         
+             ),
             ExecuteProcess(cmd=[os.path.join(share_dir, 'launch', 'microros.sh')],output='screen')
         ] +
         controller_nodes

@@ -9,17 +9,24 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
-    gui_arg = DeclareLaunchArgument(
-        name='gui',
-        default_value='True'
-    )
-
-    show_gui = LaunchConfiguration('gui')
 
     share_dir = get_package_share_directory('ugv_description')
     xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
     robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'false'})
     robot_urdf = robot_description_config.toxml()
+    
+    gui_arg = DeclareLaunchArgument(
+        name='gui',
+        default_value='True'
+    )
+    
+    rviz_config_file_arg = DeclareLaunchArgument(
+        name='rviz_config_file',
+        default_value=os.path.join(share_dir, 'config', 'display.rviz')
+    )
+
+    show_gui = LaunchConfiguration('gui')
+    rviz_config_file = LaunchConfiguration('rviz_config_file')
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
@@ -47,7 +54,6 @@ def generate_launch_description():
         name='joint_state_publisher_gui'
     )
 
-    rviz_config_file = os.path.join(share_dir, 'config', 'display.rviz')
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -58,6 +64,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         gui_arg,
+        rviz_config_file_arg,
         robot_state_publisher_node,
         joint_state_publisher_node,
         joint_state_publisher_gui_node,
