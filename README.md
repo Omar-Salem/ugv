@@ -54,6 +54,8 @@ sudo apt install -y ros-${ROS_DISTRO}-rmw-cyclonedds-cpp ros-${ROS_DISTRO}-tf2-r
 sudo apt install -y python3-colcon-common-extensions
 sudo apt-get install -y ros-${ROS_DISTRO}-rviz2 
 sudo apt install -y ros-${ROS_DISTRO}-ros-gz
+sudo apt install -y ros-${ROS_DISTRO}-gz-ros2-control
+sudo apt install vim -y
 sudo usermod -aG dialout ${USER}
 ````
 
