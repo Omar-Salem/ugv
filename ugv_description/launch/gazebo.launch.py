@@ -47,7 +47,7 @@ def generate_launch_description():
     return LaunchDescription([
             DeclareLaunchArgument(
                 name='world',
-                default_value=os.path.join(share_dir, 'worlds', 'fws_robot_world.sdf')
+                default_value=''
             ),
         robot_state_publisher_node,
         joint_state_publisher_node,
@@ -60,10 +60,11 @@ def create_gazebo_nodes(robot_urdf) -> list:
     :rtype: list
     """    
     
+    ros_gz_sim =get_package_share_directory('ros_gz_sim')
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory('ros_gz_sim'), 'launch'), '/gz_sim.launch.py']),
-         
+                    ros_gz_sim, 'launch'), '/gz_sim.launch.py']),
+    launch_arguments={'gz_args': ['-v4 ', LaunchConfiguration('world')], 'on_exit_shutdown': 'true'}.items()
              )
 
     gz_spawn_entity = Node(
@@ -90,43 +91,3 @@ def create_gazebo_nodes(robot_urdf) -> list:
     )
 
     return [gazebo,gz_spawn_entity,bridge]
-
-# def create_gazebo_nodes(robot_urdf) -> list:
-    """
-
-    :rtype: list
-    """
-    ros_gz_sim =get_package_share_directory('ros_gz_sim')
-    gzserver_cmd = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    ros_gz_sim, 'launch'), '/gz_sim.launch.py']),
-    launch_arguments={'gz_args': ['-v4 ', LaunchConfiguration('gazebo_world')], 'on_exit_shutdown': 'true'}.items()
-             )
-    gzclient_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(
-        os.path.join(ros_gz_sim, 'launch', 'gz_sim.launch.py')
-    ),
-    launch_arguments={'gz_args': '-g -v4 '}.items()
-)
-
-    gz_spawn_entity = Node(
-        package='ros_gz_sim',
-        executable='create',
-        output='screen',
-        arguments=['-string', robot_urdf,
-                   '-x', '0.0',
-                   '-y', '0.0',
-                   '-z', '0.07',
-                   '-R', '0.0',
-                   '-P', '0.0',
-                   '-Y', '0.0',
-                   '-name', 'ugv',
-                   '-allow_renaming', 'false'],
-    )
-    bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=['/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan'],
-        output='screen'
-    )
-    return [gzserver_cmd, gz_spawn_entity,bridge]
