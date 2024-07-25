@@ -14,44 +14,23 @@ from launch.substitutions import Command, PathJoinSubstitution, LaunchConfigurat
 
 def generate_launch_description():
     share_dir = get_package_share_directory('ugv_description')
-
     xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
     robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'true'})
     robot_urdf = robot_description_config.toprettyxml(indent='  ')
 
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        parameters=[
-            {
-                'robot_description': robot_urdf,
-                'use_sim_time': True
-            }
-        ]
-    )
 
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher'
-    )
-    rviz_config_file = os.path.join(share_dir, 'config', 'display.rviz')
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', rviz_config_file],
-        output='screen'
-    )
+
+
     return LaunchDescription([
             DeclareLaunchArgument(
                 name='world',
                 default_value=''
             ),
-        robot_state_publisher_node,
-        joint_state_publisher_node,
-        rviz_node
+        IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(share_dir, 'launch'), '/display.launch.py']),
+        launch_arguments={'use_sim_time': 'True'}.items()
+         
+             ),
     ]+create_gazebo_nodes(robot_urdf))
 
 def create_gazebo_nodes(robot_urdf) -> list:
