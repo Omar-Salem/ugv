@@ -64,14 +64,17 @@ sudo usermod -aG dialout ${USER}
 mkdir microros_ws
 cd microros_ws
 git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
-sudo apt update && rosdep update
+sudo apt update 
+sudo rosdep init
+rosdep update
 rosdep install --from-paths src --ignore-src -y
-sudo apt-get install python3-pip
+sudo apt-get install -y python3-pip
 colcon build
 source install/local_setup.bash
 ros2 run micro_ros_setup create_agent_ws.sh
 ros2 run micro_ros_setup build_agent.sh
 echo 'source ~/microros_ws/install/local_setup.bash' >> ~/.bashrc 
+source ~/.bashrc
 ````
 
 ### Create workspace and clone repo
