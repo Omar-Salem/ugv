@@ -9,6 +9,10 @@
 pio pkg install # Install dependencies
 pio run --target upload # Flash the firmware
 
+
+ls /dev/tty* | grep ttyUSB0 #check /dev/ttyUSB0
+lsusb | grep CP210x
+
 # terminal 1
 ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
 
