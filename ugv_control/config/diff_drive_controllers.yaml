@@ -15,7 +15,7 @@ diff_drive_controller:
     right_wheel_names: [ "rear_right_wheel_joint", "front_right_wheel_joint" ]
 
     wheel_separation: 0.32
-    wheel_radius: 0.04
+    wheel_radius: 0.0375
     
     position_feedback: true
     open_loop: false
