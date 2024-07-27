@@ -13,7 +13,7 @@ def generate_launch_description():
     package_name = 'ugv_mapping'
 
     rp_lidar_c1_launch_file_path = PathJoinSubstitution(
-        [FindPackageShare(package_name), 'launch', 'view_sllidar_c1_launch.py'])
+        [FindPackageShare('sllidar_ros2'), 'launch', 'view_sllidar_c1_launch.py'])
     rp_lidar_c1 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(rp_lidar_c1_launch_file_path),
         launch_arguments={

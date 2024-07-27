@@ -18,9 +18,6 @@ def generate_launch_description():
     robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'true'})
     robot_urdf = robot_description_config.toprettyxml(indent='  ')
 
-
-
-
     return LaunchDescription([
             DeclareLaunchArgument(
                 name='world',

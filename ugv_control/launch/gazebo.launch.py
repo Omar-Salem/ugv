@@ -17,17 +17,7 @@ def generate_launch_description():
     robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'true'})
     robot_urdf = robot_description_config.toxml()
 
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        parameters=[
-            {
-                'robot_description': robot_urdf,
-                'use_sim_time': True
-            }
-        ]
-    )
+
 
     controller_nodes = create_controller_nodes()
 
@@ -48,13 +38,16 @@ def generate_launch_description():
         [
             DeclareLaunchArgument(
                 name='gazebo_world',
-                default_value=''
+                default_value=os.path.join(share_dir, 'worlds', 'many_walls.world')
             ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ugv_description'), 'launch'), '/gazebo.launch.py']),
+        launch_arguments={ 'world': LaunchConfiguration('gazebo_world')}.items()
+         
+             ),
             rviz_config_file,
-            robot_state_publisher_node,
             rviz_node
         ] +
-        create_gazebo_nodes() +
         controller_nodes
     )
 
@@ -77,7 +70,6 @@ def create_controller_nodes() -> list:
     return robot_controller_spawners
 
 
-def create_gazebo_nodes() -> list:
     """
 
     :rtype: list
