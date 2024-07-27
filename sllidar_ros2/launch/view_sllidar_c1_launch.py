@@ -19,10 +19,10 @@ def generate_launch_description():
     angle_compensate = LaunchConfiguration('angle_compensate', default='true')
     scan_mode = LaunchConfiguration('scan_mode', default='Standard')
 
-    rviz_config_dir = os.path.join(
-            get_package_share_directory('sllidar_ros2'),
-            'rviz',
-            'sllidar_ros2.rviz')
+    # rviz_config_dir = os.path.join(
+    #         get_package_share_directory('sllidar_ros2'),
+    #         'rviz',
+    #         'sllidar_ros2.rviz')
 
 
     return LaunchDescription([
@@ -75,11 +75,11 @@ def generate_launch_description():
                          }],
             output='screen'),
 
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', rviz_config_dir],
-            output='screen'),
+        # Node(
+        #     package='rviz2',
+        #     executable='rviz2',
+        #     name='rviz2',
+        #     arguments=['-d', rviz_config_dir],
+        #     output='screen'),
     ])
 
