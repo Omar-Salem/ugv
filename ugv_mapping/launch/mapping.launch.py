@@ -15,11 +15,7 @@ def generate_launch_description():
     rp_lidar_c1_launch_file_path = PathJoinSubstitution(
         [FindPackageShare('sllidar_ros2'), 'launch', 'view_sllidar_c1_launch.py'])
     rp_lidar_c1 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(rp_lidar_c1_launch_file_path),
-        launch_arguments={
-            'serial_port': '/dev/ttyUSB1',
-            'frame_id': 'base_link'
-        }.items()
+        PythonLaunchDescriptionSource(rp_lidar_c1_launch_file_path)
     )
 
     core = IncludeLaunchDescription(
