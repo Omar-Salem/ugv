@@ -46,4 +46,7 @@ def generate_launch_description():
         ),
         launch_arguments={"rviz_config_file": rviz_config_file}.items(),
     )
-    return LaunchDescription([core, rp_lidar_c1, control])
+    return LaunchDescription([core, 
+                              rp_lidar_c1, 
+                              control
+                              ])

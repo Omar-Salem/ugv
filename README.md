@@ -90,8 +90,13 @@ colcon build
 ### Run
 
 ```bash
-# basic
+# display
 cd ~/ugv_ws && colcon build --packages-select ugv_description && source install/setup.bash && ros2 launch ugv_description display.launch.py
+```
+
+```bash
+# control
+cd ~/ugv_ws && colcon build --packages-select ugv_control && source install/setup.bash && ros2 launch ugv_control control.launch.py
 ```
 
 
