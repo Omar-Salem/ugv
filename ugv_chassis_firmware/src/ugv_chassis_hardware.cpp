@@ -37,55 +37,59 @@ namespace ugv_chassis_firmware
         CallbackReturn UGVChassisHardware::on_init(
             const HardwareInfo &info)
         {
-                RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_init ...please wait...");
+                // RCLCPP_INFO(get_logger(), "on_init ...please wait...");
 
                 if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
                 {
                         return CallbackReturn::ERROR;
                 }
-                
-                frontLeftWheel = make_shared<Wheel>("front_left_wheel_joint");
-                frontRightWheel = make_shared<Wheel>("front_right_wheel_joint");
-                rearLeftWheel = make_shared<Wheel>("rear_left_wheel_joint");
-                rearRightWheel = make_shared<Wheel>("rear_right_wheel_joint");
 
-                motors.push_back(frontLeftWheel);
-                motors.push_back(frontRightWheel);
-                motors.push_back(rearLeftWheel);
-                motors.push_back(rearRightWheel);
+                frontLeftWheel = make_unique<Wheel>("front_left_wheel_joint");
+                frontRightWheel = make_unique<Wheel>("front_right_wheel_joint");
+                rearLeftWheel = make_unique<Wheel>("rear_left_wheel_joint");
+                rearRightWheel = make_unique<Wheel>("rear_right_wheel_joint");
                 return CallbackReturn::SUCCESS;
         }
 
         CallbackReturn UGVChassisHardware::on_configure(
             const State & /*previous_state*/)
         {
-                RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_configure ...please wait...");
+                RCLCPP_INFO(get_logger(), "on_configure ...please wait...");
                 return CallbackReturn::SUCCESS;
         }
 
         vector<StateInterface> UGVChassisHardware::export_state_interfaces()
         {
-                RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_state_interfaces ...please wait...");
+                RCLCPP_INFO(get_logger(), "export_state_interfaces ...please wait...");
                 vector<StateInterface> state_interfaces;
 
-                for (auto &m : motors)
-                {
-                        state_interfaces.emplace_back(
-                            m->name, HW_IF_POSITION, &m->position_state);
-                }
+                state_interfaces.emplace_back(
+                    rearLeftWheel->name, HW_IF_POSITION, &rearLeftWheel->position_state);
+
+                state_interfaces.emplace_back(
+                    rearRightWheel->name, HW_IF_POSITION, &rearRightWheel->position_state);
+
+                state_interfaces.emplace_back(
+                    frontLeftWheel->name, HW_IF_POSITION, &frontLeftWheel->position_state);
+
+                state_interfaces.emplace_back(
+                    frontRightWheel->name, HW_IF_POSITION, &frontRightWheel->position_state);
 
                 return state_interfaces;
         }
 
         vector<CommandInterface> UGVChassisHardware::export_command_interfaces()
         {
-                RCLCPP_INFO(get_logger("UGVChassisHardware"), "export_command_interfaces ...please wait...");
+                RCLCPP_INFO(get_logger(), "export_command_interfaces ...please wait...");
                 vector<CommandInterface> command_interfaces;
-                for (auto &m : motors)
-                {
-                        command_interfaces.emplace_back(
-                            m->name, HW_IF_VELOCITY, &m->velocity_command);
-                }
+                command_interfaces.emplace_back(
+                    rearLeftWheel->name, HW_IF_VELOCITY, &rearLeftWheel->velocity_command);
+                command_interfaces.emplace_back(
+                    rearRightWheel->name, HW_IF_VELOCITY, &rearRightWheel->velocity_command);
+                command_interfaces.emplace_back(
+                    frontLeftWheel->name, HW_IF_VELOCITY, &frontLeftWheel->velocity_command);
+                command_interfaces.emplace_back(
+                    frontRightWheel->name, HW_IF_VELOCITY, &frontRightWheel->velocity_command);
 
                 return command_interfaces;
         }
@@ -93,14 +97,14 @@ namespace ugv_chassis_firmware
         CallbackReturn UGVChassisHardware::on_activate(
             const State & /*previous_state*/)
         {
-                RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_activate ...please wait...");
+                RCLCPP_INFO(get_logger(), "on_activate ...please wait...");
                 return CallbackReturn::SUCCESS;
         }
 
         CallbackReturn UGVChassisHardware::on_deactivate(
             const State & /*previous_state*/)
         {
-                RCLCPP_INFO(get_logger("UGVChassisHardware"), "on_deactivate ...please wait...");
+                RCLCPP_INFO(get_logger(), "on_deactivate ...please wait...");
                 setMotorsVelocity(0, 0, 0, 0);
                 return CallbackReturn::SUCCESS;
         }
@@ -116,10 +120,10 @@ namespace ugv_chassis_firmware
             const Time & /*time*/, const Duration & /*period*/)
         {
 
-                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
-                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
-                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
-                //        RCLCPP_INFO(get_logger("UGVChassisHardware"), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger(), "frontLeftWheel->velocity_command %f",frontLeftWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger(), "frontRightWheel->velocity_command %f",frontRightWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger(), "rearLeftWheel->velocity_command %f",rearLeftWheel->velocity_command);
+                //        RCLCPP_INFO(get_logger(), "rearRightWheel->velocity_command %f",rearRightWheel->velocity_command);
 
                 setMotorsVelocity(frontLeftWheel->velocity_command,
                                   frontRightWheel->velocity_command,

@@ -63,11 +63,10 @@ namespace ugv_chassis_firmware
             const Time &time, const Duration &period) override;
 
     private:
-        shared_ptr<Wheel> frontLeftWheel;
-        shared_ptr<Wheel> frontRightWheel;
-        shared_ptr<Wheel> rearLeftWheel;
-        shared_ptr<Wheel> rearRightWheel;
-        vector<shared_ptr<Wheel>> motors;
+        unique_ptr<Wheel> frontLeftWheel;
+        unique_ptr<Wheel> frontRightWheel;
+        unique_ptr<Wheel> rearLeftWheel;
+        unique_ptr<Wheel> rearRightWheel;
 
         shared_ptr<Node> node_;
         Subscription<ugv_interfaces::msg::MotorsOdom>::SharedPtr odomSubscription;
