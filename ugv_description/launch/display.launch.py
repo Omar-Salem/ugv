@@ -13,20 +13,25 @@ def generate_launch_description():
     share_dir = get_package_share_directory('ugv_description')
     xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
     robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'false'})
-    robot_urdf = robot_description_config.toxml()
     
     gui_arg = DeclareLaunchArgument(
         name='gui',
-        default_value='True'
+        default_value='False'
     )
     
     rviz_config_file_arg = DeclareLaunchArgument(
         name='rviz_config_file',
         default_value=os.path.join(share_dir, 'config', 'display.rviz')
     )
+    
+    robot_urdf_arg = DeclareLaunchArgument(
+        name='robot_urdf',
+        default_value=robot_description_config.toxml()
+    )
 
     show_gui = LaunchConfiguration('gui')
     rviz_config_file = LaunchConfiguration('rviz_config_file')
+    robot_urdf = LaunchConfiguration('robot_urdf')
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
