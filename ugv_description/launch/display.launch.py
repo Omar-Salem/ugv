@@ -12,7 +12,7 @@ def generate_launch_description():
 
     share_dir = get_package_share_directory('ugv_description')
     xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
-    robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'false'})
+    robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'false'}).toxml()
     
     gui_arg = DeclareLaunchArgument(
         name='gui',
@@ -26,7 +26,7 @@ def generate_launch_description():
     
     robot_urdf_arg = DeclareLaunchArgument(
         name='robot_urdf',
-        default_value=robot_description_config.toxml()
+        default_value=robot_description_config
     )
 
     show_gui = LaunchConfiguration('gui')
