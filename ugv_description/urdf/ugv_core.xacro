@@ -28,6 +28,18 @@
 
     <xacro:property name="wheel_offset_z" value="0.01" />
 
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1" />
+    </material>
+
+    <material name="yellow">
+        <color rgba="1 1 0 1" />
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1" />
+    </material>
+
     <xacro:macro name="wheel" params="prefix">
         <link name="${prefix}_wheel">
             <visual>
@@ -49,18 +61,6 @@
             </xacro:inertial_cylinder>
         </link>
     </xacro:macro>
-
-    <material name="orange">
-        <color rgba="1 0.3 0.1 1" />
-    </material>
-
-    <material name="yellow">
-        <color rgba="1 1 0 1" />
-    </material>
-
-    <material name="black">
-        <color rgba="0 0 0 1" />
-    </material>
 
     <link name="base_link">
         <visual>

@@ -50,25 +50,27 @@ def create_gazebo_nodes(robot_urdf) -> list:
     """
 
     ros_gz_sim = get_package_share_directory("ros_gz_sim")
+    world = LaunchConfiguration('world')
     
-    gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    ros_gz_sim, 'launch'), '/gz_sim.launch.py']),
-    launch_arguments={'gz_args': ['-v4 ', LaunchConfiguration('world')], 'on_exit_shutdown': 'true'}.items()
-             )
+    # gazebo = IncludeLaunchDescription(
+    #             PythonLaunchDescriptionSource([os.path.join(
+    #                 ros_gz_sim, 'launch'), '/gz_sim.launch.py']),
+    # launch_arguments={'gz_args': ['-v4 ', world], 'on_exit_shutdown': 'true'}.items()
+    #          )
     
-    # gzserver_cmd = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(ros_gz_sim, 'launch', 'gz_sim.launch.py')
-    #     ),
-    #     launch_arguments={'gz_args': ['-r -s -v4 ', world], 'on_exit_shutdown': 'true'}.items()
-    # )
-    # gzclient_cmd = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(ros_gz_sim, 'launch', 'gz_sim.launch.py')
-    #     ),
-    #     launch_arguments={'gz_args': '-g -v4 '}.items()
-    # )
+    gzserver_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(ros_gz_sim, 'launch', 'gz_sim.launch.py')
+        ),
+        launch_arguments={'gz_args': ['-r -s -v4 ', world], 'on_exit_shutdown': 'true'}.items()
+    )
+    
+    gzclient_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(ros_gz_sim, 'launch', 'gz_sim.launch.py')
+        ),
+        launch_arguments={'gz_args': '-g -v4 '}.items()
+    )
 
 
     gz_spawn_entity = Node(
@@ -88,4 +90,4 @@ def create_gazebo_nodes(robot_urdf) -> list:
         output="screen",
     )
 
-    return [gazebo, gz_spawn_entity,bridge]
+    return [gzserver_cmd, gzclient_cmd, gz_spawn_entity, bridge]
