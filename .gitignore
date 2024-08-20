@@ -9,3 +9,4 @@ venv
 
 maps/*
 !maps/.gitkeep
+ugv_description/urdf/ugv.urdf
