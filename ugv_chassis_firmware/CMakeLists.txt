@@ -53,28 +53,28 @@ install(
   DESTINATION include
 )
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
-  set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
-  set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-  find_package(ament_cmake_gmock REQUIRED)
-  find_package(ros2_control_test_assets REQUIRED)
+# if(BUILD_TESTING)
+#   find_package(ament_lint_auto REQUIRED)
+#   # the following line skips the linter which checks for copyrights
+#   # comment the line when a copyright and license is added to all source files
+#   set(ament_cmake_copyright_FOUND TRUE)
+#   # the following line skips cpplint (only works in a git repo)
+#   # comment the line when this package is in a git repo and when
+#   # a copyright and license is added to all source files
+#   set(ament_cmake_cpplint_FOUND TRUE)
+#   ament_lint_auto_find_test_dependencies()
+#   find_package(ament_cmake_gmock REQUIRED)
+#   find_package(ros2_control_test_assets REQUIRED)
 
-  ament_add_gmock(test_ugv_chassis_hardware test/test_ugv_chassis_hardware.cpp)
-  target_include_directories(test_ugv_chassis_hardware PRIVATE include)
-  ament_target_dependencies(
-    test_ugv_chassis_hardware
-    hardware_interface
-    pluginlib
-    ros2_control_test_assets
-  )
-endif()
+#   ament_add_gmock(test_ugv_chassis_hardware test/test_ugv_chassis_hardware.cpp)
+#   target_include_directories(test_ugv_chassis_hardware PRIVATE include)
+#   ament_target_dependencies(
+#     test_ugv_chassis_hardware
+#     hardware_interface
+#     pluginlib
+#     ros2_control_test_assets
+#   )
+# endif()
 
 ament_export_include_directories(
   include

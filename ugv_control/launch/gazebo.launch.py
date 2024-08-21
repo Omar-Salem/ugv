@@ -21,32 +21,13 @@ def generate_launch_description():
 
     controller_nodes = create_controller_nodes()
 
-    rviz_config_file = DeclareLaunchArgument(
-        name='rviz_config_file',
-        default_value=os.path.join(share_dir, 'config', 'display.rviz')
-    )
-
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', LaunchConfiguration('rviz_config_file')],
-        output='screen'
-    )
-
     return LaunchDescription(
         [
-            DeclareLaunchArgument(
-                name='gazebo_world',
-                default_value=os.path.join(share_dir, 'worlds', 'many_walls.world')
-            ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ugv_description'), 'launch'), '/gazebo.launch.py']),
-        launch_arguments={ 'world': LaunchConfiguration('gazebo_world')}.items()
+        launch_arguments={ 'robot_urdf': robot_urdf}.items()
          
-             ),
-            rviz_config_file,
-            rviz_node
+             )
         ] +
         controller_nodes
     )
