@@ -12,9 +12,9 @@
     </gazebo>
 
     <gazebo>
-        <plugin filename="gz_ros2_control-system" name="libgazebo_ros2_control.so">
+        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
             <parameters>$(find ugv_control)/config/diff_drive_controllers.yaml</parameters>
-            <parameters>$(find ugv_control)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
+            <!-- <parameters>$(find ugv_control)/config/gaz_ros2_ctl_use_sim.yaml</parameters> -->
         </plugin>
     </gazebo>
 
