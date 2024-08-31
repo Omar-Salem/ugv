@@ -12,15 +12,6 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     package_name = 'ugv_mapping'
 
-    core = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory(package_name), 'launch', 'core.launch.py'
-        )]), launch_arguments={
-            'package_name': package_name,
-            'is_sim': 'False'
-        }.items()
-    )
-
     package_dir = FindPackageShare(package_name)
 
     world = PathJoinSubstitution(
@@ -29,10 +20,16 @@ def generate_launch_description():
     rviz_config_file = PathJoinSubstitution(
         [package_dir, 'config', 'display.rviz']
     )
+    
+    slam_toolbox = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('slam_toolbox'), 'launch'), '/online_async_launch.py']),
+        launch_arguments={ 'use_sim_time': 'True',
+                          'slam_params_file':os.path.join(
+                 get_package_share_directory('ugv_mapping'), 'config', 'mapper_params_online_async.yaml'
+             )}.items()
+             )
 
-    return LaunchDescription(
-        [core,
-         IncludeLaunchDescription(
+    control_node = IncludeLaunchDescription(
              PythonLaunchDescriptionSource([os.path.join(
                  get_package_share_directory('ugv_control'), 'launch', 'gazebo.launch.py'
              )]), launch_arguments={
@@ -40,5 +37,9 @@ def generate_launch_description():
                  'rviz_config_file': rviz_config_file
              }.items()
          )
+    
+    return LaunchDescription(
+        [slam_toolbox,
+         control_node
          ]
     )
