@@ -8,62 +8,96 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import RegisterEventHandler
+from launch.event_handlers import OnProcessExit
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    package_name = 'ugv_control'
-    share_dir = get_package_share_directory(package_name)
-    xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
-    robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'true'})
-    robot_urdf = robot_description_config.toxml()
+    # Launch Arguments
+    use_sim_time = LaunchConfiguration('use_sim_time', default=True)
 
-
-
-    controller_nodes = create_controller_nodes()
-
-    return LaunchDescription(
+    # Get URDF via xacro
+    robot_description_content = Command(
         [
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ugv_description'), 'launch'), '/gazebo.launch.py']),
-        launch_arguments={ 'robot_urdf': robot_urdf}.items()
-         
-             )
-        ] +
-        controller_nodes
-    )
-
-
-def create_controller_nodes() -> list:
-    """
-
-    :rtype: list
-    """
-    robot_controller_names = ['joint_state_broadcaster', 'diff_drive_controller']
-    robot_controller_spawners = []
-    for controller in robot_controller_names:
-        robot_controller_spawners += [
-            Node(
-                package="controller_manager",
-                executable="spawner",
-                arguments=[controller]
-            )
+            PathJoinSubstitution([FindExecutable(name='xacro')]),
+            ' ',
+            PathJoinSubstitution(
+                [FindPackageShare('ugv_control'),
+                 'urdf', 'ugv.xacro']
+            ),
         ]
-    return robot_controller_spawners
-
-
-    """
-
-    :rtype: list
-    """
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
-        launch_arguments={'world': LaunchConfiguration('gazebo_world')}.items()
     )
-    spawn_entity = Node(package='gazebo_ros',
-                        executable='spawn_entity.py',
-                        arguments=['-topic', 'robot_description',
-                                   '-entity', 'ugv'],
-                        output='screen')
-    # launch.logging.launch_config.level = logging.WARN
-    return [gazebo, spawn_entity]
+    robot_description = {'robot_description': robot_description_content}
+    robot_controllers = PathJoinSubstitution(
+        [
+            FindPackageShare('ugv_control'),
+            'config',
+            'diff_drive_controllers.yaml',
+        ]
+    )
+
+    node_robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[robot_description]
+    )
+
+    gz_spawn_entity = Node(
+        package='ros_gz_sim',
+        executable='create',
+        output='screen',
+        arguments=['-topic', 'robot_description', '-name',
+                   'diff_drive', '-allow_renaming', 'true'],
+    )
+
+    joint_state_broadcaster_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster'],
+    )
+    diff_drive_base_controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=[
+            'diff_drive_controller',
+            '--param-file',
+            robot_controllers,
+            ],
+    )
+
+    return LaunchDescription([
+        # Launch gazebo environment
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [PathJoinSubstitution([FindPackageShare('ros_gz_sim'),
+                                       'launch',
+                                       'gz_sim.launch.py'])]),
+            launch_arguments=[('gz_args', [' -r -v 4 empty.sdf'])]),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=gz_spawn_entity,
+                on_exit=[joint_state_broadcaster_spawner],
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=joint_state_broadcaster_spawner,
+                on_exit=[diff_drive_base_controller_spawner],
+            )
+        ),
+        node_robot_state_publisher,
+        gz_spawn_entity,
+        # Launch Arguments
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value=use_sim_time,
+            description='If true, use simulated clock'),
+    ])
