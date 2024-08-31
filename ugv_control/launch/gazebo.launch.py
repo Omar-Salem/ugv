@@ -20,16 +20,15 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    # Launch Arguments
-    use_sim_time = LaunchConfiguration('use_sim_time', default=True)
 
     # Get URDF via xacro
+    ugv_control_pkg = FindPackageShare('ugv_control')
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
             PathJoinSubstitution(
-                [FindPackageShare('ugv_control'),
+                [ugv_control_pkg,
                  'urdf', 'ugv.xacro']
             ),
         ]
@@ -37,7 +36,7 @@ def generate_launch_description():
     robot_description = {'robot_description': robot_description_content}
     robot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare('ugv_control'),
+            ugv_control_pkg,
             'config',
             'diff_drive_controllers.yaml',
         ]
@@ -94,10 +93,5 @@ def generate_launch_description():
             )
         ),
         node_robot_state_publisher,
-        gz_spawn_entity,
-        # Launch Arguments
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value=use_sim_time,
-            description='If true, use simulated clock'),
+        gz_spawn_entity
     ])
