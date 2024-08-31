@@ -71,6 +71,11 @@ def generate_launch_description():
             robot_controllers,
             ],
     )
+    world=os.path.join(
+        get_package_share_directory('ugv_description'),
+        'worlds',
+        'empty_world'
+    )
 
     return LaunchDescription([
         # Launch gazebo environment
@@ -79,7 +84,11 @@ def generate_launch_description():
                 [PathJoinSubstitution([FindPackageShare('ros_gz_sim'),
                                        'launch',
                                        'gz_sim.launch.py'])]),
-            launch_arguments=[('gz_args', [' -r -v 4 empty.sdf'])]),
+            launch_arguments=[('gz_args', [world,
+                                 '.sdf',
+                                 ' -v 4',
+                                 ' -r']
+                    )]),
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=gz_spawn_entity,
