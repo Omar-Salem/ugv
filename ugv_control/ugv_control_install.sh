@@ -11,4 +11,4 @@ twist:
   linear:
     x: 0.1"
 
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r _stamped:=True cmd_vel:=/diff_drive_controller/cmd_vel
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/diff_drive_controller/cmd_vel -p stamped:=True
