@@ -16,7 +16,7 @@ def generate_launch_description():
     robot_nodes = [
         GroupAction(
             actions=[
-                SetRemap(src='/cmd_vel', dst='/diff_drive_controller/cmd_vel_unstamped'),
+                SetRemap(src='/cmd_vel', dst='/diff_drive_controller/cmd_vel'),
                 create_slam_toolbox_node(),
             ]
         )
