@@ -18,4 +18,4 @@ diff_drive_controller:
     position_feedback: true
     open_loop: false
     cmd_vel_timeout: 1.0
-    base_frame_id: base_footprint
+    base_frame_id: base_link
