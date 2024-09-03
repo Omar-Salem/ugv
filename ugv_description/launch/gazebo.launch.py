@@ -25,13 +25,16 @@ def generate_launch_description():
     robot_urdf = LaunchConfiguration("robot_urdf")
 
     return LaunchDescription(
-        
-        [robot_urdf_arg,
-            DeclareLaunchArgument(name="world", default_value=os.path.join(
-        get_package_share_directory('ugv_description'),
-        'worlds',
-        'empty_world'
-    )),
+        [
+            robot_urdf_arg,
+            DeclareLaunchArgument(
+                name="world",
+                default_value=os.path.join(
+                    get_package_share_directory("ugv_description"),
+                    "worlds",
+                    "empty_world",
+                ),
+            ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     [os.path.join(share_dir, "launch"), "/display.launch.py"]
@@ -50,28 +53,24 @@ def create_gazebo_nodes(robot_urdf) -> list:
     """
 
     ros_gz_sim = get_package_share_directory("ros_gz_sim")
-    world = LaunchConfiguration('world')
-    
-    gazebo = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    ros_gz_sim, 'launch'), '/gz_sim.launch.py']),
-                launch_arguments=[
-                    ('gz_args', [world,
-                                 '.sdf',
-                                 ' -v 4',
-                                 ' -r']
-                    )
-                ]
-             )
+    world = LaunchConfiguration("world")
 
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [os.path.join(ros_gz_sim, "launch"), "/gz_sim.launch.py"]
+        ),
+        launch_arguments=[("gz_args", [world, ".sdf", " -v 4", " -r"])],
+    )
 
     gz_spawn_entity = Node(
         package="ros_gz_sim",
         executable="create",
         output="screen",
         arguments=[
-            "-string", robot_urdf,
-            "-name","ugv",
+            "-string",
+            robot_urdf,
+            "-name",
+            "ugv",
         ],
     )
 

@@ -13,12 +13,11 @@ def generate_launch_description():
     share_dir = get_package_share_directory('ugv_description')
     xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
     robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'false'}).toxml()
-    
-    gui_arg = DeclareLaunchArgument(
-        name='gui',
+        
+    use_sim_time_arg = DeclareLaunchArgument(
+        name='use_sim_time',
         default_value='False'
     )
-    
     rviz_config_file_arg = DeclareLaunchArgument(
         name='rviz_config_file',
         default_value=os.path.join(share_dir, 'config', 'display.rviz')
@@ -29,7 +28,6 @@ def generate_launch_description():
         default_value=robot_description_config
     )
 
-    show_gui = LaunchConfiguration('gui')
     rviz_config_file = LaunchConfiguration('rviz_config_file')
     robot_urdf = LaunchConfiguration('robot_urdf')
 
@@ -40,23 +38,15 @@ def generate_launch_description():
         parameters=[
             {
                 'robot_description': robot_urdf,
-                'use_sim_time': False
+                'use_sim_time': LaunchConfiguration('use_sim_time')
             }
         ]
     )
 
     joint_state_publisher_node = Node(
-        condition=UnlessCondition(show_gui),
         package='joint_state_publisher',
         executable='joint_state_publisher',
         name='joint_state_publisher'
-    )
-
-    joint_state_publisher_gui_node = Node(
-        condition=IfCondition(show_gui),
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        name='joint_state_publisher_gui'
     )
 
     rviz_node = Node(
@@ -68,11 +58,10 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        gui_arg,
+        use_sim_time_arg,
         robot_urdf_arg,
         rviz_config_file_arg,
         rviz_node,
         robot_state_publisher_node,
-        joint_state_publisher_node,
-        joint_state_publisher_gui_node
+        joint_state_publisher_node
     ])
