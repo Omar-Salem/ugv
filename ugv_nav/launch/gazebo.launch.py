@@ -17,7 +17,9 @@ def generate_launch_description():
     nav_node = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('nav2_bringup'), 'launch'), '/navigation_launch.py']),
         launch_arguments={ 'use_sim_time': 'True',
-                              'params_file': nav2_params_file_path,}.items()
+                              'params_file': nav2_params_file_path,
+                              'map': PathJoinSubstitution(
+        [FindPackageShare('ugv_mapping'), 'maps', 'map.yaml']),}.items()
              )
     
     
