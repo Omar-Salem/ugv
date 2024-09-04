@@ -10,14 +10,21 @@ from launch_ros.actions import Node, SetRemap
 
 def generate_launch_description():
 
+    ugv_nav_package = FindPackageShare('ugv_nav')
     nav2_params_file_path = PathJoinSubstitution(
-        [FindPackageShare('ugv_nav'), 'config', 'nav2_params.yaml'])
+        [ugv_nav_package, 'config', 'nav2_params.yaml'])
     
     nav_node = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('nav2_bringup'), 'launch'), '/navigation_launch.py']),
         launch_arguments={ 'use_sim_time': 'True',
                               'params_file': nav2_params_file_path,}.items()
              )
+    
+    
+    rviz_config_file = PathJoinSubstitution(
+        [ugv_nav_package, 'config', 'display.rviz']
+    )
+    
     mapping_node = GroupAction(
         actions=[
 
@@ -26,7 +33,9 @@ def generate_launch_description():
         IncludeLaunchDescription(
              PythonLaunchDescriptionSource([os.path.join(
                  get_package_share_directory('ugv_mapping'), 'launch', 'gazebo.launch.py'
-             )])
+             )]), launch_arguments={
+                 'rviz_config_file': rviz_config_file
+             }.items()
          )
     ]
 )
