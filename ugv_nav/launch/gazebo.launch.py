@@ -9,13 +9,15 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node, SetRemap
 
 def generate_launch_description():
-    package_name = 'ugv_mapping'
+
+    nav2_params_file_path = PathJoinSubstitution(
+        [FindPackageShare('ugv_nav'), 'config', 'nav2_params.yaml'])
     
     nav_node = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('nav2_bringup'), 'launch'), '/navigation_launch.py']),
-        launch_arguments={ 'use_sim_time': 'True'}.items()
+        launch_arguments={ 'use_sim_time': 'True',
+                              'params_file': nav2_params_file_path,}.items()
              )
-
     mapping_node = GroupAction(
         actions=[
 
@@ -23,7 +25,7 @@ def generate_launch_description():
 
         IncludeLaunchDescription(
              PythonLaunchDescriptionSource([os.path.join(
-                 get_package_share_directory(package_name), 'launch', 'gazebo.launch.py'
+                 get_package_share_directory('ugv_mapping'), 'launch', 'gazebo.launch.py'
              )])
          )
     ]
