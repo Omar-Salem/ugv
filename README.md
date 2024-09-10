@@ -1,5 +1,5 @@
-## Requirements
-### Jazzy
+# Requirements
+## Jazzy
 ```bash
 sudo apt -y update && sudo apt -y upgrade
 
@@ -26,12 +26,13 @@ sudo apt install ros-jazzy-desktop -y
 
 echo 'export ROS_DOMAIN_ID=0' >> ~/.bashrc 
 echo 'export QT_QPA_PLATFORM=xcb rviz2' >> ~/.bashrc 
+echo 'export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp' >> ~/.bashrc 
 echo 'source /opt/ros/jazzy/setup.bash' >> ~/.bashrc 
 source ~/.bashrc
 sudo apt-get install python3-rosdep -y
-echo ${${ROS_DISTRO}}
+echo ${ROS_DISTRO}
 ````
-### Packages
+## Packages
 ````bash
 sudo apt-get install -y ros-${ROS_DISTRO}-slam-toolbox ros-${ROS_DISTRO}-joint-state-publisher ros-${ROS_DISTRO}-robot-state-publisher ros-${ROS_DISTRO}-xacro
 sudo apt install -y ros-${ROS_DISTRO}-ros2-control
@@ -46,7 +47,7 @@ sudo apt install -y ros-${ROS_DISTRO}-behaviortree-cpp-v3
 sudo apt install -y ros-${ROS_DISTRO}-tf-transformations
 sudo apt-get install -y ros-${ROS_DISTRO}-image-tools
 sudo apt-get install -y ros-${ROS_DISTRO}-cartographer
-sudo apt install -y ros-${ROS_DISTRO}-twist-mux
+
 sudo apt install -y ros-${ROS_DISTRO}-angles
 sudo apt install -y ros-${ROS_DISTRO}-mqtt-client
 sudo apt install -y ros-${ROS_DISTRO}-launch-xml
@@ -59,7 +60,7 @@ sudo apt install vim -y
 sudo usermod -aG dialout ${USER}
 ````
 
-### microros
+## microros
 ````bash
 cd ~
 mkdir microros_ws
@@ -78,7 +79,7 @@ echo 'source ~/microros_ws/install/local_setup.bash' >> ~/.bashrc
 source ~/.bashrc
 ````
 
-### Create workspace and clone repo
+## Create workspace and clone repo
 ````bash
 mkdir -p ~/ugv_ws/src
 cd ~/ugv_ws/src 
@@ -87,16 +88,26 @@ cd ~/ugv_ws
 colcon build 
 ````
 
-### Run
+## Run
+### Display
 
 ```bash
-# display
-cd ~/ugv_ws && colcon build --packages-select ugv_description && source install/setup.bash && ros2 launch ugv_description display.launch.py
+cd ~/ugv_ws && colcon build --packages-select ugv_description && source install/setup.bash && ros2 launch ugv_description gazebo.launch.py
 ```
 
+### Control
 ```bash
-# control
-cd ~/ugv_ws && colcon build --packages-select ugv_control && source install/setup.bash && ros2 launch ugv_control control.launch.py
+cd ~/ugv_ws && colcon build --packages-select ugv_control && source install/setup.bash && ros2 launch ugv_control gazebo.launch.py
+```
+
+### Mapping
+```bash
+cd ~/ugv_ws && colcon build --packages-select ugv_mapping && source install/setup.bash && ros2 launch ugv_mapping gazebo.launch.py
+```
+
+### Navigation
+```bash
+cd ~/ugv_ws && colcon build --packages-select ugv_nav && source install/setup.bash && ros2 launch ugv_nav gazebo.launch.py
 ```
 
 
