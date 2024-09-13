@@ -25,7 +25,7 @@ def generate_launch_description():
         [
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ugv_description'), 'launch'), '/gazebo.launch.py']),
-        launch_arguments={ 'robot_urdf': robot_urdf}.items()
+        launch_arguments={ 'robot_urdf': robot_urdf,'use_gui':'True'}.items()
          
              )
         ] +
