@@ -37,7 +37,7 @@ namespace ugv_chassis_firmware
         CallbackReturn UGVChassisHardware::on_init(
             const HardwareInfo &info)
         {
-                // RCLCPP_INFO(get_logger(), "on_init ...please wait...");
+                RCLCPP_INFO(get_logger(), "on_init ...please wait...");
 
                 if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
                 {
