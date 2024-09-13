@@ -27,9 +27,14 @@ def generate_launch_description():
         name='robot_urdf',
         default_value=robot_description_config
     )
+    use_gui_arg = DeclareLaunchArgument(
+        name='use_gui',
+        default_value='False'
+    )
 
     rviz_config_file = LaunchConfiguration('rviz_config_file')
     robot_urdf = LaunchConfiguration('robot_urdf')
+    use_gui = LaunchConfiguration('use_gui')
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
@@ -48,13 +53,15 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         arguments=['-d', rviz_config_file],
-        output='screen'
+        output='screen',
+        condition=IfCondition(use_gui),
     )
 
     return LaunchDescription([
         use_sim_time_arg,
         robot_urdf_arg,
         rviz_config_file_arg,
+        use_gui_arg,
         rviz_node,
         robot_state_publisher_node
     ])
