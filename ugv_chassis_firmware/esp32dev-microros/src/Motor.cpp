@@ -18,6 +18,6 @@ void Motor::setSpeed(double angularVelocity)
      steppr->setSpeed(stepsPerSecond);
 }
 
-double Motor::getCurrentPosition() { return steppr->currentPosition(); }
+double Motor::getCurrentPosition() { return steppr->currentPosition() * ANGLES_PER_STEP * DEG_TO_RAD; }
 
 void Motor::run() { steppr->runSpeed(); }
