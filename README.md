@@ -58,6 +58,8 @@ sudo apt install -y ros-${ROS_DISTRO}-ros-gz
 sudo apt install -y ros-${ROS_DISTRO}-gz-ros2-control
 sudo apt install vim -y
 sudo usermod -aG dialout ${USER}
+sudo addgroup realtime
+sudo usermod -a -G realtime $(whoami)
 ````
 
 ## microros
