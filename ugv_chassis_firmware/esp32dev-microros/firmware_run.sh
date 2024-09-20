@@ -10,7 +10,7 @@ pio pkg install # Install dependencies
 pio run --target upload # Flash the firmware
 
 
-ls /dev/tty* | grep ttyUSB0 #check /dev/ttyUSB0
+ls /dev/ttyUSB* | grep ttyUSB0 #check /dev/ttyUSB0
 lsusb | grep CP210x
 
 # terminal 1
