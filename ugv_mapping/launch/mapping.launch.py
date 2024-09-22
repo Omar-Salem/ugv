@@ -17,7 +17,8 @@ def generate_launch_description():
     )
     rp_lidar_c1 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(rp_lidar_c1_launch_file_path),
-        launch_arguments={ 'serial_port': '/dev/ttyUSB1'}.items()
+        launch_arguments={ 'serial_port': '/dev/ttyUSB0',
+                          'frame_id':'lidar_link'}.items()
     )
 
     slam_params_file = os.path.join(
