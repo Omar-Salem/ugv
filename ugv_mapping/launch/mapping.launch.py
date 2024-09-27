@@ -12,25 +12,18 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     package_name = "ugv_mapping"
 
-    rp_lidar_c1_launch_file_path = PathJoinSubstitution(
-        [FindPackageShare("sllidar_ros2"), "launch", "sllidar_c1.launch.py"]
-    )
-    rp_lidar_c1 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(rp_lidar_c1_launch_file_path),
-        launch_arguments={ 'serial_port': '/dev/ttyUSB0',
-                          'frame_id':'lidar_link'}.items()
-    )
+    rp_lidar_c1 = build_rp_lidar_c1_node()
 
-    slam_params_file = os.path.join(
-                 get_package_share_directory('ugv_mapping'), 'config', 'mapper_params_online_async.yaml'
-             )
+    slam_toolbox = build_slam_toolbox_node(package_name)
+    
+    control = build_control_node(package_name)
+    
+    return LaunchDescription([slam_toolbox, 
+                              rp_lidar_c1, 
+                              control
+                              ])
 
-    slam_toolbox_launch_file = [os.path.join(get_package_share_directory('slam_toolbox'), 'launch'), '/online_async_launch.py']
-    slam_toolbox = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(slam_toolbox_launch_file),
-        launch_arguments={ 'use_sim_time': 'False',
-                          'slam_params_file':slam_params_file}.items()
-             )
+def build_control_node(package_name):
     package_dir = FindPackageShare(package_name)
     rviz_config_file = PathJoinSubstitution([package_dir, "config", "display.rviz"])
 
@@ -46,7 +39,31 @@ def generate_launch_description():
         ),
         launch_arguments={"rviz_config_file": rviz_config_file}.items(),
     )
-    return LaunchDescription([slam_toolbox, 
-                              rp_lidar_c1, 
-                              control
-                              ])
+    
+    return control
+
+def build_slam_toolbox_node(package_name):
+    slam_params_file = os.path.join(
+                 get_package_share_directory(package_name), 'config', 'mapper_params_online_async.yaml'
+             )
+
+    slam_toolbox_launch_file = [os.path.join(get_package_share_directory('slam_toolbox'), 'launch'), '/online_async_launch.py']
+    slam_toolbox = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(slam_toolbox_launch_file),
+        launch_arguments={ 'use_sim_time': 'False',
+                          'slam_params_file':slam_params_file}.items()
+             )
+             
+    return slam_toolbox
+
+def build_rp_lidar_c1_node():
+    rp_lidar_c1_launch_file_path = PathJoinSubstitution(
+        [FindPackageShare("sllidar_ros2"), "launch", "sllidar_c1.launch.py"]
+    )
+    rp_lidar_c1 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(rp_lidar_c1_launch_file_path),
+        launch_arguments={ 'serial_port': '/dev/ttyUSB0',
+                          'frame_id':'lidar_link'}.items()
+    )
+    
+    return rp_lidar_c1
