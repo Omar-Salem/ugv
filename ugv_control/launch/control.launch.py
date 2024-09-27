@@ -22,7 +22,7 @@ def generate_launch_description():
 
     display_node = create_display_node(share_dir)
     micro_ros = ExecuteProcess(
-        cmd=[os.path.join(share_dir, "launch", "microros.sh")], output="screen"
+        cmd=[os.path.join(share_dir, "launch", "microros.sh"),'/dev/ttyUSB1'], output="screen"
     )
 
     return LaunchDescription(

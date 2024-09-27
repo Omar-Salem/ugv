@@ -37,7 +37,7 @@ namespace ugv_chassis_firmware
         CallbackReturn UGVChassisHardware::on_init(
             const HardwareInfo &info)
         {
-                RCLCPP_INFO(get_logger(), "on_init ...please wait...");
+                // RCLCPP_INFO(get_logger(), "on_init ...please wait...");
 
                 if (SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
                 {
@@ -54,13 +54,13 @@ namespace ugv_chassis_firmware
         CallbackReturn UGVChassisHardware::on_configure(
             const State & /*previous_state*/)
         {
-                RCLCPP_INFO(get_logger(), "on_configure ...please wait...");
+                // RCLCPP_INFO(get_logger(), "on_configure ...please wait...");
                 return CallbackReturn::SUCCESS;
         }
 
         vector<StateInterface> UGVChassisHardware::export_state_interfaces()
         {
-                RCLCPP_INFO(get_logger(), "export_state_interfaces ...please wait...");
+                // RCLCPP_INFO(get_logger(), "export_state_interfaces ...please wait...");
                 vector<StateInterface> state_interfaces;
 
                 state_interfaces.emplace_back(
@@ -80,7 +80,7 @@ namespace ugv_chassis_firmware
 
         vector<CommandInterface> UGVChassisHardware::export_command_interfaces()
         {
-                RCLCPP_INFO(get_logger(), "export_command_interfaces ...please wait...");
+                // RCLCPP_INFO(get_logger(), "export_command_interfaces ...please wait...");
                 vector<CommandInterface> command_interfaces;
                 command_interfaces.emplace_back(
                     rearLeftWheel->name, HW_IF_VELOCITY, &rearLeftWheel->velocity_command);
@@ -97,14 +97,14 @@ namespace ugv_chassis_firmware
         CallbackReturn UGVChassisHardware::on_activate(
             const State & /*previous_state*/)
         {
-                RCLCPP_INFO(get_logger(), "on_activate ...please wait...");
+                // RCLCPP_INFO(get_logger(), "on_activate ...please wait...");
                 return CallbackReturn::SUCCESS;
         }
 
         CallbackReturn UGVChassisHardware::on_deactivate(
             const State & /*previous_state*/)
         {
-                RCLCPP_INFO(get_logger(), "on_deactivate ...please wait...");
+                // RCLCPP_INFO(get_logger(), "on_deactivate ...please wait...");
                 setMotorsVelocity(0, 0, 0, 0);
                 return CallbackReturn::SUCCESS;
         }
