@@ -6,7 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /Odometry1
+        - /TF1
+        - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 397
   - Class: rviz_common/Selection
@@ -109,33 +110,29 @@ Visualization Manager:
       Filter (whitelist): ""
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
         base_footprint:
-          Value: true
+          Value: false
         base_link:
-          Value: true
+          Value: false
         front_left_wheel:
-          Value: true
+          Value: false
         front_right_wheel:
           Value: true
         lidar_link:
-          Value: true
-        map:
-          Value: true
+          Value: false
         odom:
-          Value: true
+          Value: false
         rear_left_wheel:
-          Value: true
+          Value: false
         rear_right_wheel:
           Value: true
       Marker Scale: 0.5
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: false
+      Show Names: true
       Tree:
-        map:
-          {}
         odom:
           base_link:
             base_footprint:
@@ -236,7 +233,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0
+      Angle: -0.025000035762786865
       Class: rviz_default_plugins/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -246,11 +243,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 103.4381103515625
+      Scale: 148.81796264648438
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
-      X: -0.25658872723579407
-      Y: 1.3471331596374512
+      X: -0.09050524979829788
+      Y: -0.07530197501182556
     Saved: ~
 Window Geometry:
   Displays:
