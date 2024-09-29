@@ -11,25 +11,31 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    package_name = 'ugv_control'
+    package_name = "ugv_control"
     share_dir = get_package_share_directory(package_name)
-    xacro_file = os.path.join(share_dir, 'urdf', 'ugv.xacro')
-    robot_description_config = xacro.process_file(xacro_file, mappings={'is_sim': 'true'})
+    xacro_file = os.path.join(share_dir, "urdf", "ugv.xacro")
+    robot_description_config = xacro.process_file(
+        xacro_file, mappings={"is_sim": "true"}
+    )
     robot_urdf = robot_description_config.toxml()
-
-
 
     controller_nodes = create_controller_nodes()
 
+    ugv_description_launch = [
+        os.path.join(get_package_share_directory("ugv_description"), "launch"),
+        "/gazebo.launch.py",
+    ]
     return LaunchDescription(
         [
             IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ugv_description'), 'launch'), '/gazebo.launch.py']),
-        launch_arguments={ 'robot_urdf': robot_urdf,'use_gui':'True'}.items()
-         
-             )
-        ] +
-        controller_nodes
+                PythonLaunchDescriptionSource(ugv_description_launch),
+                launch_arguments={
+                                "robot_urdf": robot_urdf, 
+                                  "use_gui": "True"
+                                  }.items(),
+            )
+        ]
+        + controller_nodes
     )
 
 
@@ -40,24 +46,24 @@ def create_controller_nodes() -> list:
     """
     robot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare('ugv_control'),
-            'config',
-            'diff_drive_controllers.yaml',
+            FindPackageShare("ugv_control"),
+            "config",
+            "diff_drive_controllers.yaml",
         ]
     )
 
     joint_state_broadcaster_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_state_broadcaster'],
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
     )
     diff_drive_controller_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
+        package="controller_manager",
+        executable="spawner",
         arguments=[
-            'diff_drive_controller',
-            '--param-file',
+            "diff_drive_controller",
+            "--param-file",
             robot_controllers,
-            ],
+        ],
     )
     return [joint_state_broadcaster_spawner, diff_drive_controller_spawner]

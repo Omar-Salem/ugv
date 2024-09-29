@@ -50,7 +50,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             "gazebo_world": world,
-            "rviz_config_file": rviz_config_file,
+            # "rviz_config_file": rviz_config_file,
         }.items(),
     )
 
