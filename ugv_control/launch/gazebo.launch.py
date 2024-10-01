@@ -27,6 +27,10 @@ def generate_launch_description():
     ]
     return LaunchDescription(
         [
+            Node(
+        package="odometry_test",
+        executable="square_follower",
+    ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(ugv_description_launch),
                 launch_arguments={
