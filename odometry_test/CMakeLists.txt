@@ -10,6 +10,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 add_executable(square_follower src/square_follower.cpp)
 target_include_directories(square_follower PUBLIC
@@ -21,6 +23,8 @@ ament_target_dependencies(
   "rclcpp"
   "std_msgs"
   "geometry_msgs"
+  "nav_msgs"
+  "tf2_geometry_msgs"
 )
 
 install(TARGETS square_follower
