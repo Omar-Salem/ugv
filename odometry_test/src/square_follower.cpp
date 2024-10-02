@@ -1,12 +1,14 @@
 #include <chrono>
 #include <memory>
 #include <string>
+#include <math.h>
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
 using namespace std::chrono_literals;
+using geometry_msgs::msg::Point;
 using geometry_msgs::msg::TwistStamped;
 using nav_msgs::msg::Odometry;
 
@@ -14,19 +16,19 @@ class SquareFollower : public rclcpp::Node
 {
 public:
   SquareFollower()
-      : Node("square_follower"), count_(0)
+      : Node("square_follower")
   {
     velocityPublisher_ = this->create_publisher<TwistStamped>("/diff_drive_controller/cmd_vel", 10);
     auto timer_callback =
         [this]() -> void
     {
-      count_++;
       auto message = TwistStamped();
       message.header.stamp = this->now();
 
-      if (count_ % 100 == 0)
+      if (calculateDistance(startPosition_, currentPosition_) >= 1)
       {
         turning_ = true;
+        startPosition_ = currentPosition_;
       }
       if (turning_)
       {
@@ -61,8 +63,10 @@ public:
       {
         startYaw_ = y;
         yawInitialized_ = true;
+        startPosition_ = odom->pose.pose.position;
       }
       currentYaw_ = y;
+      currentPosition_ = odom->pose.pose.position;
       // RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg->data.c_str());
     };
     odometrySubscription_ =
@@ -75,11 +79,24 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<TwistStamped>::SharedPtr velocityPublisher_;
   rclcpp::Subscription<Odometry>::SharedPtr odometrySubscription_;
+
   double startYaw_;
+  Point startPosition_;
+
   double currentYaw_;
+  Point currentPosition_;
+
   bool yawInitialized_;
   bool turning_;
-  size_t count_;
+
+  double calculateDistance(Point p1, Point p2)
+  {
+    double x = p1.x - p2.x;
+    double y = p1.y - p2.y;
+
+    auto dist = pow(x, 2) + pow(y, 2);
+    return sqrt(dist);
+  }
 };
 
 int main(int argc, char *argv[])
