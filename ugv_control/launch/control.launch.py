@@ -21,16 +21,19 @@ def generate_launch_description():
     controller_nodes = create_controller_nodes(package_name)
 
     display_node = create_display_node(share_dir)
+    
     micro_ros = ExecuteProcess(
         cmd=[os.path.join(share_dir, "launch", "microros.sh"),'/dev/ttyUSB1'], output="screen"
     )
 
-    return LaunchDescription(
-        [
-            DeclareLaunchArgument(
+    rviz_config_file_arg = DeclareLaunchArgument(
                 name="rviz_config_file",
                 default_value=os.path.join(share_dir, "config", "display.rviz"),
-            ),
+            )
+    
+    return LaunchDescription(
+        [
+            rviz_config_file_arg,
             micro_ros,
             display_node,
         ]
