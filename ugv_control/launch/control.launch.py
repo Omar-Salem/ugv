@@ -36,10 +36,16 @@ def generate_launch_description():
                 default_value="/dev/ttyUSB1",
             )
     
+    use_gui_arg = DeclareLaunchArgument(
+                name="use_gui",
+                default_value="False",
+            )
+    
     return LaunchDescription(
         [
             rviz_config_file_arg,
             micro_ros_port_arg,
+            use_gui_arg,
             micro_ros,
             display_node,
         ]
@@ -65,6 +71,7 @@ def create_display_node(share_dir):
         launch_arguments={
             "robot_urdf": robot_urdf,
             "use_sim_time": "False",
+            "use_gui": LaunchConfiguration("use_gui"),
             "rviz_config_file": LaunchConfiguration("rviz_config_file"),
         }.items(),
     )

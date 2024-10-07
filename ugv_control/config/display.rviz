@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 397
@@ -233,21 +232,26 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -0.025000035762786865
-      Class: rviz_default_plugins/TopDownOrtho
+      Class: rviz_default_plugins/ThirdPersonFollower
+      Distance: 0.9038231372833252
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
+      Focal Point:
+        X: -0.09050524979829788
+        Y: -0.07530197501182556
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 148.81796264648438
+      Pitch: 0.08479730039834976
       Target Frame: <Fixed Frame>
-      Value: TopDownOrtho (rviz_default_plugins)
-      X: -0.09050524979829788
-      Y: -0.07530197501182556
+      Value: ThirdPersonFollower (rviz_default_plugins)
+      Yaw: 4.652387619018555
     Saved: ~
 Window Geometry:
   Displays:
