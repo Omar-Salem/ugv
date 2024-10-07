@@ -60,5 +60,6 @@ def build_mapping_node():
             ]
         ),
         launch_arguments={
+            "rviz_config_file":PathJoinSubstitution([FindPackageShare('ugv_nav'), "config", "display.rviz"])
         }.items(),
     )
