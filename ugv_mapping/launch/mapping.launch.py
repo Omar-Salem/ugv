@@ -21,7 +21,7 @@ def generate_launch_description():
 
     slam_toolbox = build_slam_toolbox_node(package_name)
     
-    control = build_control_node(package_name,LaunchConfiguration("rviz_config_file"))
+    control = build_control_node(LaunchConfiguration("rviz_config_file"))
     
     return LaunchDescription([rviz_config_file_arg,
                               slam_toolbox, 
@@ -29,8 +29,7 @@ def generate_launch_description():
                               control
                               ])
 
-def build_control_node(package_name,rviz_config_file):
-    package_dir = FindPackageShare(package_name)
+def build_control_node(rviz_config_file):
 
     control = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -42,7 +41,9 @@ def build_control_node(package_name,rviz_config_file):
                 )
             ]
         ),
-        launch_arguments={"rviz_config_file": rviz_config_file}.items(),
+        launch_arguments={
+            "rviz_config_file": rviz_config_file
+            }.items(),
     )
     
     return control
@@ -68,7 +69,8 @@ def build_rp_lidar_c1_node():
     rp_lidar_c1 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(rp_lidar_c1_launch_file_path),
         launch_arguments={ 'serial_port': '/dev/ttyUSB0',
-                          'frame_id':'lidar_link'}.items()
+                          'frame_id':'lidar_link'
+                          }.items()
     )
     
     return rp_lidar_c1
