@@ -46,16 +46,16 @@ def create_display_node(share_dir):
     xacro_file_mapped = xacro.process_file(xacro_file, mappings={"is_sim": "false"})
     robot_urdf = xacro_file_mapped.toxml()
 
-    return IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution(
+    ugv_description_launch = PathJoinSubstitution(
                 [
                     FindPackageShare("ugv_description"),
                     "launch",
                     "display.launch.py",
                 ]
             )
-        ),
+    
+    return IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(ugv_description_launch),
         launch_arguments={
             "robot_urdf": robot_urdf,
             "use_sim_time": "False",
