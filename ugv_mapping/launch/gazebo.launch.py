@@ -19,7 +19,7 @@ def generate_launch_description():
         name="rviz_config_file",
         default_value=PathJoinSubstitution([package_dir, "config", "display.rviz"]),
     )
-    rviz_config_file = LaunchConfiguration("rviz_config_file")
+    rviz_config_file = PathJoinSubstitution([package_dir, "config", "display.rviz"])
 
     slam_toolbox = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -50,7 +50,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             "gazebo_world": world,
-            # "rviz_config_file": rviz_config_file,
+            "rviz_config_file": rviz_config_file,
         }.items(),
     )
 

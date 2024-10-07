@@ -25,17 +25,25 @@ def generate_launch_description():
         os.path.join(get_package_share_directory("ugv_description"), "launch"),
         "/gazebo.launch.py",
     ]
+    
+    rviz_config_file_arg = DeclareLaunchArgument(
+                name="rviz_config_file",
+                default_value=os.path.join(share_dir, "config", "display.rviz"),
+            )
     return LaunchDescription(
         [
-            Node(
-        package="odometry_test",
-        executable="square_follower",
-    ),
+    #         Node(
+    #     package="odometry_test",
+    #     executable="square_follower",
+    # ),
+    
+            rviz_config_file_arg,
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(ugv_description_launch),
                 launch_arguments={
                                 "robot_urdf": robot_urdf, 
-                                  "use_gui": "True"
+                                  "use_gui": "True",
+                                    "rviz_config_file": LaunchConfiguration("rviz_config_file"),
                                   }.items(),
             )
         ]
