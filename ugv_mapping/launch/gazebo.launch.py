@@ -19,9 +19,18 @@ def generate_launch_description():
         name="rviz_config_file",
         default_value=PathJoinSubstitution([package_dir, "config", "display.rviz"]),
     )
-    rviz_config_file = PathJoinSubstitution([package_dir, "config", "display.rviz"])
 
-    slam_toolbox = IncludeLaunchDescription(
+    slam_toolbox = build_slam_toolbox_node()
+
+    control = build_control_node(world)
+
+    return LaunchDescription([rviz_config_file_arg,
+                              slam_toolbox, 
+                              control, 
+                              rviz_config_file_arg])
+
+def build_slam_toolbox_node():
+    return IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
                 os.path.join(get_package_share_directory("slam_toolbox"), "launch"),
@@ -38,7 +47,8 @@ def generate_launch_description():
         }.items(),
     )
 
-    control_node = IncludeLaunchDescription(
+def build_control_node(world):
+    return IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
                 os.path.join(
@@ -50,8 +60,6 @@ def generate_launch_description():
         ),
         launch_arguments={
             "gazebo_world": world,
-            "rviz_config_file": rviz_config_file,
+            "rviz_config_file": LaunchConfiguration("rviz_config_file"),
         }.items(),
     )
-
-    return LaunchDescription([slam_toolbox, control_node, rviz_config_file_arg])

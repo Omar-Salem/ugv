@@ -11,21 +11,26 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
     package_name = "ugv_mapping"
+    package_dir = FindPackageShare(package_name)
+    rviz_config_file_arg = DeclareLaunchArgument(
+        name="rviz_config_file",
+        default_value=PathJoinSubstitution([package_dir, "config", "display.rviz"]),
+    )
 
     rp_lidar_c1 = build_rp_lidar_c1_node()
 
     slam_toolbox = build_slam_toolbox_node(package_name)
     
-    control = build_control_node(package_name)
+    control = build_control_node(package_name,LaunchConfiguration("rviz_config_file"))
     
-    return LaunchDescription([slam_toolbox, 
+    return LaunchDescription([rviz_config_file_arg,
+                              slam_toolbox, 
                               rp_lidar_c1, 
                               control
                               ])
 
-def build_control_node(package_name):
+def build_control_node(package_name,rviz_config_file):
     package_dir = FindPackageShare(package_name)
-    rviz_config_file = PathJoinSubstitution([package_dir, "config", "display.rviz"])
 
     control = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
