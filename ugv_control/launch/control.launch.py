@@ -23,7 +23,7 @@ def generate_launch_description():
     display_node = create_display_node(share_dir)
     
     micro_ros = ExecuteProcess(
-        cmd=[os.path.join(share_dir, "launch", "microros.sh"),'/dev/ttyUSB1'], output="screen"
+        cmd=[os.path.join(share_dir, "launch", "microros.sh"),LaunchConfiguration("micro_ros_port")], output="screen"
     )
 
     rviz_config_file_arg = DeclareLaunchArgument(
@@ -31,9 +31,15 @@ def generate_launch_description():
                 default_value=os.path.join(share_dir, "config", "display.rviz"),
             )
     
+    micro_ros_port_arg = DeclareLaunchArgument(
+                name="micro_ros_port",
+                default_value="/dev/ttyUSB1",
+            )
+    
     return LaunchDescription(
         [
             rviz_config_file_arg,
+            micro_ros_port_arg,
             micro_ros,
             display_node,
         ]
