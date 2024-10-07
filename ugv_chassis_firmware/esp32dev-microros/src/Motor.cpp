@@ -14,10 +14,19 @@ double Motor::convertRadiansPerSecondToStepsPerSecond(double angularVelocity)
 
 void Motor::setSpeed(double angularVelocity)
 {
+     lastCommandTime = millis();
      auto stepsPerSecond = convertRadiansPerSecondToStepsPerSecond(angularVelocity);
      steppr->setSpeed(stepsPerSecond);
 }
 
 double Motor::getCurrentPosition() { return steppr->currentPosition() * ANGLES_PER_STEP * DEG_TO_RAD; }
 
-void Motor::run() { steppr->runSpeed(); }
+void Motor::run()
+{
+     const float elapsedTime = (millis() - lastCommandTime) / 1000;
+     if (elapsedTime >= 1)
+     {
+          return;
+     }
+     steppr->runSpeed();
+}

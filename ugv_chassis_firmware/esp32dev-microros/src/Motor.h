@@ -7,6 +7,7 @@ class Motor
 private:
     const double ANGLES_PER_STEP = 1.8;
     const int MAX_SPEED = 500;
+    unsigned long lastCommandTime;
     AccelStepper *steppr;
     double convertRadiansPerSecondToStepsPerSecond(double angularVelocity);
 
