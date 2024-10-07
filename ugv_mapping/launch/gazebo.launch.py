@@ -15,6 +15,7 @@ def generate_launch_description():
     package_dir = FindPackageShare(package_name)
 
     world = PathJoinSubstitution([package_dir, "worlds", "many_walls.world"])
+    
     rviz_config_file_arg = DeclareLaunchArgument(
         name="rviz_config_file",
         default_value=PathJoinSubstitution([package_dir, "config", "display.rviz"]),
@@ -26,8 +27,7 @@ def generate_launch_description():
 
     return LaunchDescription([rviz_config_file_arg,
                               slam_toolbox, 
-                              control, 
-                              rviz_config_file_arg])
+                              control])
 
 def build_slam_toolbox_node():
     return IncludeLaunchDescription(
