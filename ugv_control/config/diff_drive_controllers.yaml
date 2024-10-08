@@ -17,7 +17,7 @@ diff_drive_controller:
 
     wheel_separation: 0.32
     wheel_separation_multiplier: 1.6
-    wheel_radius: 0.038
+    wheel_radius: 0.0395
     
     position_feedback: true
     open_loop: false
