@@ -150,7 +150,7 @@
     <joint name="lidar_link_joint" type="fixed">
         <parent link="base_link"/>
         <child link="lidar_link"/>
-        <origin xyz="${chassis_length/2-lidar_radius} 0 ${chassis_offset_z+lidar_thickness/2}" rpy="0 0 0"/>
+        <origin xyz="${chassis_length/2-lidar_radius} 0 ${chassis_offset_z+lidar_thickness/2}" rpy="0 0 ${pi}"/>
     </joint> 
 
 </robot>
