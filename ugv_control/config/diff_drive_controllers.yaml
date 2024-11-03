@@ -23,3 +23,11 @@ diff_drive_controller:
     open_loop: false
     cmd_vel_timeout: 0.1
     base_frame_id: base_link
+
+    linear.x.has_velocity_limits: true
+    linear.x.max_velocity: 0.15
+    linear.x.min_velocity: -0.15
+
+    angular.z.has_velocity_limits: true
+    angular.z.max_velocity: 0.25
+    angular.z.min_velocity: -0.25
