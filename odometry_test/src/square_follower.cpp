@@ -72,7 +72,7 @@ public:
     odometrySubscription_ =
         this->create_subscription<Odometry>("/diff_drive_controller/odom", 10, topic_callback);
 
-    timer_ = this->create_wall_timer(100ms, timer_callback);
+    timer_ = this->create_wall_timer(50ms, timer_callback);
   }
 
 private:
