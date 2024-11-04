@@ -28,24 +28,33 @@ rcl_timer_t publisherTimer;
 const unsigned int PUBLISHER_TIMER_TIMEOUT_MILL = 100;
 
 // X
-const int REAR_LEFT_STEP = 26;
-const int REAR_LEFT_DIR = 15;
+const int REAR_LEFT_STEP = 26; //Brown
+const int REAR_LEFT_DIR = 15; //Violet
 Motor rearLeftWheel(REAR_LEFT_STEP, REAR_LEFT_DIR);
 
-// Z
-const int REAR_RIGHT_STEP = 14;
-const int REAR_RIGHT_DIR = 0;
-Motor rearRightWheel(REAR_RIGHT_STEP, REAR_RIGHT_DIR);
-
 // Y
-const int FRONT_LEFT_STEP = 27;
-const int FRONT_LEFT_DIR = 2;
+const int FRONT_LEFT_STEP = 27; //Green
+const int FRONT_LEFT_DIR = 2; //Blue
 Motor frontLeftWheel(FRONT_LEFT_STEP, FRONT_LEFT_DIR);
 
+// Z
+const int REAR_RIGHT_STEP = 14; //White
+const int REAR_RIGHT_DIR = 0; //Orange
+Motor rearRightWheel(REAR_RIGHT_STEP, REAR_RIGHT_DIR);
+
 // A
-const int FRONT_RIGHT_STEP = 12;
-const int FRONT_RIGHT_DIR = 4;
+const int FRONT_RIGHT_STEP = 12; //Yellow
+const int FRONT_RIGHT_DIR = 4; //Grey
 Motor frontRightWheel(FRONT_RIGHT_STEP, FRONT_RIGHT_DIR);
+
+//GND Black
+
+/**
+
+ *   C  N  C
+ * Violet   Blue    Orange    Grey     Black
+ * Brown    Green   White     Yellow   
+ */
 
 Motor *motors[4] = {&rearLeftWheel,
                     &rearRightWheel,
