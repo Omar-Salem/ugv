@@ -25,9 +25,9 @@ diff_drive_controller:
     base_frame_id: base_link
 
     linear.x.has_velocity_limits: true
-    linear.x.max_velocity: 0.15
-    linear.x.min_velocity: -0.15
+    linear.x.max_velocity: 0.2
+    linear.x.min_velocity: -0.2
 
     angular.z.has_velocity_limits: true
-    angular.z.max_velocity: 0.25
-    angular.z.min_velocity: -0.25
+    angular.z.max_velocity: 0.3
+    angular.z.min_velocity: -0.3
