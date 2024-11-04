@@ -81,6 +81,21 @@ echo 'source ~/microros_ws/install/local_setup.bash' >> ~/.bashrc
 source ~/.bashrc
 ````
 
+## ROS Control Determinism
+````bash
+sudo addgroup realtime && sudo usermod -a -G realtime $(whoami)
+
+
+sudo tee -a /etc/security/limits.conf <<EOL
+@realtime soft rtprio 99
+@realtime soft priority 99
+@realtime soft memlock 102400
+@realtime hard rtprio 99
+@realtime hard priority 99
+@realtime hard memlock 102400
+EOL
+````
+
 ## Create workspace and clone repo
 ````bash
 mkdir -p ~/ugv_ws/src
