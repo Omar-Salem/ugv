@@ -1,8 +1,9 @@
 # Requirements
 ## Jazzy
 ```bash
-sudo apt -y update && sudo apt -y upgrade
+sudo apt update && sudo apt upgrade
 
+# Set locale
 locale  # check for UTF-8
 
 sudo apt install locales
@@ -12,22 +13,29 @@ export LANG=en_US.UTF-8
 
 locale  # verify settings
 
-
+# You will need to add the ROS 2 apt repository to your system.
 sudo apt install software-properties-common -y
 sudo add-apt-repository universe -y
 
-sudo apt install curl -y
+# Now add the ROS 2 GPG key with apt.
+sudo apt update && sudo apt install curl -y
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 
+# Then add the repository to your sources list.
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
-sudo apt install ros-dev-tools -y
-sudo apt install ros-jazzy-desktop -y
+# Install development tools 
+sudo apt update && sudo apt install ros-dev-tools
 
-echo 'export ROS_DOMAIN_ID=0' >> ~/.bashrc 
-echo 'export QT_QPA_PLATFORM=xcb rviz2' >> ~/.bashrc 
-echo 'export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp' >> ~/.bashrc 
-echo 'source /opt/ros/jazzy/setup.bash' >> ~/.bashrc 
+# Install ROS 2
+sudo apt update && sudo apt upgrade && sudo apt install ros-jazzy-desktop -y
+
+sudo tee -a ~/.bashrc <<EOL
+export ROS_DOMAIN_ID=0
+export QT_QPA_PLATFORM=xcb rviz2
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+source /opt/ros/jazzy/setup.bash
+EOL
 source ~/.bashrc
 sudo apt-get install python3-rosdep -y
 echo ${ROS_DISTRO}
@@ -58,8 +66,6 @@ sudo apt install -y ros-${ROS_DISTRO}-ros-gz
 sudo apt install -y ros-${ROS_DISTRO}-gz-ros2-control
 sudo apt install vim -y
 sudo usermod -aG dialout ${USER}
-sudo addgroup realtime
-sudo usermod -a -G realtime $(whoami)
 ````
 
 ## microros
