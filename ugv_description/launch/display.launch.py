@@ -31,10 +31,22 @@ def generate_launch_description():
         name='use_gui',
         default_value='False'
     )
+    use_joint_state_publisher_arg = DeclareLaunchArgument(
+        name='use_joint_state_publisher',
+        default_value='False'
+    )
 
     rviz_config_file = LaunchConfiguration('rviz_config_file')
     robot_urdf = LaunchConfiguration('robot_urdf')
     use_gui = LaunchConfiguration('use_gui')
+    use_joint_state_publisher = LaunchConfiguration('use_joint_state_publisher')
+    
+    joint_state_publisher_node = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        condition=IfCondition(use_joint_state_publisher),
+    )
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
@@ -62,6 +74,8 @@ def generate_launch_description():
         robot_urdf_arg,
         rviz_config_file_arg,
         use_gui_arg,
+        use_joint_state_publisher_arg,
         rviz_node,
-        robot_state_publisher_node
+        robot_state_publisher_node,
+        use_joint_state_publisher
     ])
