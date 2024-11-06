@@ -39,7 +39,10 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource(
                     [os.path.join(share_dir, "launch"), "/display.launch.py"]
                 ),
-                launch_arguments={"use_sim_time": "True"}.items(),
+                launch_arguments={
+                    "use_sim_time": "True",
+                    "use_joint_state_publisher": "True"
+                    }.items(),
             ),
         ]
         + create_gazebo_nodes(robot_urdf),
