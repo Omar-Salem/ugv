@@ -35,6 +35,7 @@ export ROS_DOMAIN_ID=0
 export QT_QPA_PLATFORM=xcb rviz2
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 source /opt/ros/jazzy/setup.bash
+source ~/microros_ws/install/local_setup.bash
 EOL
 source ~/.bashrc
 sudo apt-get install python3-rosdep -y
@@ -69,22 +70,19 @@ sudo usermod -aG dialout ${USER}
 ````
 
 ## microros
+https://www.hackster.io/514301/micro-ros-on-esp32-using-arduino-ide-1360ca
 ````bash
 cd ~
 mkdir microros_ws
 cd microros_ws
 git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
-sudo apt update 
-sudo rosdep init
-rosdep update
+sudo apt update && rosdep update
 rosdep install --from-paths src --ignore-src -y
 sudo apt-get install -y python3-pip
 colcon build
 source install/local_setup.bash
 ros2 run micro_ros_setup create_agent_ws.sh
 ros2 run micro_ros_setup build_agent.sh
-echo 'source ~/microros_ws/install/local_setup.bash' >> ~/.bashrc 
-source ~/.bashrc
 ````
 
 ## ROS Control Determinism
@@ -117,6 +115,11 @@ cd ~/ugv_ws/src
 git clone git@github.com:Omar-Salem/ugv.git .
 cd ~/ugv_ws
 colcon build 
+````
+
+## Shutdown shortcut
+````bash
+alias off="sudo shutdown -h now"
 ````
 
 ## Run

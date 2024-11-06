@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Pi
+# UGV
 cd ~/ugv_ws && colcon build --packages-select ugv_control && source install/setup.bash && ros2 launch ugv_control control.launch.py
 
 # Laptop
