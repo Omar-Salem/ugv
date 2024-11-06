@@ -42,7 +42,8 @@ def generate_launch_description():
                        'planner_server',
                        'recoveries_server',
                        'bt_navigator',
-                       'waypoint_follower']
+                       'waypoint_follower',
+                       'amcl']
 
 
     rviz_config_file = PathJoinSubstitution(
@@ -141,7 +142,17 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
-
+         Node(
+                package='nav2_amcl',
+                executable='amcl',
+                name='amcl',
+                output='screen',
+                respawn=False,
+                respawn_delay=2.0,
+                parameters=[configured_params],
+                arguments=['--ros-args', '--log-level', 'info'],
+                remappings=remappings,
+            ),
         Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
