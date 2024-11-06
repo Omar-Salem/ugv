@@ -119,7 +119,7 @@ colcon build
 
 ## Shutdown shortcut
 ````bash
-alias off="sudo shutdown -h now"
+echo "alias off='sudo shutdown -h now'" >> ~/.bash_aliases
 ````
 
 ## Run
