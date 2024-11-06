@@ -102,11 +102,19 @@ sudo tee -a /etc/security/limits.conf <<EOL
 EOL
 ````
 
+## Git config and SSH key
+````bash
+git config --global user.email "omar.gamil.salem@gmail.com"
+git config --global user.name "Omar Salem"
+ssh-keygen -t ed25519 -C "omar.gamil.salem@gmail.com"
+cat ~/.ssh/id_ed25519.pub
+````
+
 ## Create workspace and clone repo
 ````bash
 mkdir -p ~/ugv_ws/src
 cd ~/ugv_ws/src 
-git clone https://github.com/Omar-Salem/ugv.git .
+git clone git@github.com:Omar-Salem/ugv.git .
 cd ~/ugv_ws
 colcon build 
 ````
