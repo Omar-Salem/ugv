@@ -29,7 +29,7 @@ def generate_launch_description():
                 default_value=os.path.join(
                     get_package_share_directory("ugv_description"),
                     "worlds",
-                    "empty_world",
+                    "empty",
                 ),
             )
     
