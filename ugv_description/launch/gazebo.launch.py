@@ -24,18 +24,16 @@ def generate_launch_description():
     )
     robot_urdf = LaunchConfiguration("robot_urdf")
 
-    return LaunchDescription(
-        [
-            robot_urdf_arg,
-            DeclareLaunchArgument(
+    gazebo_world_arg = DeclareLaunchArgument(
                 name="world",
                 default_value=os.path.join(
                     get_package_share_directory("ugv_description"),
                     "worlds",
-                    "empty_world",
+                    "walls",
                 ),
-            ),
-            IncludeLaunchDescription(
+            )
+    
+    display_launch_file = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     [os.path.join(share_dir, "launch"), "/display.launch.py"]
                 ),
@@ -43,7 +41,13 @@ def generate_launch_description():
                     "use_sim_time": "True",
                     "use_joint_state_publisher": "True"
                     }.items(),
-            ),
+            )
+    
+    return LaunchDescription(
+        [
+            robot_urdf_arg,
+            gazebo_world_arg,
+            display_launch_file,
         ]
         + create_gazebo_nodes(robot_urdf),
     )
