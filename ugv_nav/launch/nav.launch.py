@@ -47,7 +47,8 @@ def generate_launch_description():
                        'recoveries_server',
                        'bt_navigator',
                        'waypoint_follower',
-                       'amcl']
+                       'amcl',
+                       'map_server']
 
 
     rviz_config_file = PathJoinSubstitution(
@@ -84,15 +85,8 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
                         {'node_names': lifecycle_nodes}])
-                     
-    deserialize_map = ExecuteProcess(
-        cmd=[os.path.join(get_package_share_directory('ugv_nav'), "launch", "deserialize_map.sh"),
-            #  '/home/omar.salem/ugv_ws/src/ugv_mapping/maps/apartment/map'
-             LaunchConfiguration("map_path")
-             ], 
-        output="screen"
-    )
 
+    ugv_mapping = get_package_share_directory('ugv_mapping')
     return LaunchDescription([
         # Set env var to print messages to stdout immediately
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
@@ -110,7 +104,8 @@ def generate_launch_description():
             description='Automatically startup the nav2 stack'),
         
         DeclareLaunchArgument(
-            'map_path', default_value='/home/omar.salem/ugv_ws/src/ugv_mapping/maps/apartment/map',
+            'map_yaml_file', 
+            default_value='/home/omar-salem/ugv_ws/src/ugv_mapping/maps/gazebo/walls/map.yaml',
             description='Automatically startup the nav2 stack'),
 
         DeclareLaunchArgument(
@@ -172,22 +167,31 @@ def generate_launch_description():
                 executable='amcl',
                 name='amcl',
                 output='screen',
-                respawn=False,
+                respawn=True,
                 respawn_delay=2.0,
                 parameters=[configured_params],
                 arguments=['--ros-args', '--log-level', 'info'],
                 remappings=remappings,
             ),
+            Node(
+                # condition=IfCondition(
+                #     NotEqualsSubstitution(LaunchConfiguration('map'), '')
+                # ),
+                package='nav2_map_server',
+                executable='map_server',
+                name='map_server',
+                output='screen',
+                respawn=True,
+                respawn_delay=2.0,
+                parameters=[configured_params, ],
+                arguments=['--ros-args', '--log-level', 'info'],
+                remappings=remappings,
+            ),
         lifcycle_manager,
-        deserialize_map,
-            #  TimerAction(
-            #             period=15.0,
-            #             actions=[deserialize_map],
-            #         ),
 
          IncludeLaunchDescription(
              PythonLaunchDescriptionSource([os.path.join(
-                 get_package_share_directory('ugv_mapping'), 'launch', 'gazebo.launch.py'
+                 ugv_mapping, 'launch', 'gazebo.launch.py'
              )]), launch_arguments={
                  'rviz_config_file': rviz_config_file
              }.items(),
@@ -195,7 +199,7 @@ def generate_launch_description():
          ),
         IncludeLaunchDescription(
              PythonLaunchDescriptionSource([os.path.join(
-                 get_package_share_directory('ugv_mapping'), 'launch', 'mapping.launch.py'
+                 ugv_mapping, 'launch', 'mapping.launch.py'
              )]), launch_arguments={
                  'rviz_config_file': rviz_config_file
              }.items(),
