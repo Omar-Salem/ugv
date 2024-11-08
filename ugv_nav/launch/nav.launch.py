@@ -16,7 +16,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 
-from launch.actions import IncludeLaunchDescription, GroupAction
+from launch.actions import IncludeLaunchDescription, GroupAction,ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
@@ -87,6 +87,10 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'autostart', default_value='true',
             description='Automatically startup the nav2 stack'),
+        
+        DeclareLaunchArgument(
+            'map_path', default_value='/home/omar.salem/ugv_ws/src/ugv_mapping/maps/apartment/map',
+            description='Automatically startup the nav2 stack'),
 
         DeclareLaunchArgument(
             'params_file',
@@ -153,7 +157,10 @@ def generate_launch_description():
                 arguments=['--ros-args', '--log-level', 'info'],
                 remappings=remappings,
             ),
-        Node(
+        ExecuteProcess(
+        cmd=[os.path.join(get_package_share_directory('ugv_nav'), "launch", "deserialize_map.sh"),LaunchConfiguration("map_path")], 
+        output="screen"
+    ), Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager_navigation',
