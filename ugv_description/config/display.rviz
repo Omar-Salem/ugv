@@ -119,8 +119,6 @@ Visualization Manager:
           Value: true
         lidar_link:
           Value: true
-        odom:
-          Value: true
         rear_left_wheel:
           Value: true
         rear_right_wheel:
@@ -144,8 +142,6 @@ Visualization Manager:
             {}
           rear_right_wheel:
             {}
-        odom:
-          {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/Axes
@@ -231,7 +227,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: odom
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:

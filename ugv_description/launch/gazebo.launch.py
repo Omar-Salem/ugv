@@ -39,6 +39,7 @@ def generate_launch_description():
                 ),
                 launch_arguments={
                     "use_sim_time": "True",
+                    "use_gui": "True",
                     "use_joint_state_publisher": "True"
                     }.items(),
             )
