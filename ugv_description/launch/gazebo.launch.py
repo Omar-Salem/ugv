@@ -40,12 +40,15 @@ def generate_launch_description():
                 launch_arguments={
                     "use_sim_time": "True",
                     "use_gui": "True",
-                    "use_joint_state_publisher": "True"
+                    "use_joint_state_publisher": LaunchConfiguration("use_joint_state_publisher")
                     }.items(),
             )
     
     return LaunchDescription(
         [
+            DeclareLaunchArgument(
+        name="use_joint_state_publisher", default_value='True'
+    ),
             robot_urdf_arg,
             gazebo_world_arg,
             display_launch_file,

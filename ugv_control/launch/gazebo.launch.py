@@ -43,6 +43,7 @@ def generate_launch_description():
                 launch_arguments={
                                 "robot_urdf": robot_urdf, 
                                   "use_gui": "True",
+                                  "use_joint_state_publisher": "False",
                                     "rviz_config_file": LaunchConfiguration("rviz_config_file"),
                                   }.items(),
             )
