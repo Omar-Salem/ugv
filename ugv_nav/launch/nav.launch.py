@@ -183,7 +183,7 @@ def generate_launch_description():
                 output='screen',
                 respawn=True,
                 respawn_delay=2.0,
-                parameters=[configured_params, ],
+                parameters=[configured_params, {'yaml_filename': LaunchConfiguration("map_yaml_file")}],
                 arguments=['--ros-args', '--log-level', 'info'],
                 remappings=remappings,
             ),
