@@ -28,7 +28,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
 
-
+from launch.conditions import IfCondition,UnlessCondition
 def generate_launch_description():
 
     namespace = LaunchConfiguration('namespace')
@@ -171,10 +171,19 @@ def generate_launch_description():
 
          IncludeLaunchDescription(
              PythonLaunchDescriptionSource([os.path.join(
+                 get_package_share_directory('ugv_mapping'), 'launch', 'gazebo.launch.py'
+             )]), launch_arguments={
+                 'rviz_config_file': rviz_config_file
+             }.items(),
+             condition=IfCondition(use_sim_time)
+         ),
+        IncludeLaunchDescription(
+             PythonLaunchDescriptionSource([os.path.join(
                  get_package_share_directory('ugv_mapping'), 'launch', 'mapping.launch.py'
              )]), launch_arguments={
                  'rviz_config_file': rviz_config_file
-             }.items()
+             }.items(),
+             condition=UnlessCondition(use_sim_time)
          )
 
     ])

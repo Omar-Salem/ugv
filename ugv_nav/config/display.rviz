@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /GlobalCostMap1/Topic1
         - /LocalCostMap1/Topic1
+        - /ParticleCloud1
       Splitter Ratio: 0.5
     Tree Height: 405
   - Class: rviz_common/Selection
@@ -297,6 +298,22 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /plan
+      Value: true
+    - Alpha: 1
+      Class: nav2_rviz_plugins/ParticleCloud
+      Color: 255; 25; 0
+      Enabled: true
+      Max Arrow Length: 0.30000001192092896
+      Min Arrow Length: 0.019999999552965164
+      Name: ParticleCloud
+      Shape: Arrow (Flat)
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /particle_cloud
       Value: true
   Enabled: true
   Global Options:
