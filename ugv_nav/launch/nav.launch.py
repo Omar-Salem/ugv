@@ -29,6 +29,10 @@ from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
 
 from launch.conditions import IfCondition,UnlessCondition
+from launch.event_handlers import (OnExecutionComplete, OnProcessExit,
+                                OnProcessIO, OnProcessStart, OnShutdown)
+from launch.actions import (DeclareLaunchArgument, EmitEvent, ExecuteProcess,
+                            LogInfo, RegisterEventHandler, TimerAction)
 def generate_launch_description():
 
     namespace = LaunchConfiguration('namespace')
@@ -71,6 +75,23 @@ def generate_launch_description():
             root_key=namespace,
             param_rewrites=param_substitutions,
             convert_types=True)
+
+    lifcycle_manager = Node(
+            package='nav2_lifecycle_manager',
+            executable='lifecycle_manager',
+            name='lifecycle_manager_navigation',
+            output='screen',
+            parameters=[{'use_sim_time': use_sim_time},
+                        {'autostart': autostart},
+                        {'node_names': lifecycle_nodes}])
+                     
+    deserialize_map = ExecuteProcess(
+        cmd=[os.path.join(get_package_share_directory('ugv_nav'), "launch", "deserialize_map.sh"),
+            #  '/home/omar.salem/ugv_ws/src/ugv_mapping/maps/apartment/map'
+             LaunchConfiguration("map_path")
+             ], 
+        output="screen"
+    )
 
     return LaunchDescription([
         # Set env var to print messages to stdout immediately
@@ -157,17 +178,12 @@ def generate_launch_description():
                 arguments=['--ros-args', '--log-level', 'info'],
                 remappings=remappings,
             ),
-        ExecuteProcess(
-        cmd=[os.path.join(get_package_share_directory('ugv_nav'), "launch", "deserialize_map.sh"),LaunchConfiguration("map_path")], 
-        output="screen"
-    ), Node(
-            package='nav2_lifecycle_manager',
-            executable='lifecycle_manager',
-            name='lifecycle_manager_navigation',
-            output='screen',
-            parameters=[{'use_sim_time': use_sim_time},
-                        {'autostart': autostart},
-                        {'node_names': lifecycle_nodes}]),
+        lifcycle_manager,
+        deserialize_map,
+            #  TimerAction(
+            #             period=15.0,
+            #             actions=[deserialize_map],
+            #         ),
 
          IncludeLaunchDescription(
              PythonLaunchDescriptionSource([os.path.join(
