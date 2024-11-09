@@ -27,7 +27,7 @@ def generate_launch_description():
                         ),
                         launch_arguments={
                             "use_sim_time": "true",
-                            "map_path": "/home/omar-salem/ugv_ws/src/ugv_mapping/maps/gazebo/walls/map",
+                            "map_yaml_file": "/home/omar-salem/ugv_ws/src/ugv_mapping/maps/gazebo/walls/map.yaml",
                         }.items(),
                     ),
                 ]
