@@ -30,11 +30,13 @@ from launch_ros.actions import Node
 from launch_ros.actions import PushROSNamespace
 from launch_ros.descriptions import ParameterFile
 from nav2_common.launch import ReplaceString, RewrittenYaml
+from launch_ros.actions import Node, SetRemap
+
 
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('nav2_bringup')
+    bringup_dir = get_package_share_directory('ugv_nav')
     launch_dir = os.path.join(bringup_dir, 'launch')
 
     # Create the launch configuration variables
@@ -57,9 +59,7 @@ def generate_launch_description():
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
     remappings = [('/tf', 'tf'), 
-                  ('/tf_static', 'tf_static'),
-                  ('/cmd_vel','/diff_drive_controller/cmd_vel'),
-                  ('/cmd_vel_nav','/diff_drive_controller/cmd_vel')]
+                  ('/tf_static', 'tf_static'),]
 
     # Only it applys when `use_namespace` is True.
     # '<robot_namespace>' keyword shall be replaced by 'namespace' launch argument
@@ -146,6 +146,7 @@ def generate_launch_description():
     bringup_cmd_group = GroupAction(
         [
             PushROSNamespace(condition=IfCondition(use_namespace), namespace=namespace),
+            SetRemap(src='/cmd_vel',dst='/diff_drive_controller/cmd_vel'),
             Node(
                 condition=IfCondition(use_composition),
                 name='nav2_container',
@@ -158,22 +159,8 @@ def generate_launch_description():
             ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
-                    os.path.join(launch_dir, 'slam_launch.py')
+                    os.path.join(launch_dir, 'localization.launch.py')
                 ),
-                condition=IfCondition(PythonExpression([slam, ' and ', use_localization])),
-                launch_arguments={
-                    'namespace': namespace,
-                    'use_sim_time': use_sim_time,
-                    'autostart': autostart,
-                    'use_respawn': use_respawn,
-                    'params_file': params_file,
-                }.items(),
-            ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
-                    os.path.join(launch_dir, 'localization_launch.py')
-                ),
-                condition=IfCondition(PythonExpression(['not ', slam, ' and ', use_localization])),
                 launch_arguments={
                     'namespace': namespace,
                     'map': map_yaml_file,
@@ -187,7 +174,7 @@ def generate_launch_description():
             ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
-                    os.path.join(launch_dir, 'navigation_launch.py')
+                    os.path.join(launch_dir, 'navigation.launch.py')
                 ),
                 launch_arguments={
                     'namespace': namespace,
