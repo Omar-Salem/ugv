@@ -28,7 +28,6 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
 
-from launch.conditions import IfCondition,UnlessCondition
 from launch.event_handlers import (OnExecutionComplete, OnProcessExit,
                                 OnProcessIO, OnProcessStart, OnShutdown)
 from launch.actions import (DeclareLaunchArgument, EmitEvent, ExecuteProcess,
@@ -105,7 +104,7 @@ def generate_launch_description():
         
         DeclareLaunchArgument(
             'map_yaml_file', 
-            default_value='/home/omar-salem/ugv_ws/src/ugv_mapping/maps/gazebo/walls/map.yaml',
+            default_value='/home/omar.salem/ugv_ws/src/ugv_mapping/maps/apartment/map.yaml',
             description='Automatically startup the nav2 stack'),
 
         DeclareLaunchArgument(
@@ -188,22 +187,13 @@ def generate_launch_description():
                 remappings=remappings,
             ),
         lifcycle_manager,
-
-         IncludeLaunchDescription(
-             PythonLaunchDescriptionSource([os.path.join(
-                 ugv_mapping, 'launch', 'gazebo.launch.py'
-             )]), launch_arguments={
-                 'rviz_config_file': rviz_config_file
-             }.items(),
-             condition=IfCondition(use_sim_time)
-         ),
         IncludeLaunchDescription(
              PythonLaunchDescriptionSource([os.path.join(
-                 ugv_mapping, 'launch', 'mapping.launch.py'
+                 ugv_mapping, 'launch', 'lidar.launch.py'
              )]), launch_arguments={
-                 'rviz_config_file': rviz_config_file
+                 'rviz_config_file': rviz_config_file,
+                 'use_sim_time': use_sim_time
              }.items(),
-             condition=UnlessCondition(use_sim_time)
          )
 
     ])
