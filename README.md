@@ -1,3 +1,5 @@
+<img src="ugv.jpeg" alt="UGV">
+
 # Requirements
 ## Jazzy
 ```bash
