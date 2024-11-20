@@ -9,6 +9,7 @@ Panels:
         - /GlobalCostMap1/Topic1
         - /LocalCostMap1/Topic1
         - /ParticleCloud1
+        - /ParticleCloud1/Topic1
       Splitter Ratio: 0.5
     Tree Height: 405
   - Class: rviz_common/Selection
@@ -158,8 +159,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
+        Max Value: 0.09000000357627869
+        Min Value: 0.09000000357627869
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -312,7 +313,7 @@ Visualization Manager:
         Durability Policy: Volatile
         Filter size: 10
         History Policy: Keep Last
-        Reliability Policy: Reliable
+        Reliability Policy: Best Effort
         Value: /particle_cloud
       Value: true
   Enabled: true
