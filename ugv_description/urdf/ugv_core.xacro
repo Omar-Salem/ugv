@@ -3,7 +3,7 @@
 
     <xacro:include filename="$(find ugv_description)/gazebo/common_inertias.xacro" />
 
-    <xacro:property name="wheel_radius" value="0.04" />
+    <xacro:property name="wheel_radius" value="0.0395" />
     <xacro:property name="wheel_thickness" value="0.0369" />
     <xacro:property name="wheel_mass" value="0.05" />
 
