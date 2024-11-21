@@ -16,7 +16,7 @@ diff_drive_controller:
     right_wheel_names: [ "rear_right_wheel_joint", "front_right_wheel_joint" ]
 
     wheel_separation: 0.32
-    wheel_separation_multiplier: 1.6
+    wheel_separation_multiplier: 1.6 #TODO revise
     wheel_radius: 0.0395
     
     position_feedback: true
