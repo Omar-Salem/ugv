@@ -94,7 +94,7 @@ def create_controller_nodes(package_name):
             )
         ]
     package_dir = FindPackageShare(package_name)
-    robot_controllers = PathJoinSubstitution(
+    controllers_params = PathJoinSubstitution(
         [package_dir, "config", "diff_drive_controllers.yaml"]
     )
 
@@ -102,7 +102,7 @@ def create_controller_nodes(package_name):
         package="controller_manager",
         executable="ros2_control_node",
         output="both",
-        parameters=[robot_controllers],
+        parameters=[controllers_params],
     )
     robot_controller_spawners.append(control_node)
     return robot_controller_spawners

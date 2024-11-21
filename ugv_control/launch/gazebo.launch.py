@@ -61,7 +61,7 @@ def create_controller_nodes() -> list:
 
     :rtype: list
     """
-    robot_controllers = PathJoinSubstitution(
+    controllers_params = PathJoinSubstitution(
         [
             FindPackageShare("ugv_control"),
             "config",
@@ -80,7 +80,7 @@ def create_controller_nodes() -> list:
         arguments=[
             "diff_drive_controller",
             "--param-file",
-            robot_controllers,
+            controllers_params,
         ],
     )
     return [joint_state_broadcaster_spawner, diff_drive_controller_spawner]
