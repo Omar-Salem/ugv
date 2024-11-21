@@ -25,6 +25,8 @@ from launch_ros.actions import Node
 from launch_ros.descriptions import ComposableNode, ParameterFile
 from nav2_common.launch import RewrittenYaml
 
+from launch.actions import IncludeLaunchDescription, GroupAction
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
     # Get the launch directory
@@ -340,5 +342,20 @@ def generate_launch_description():
     # Add the actions to launch all of the navigation nodes
     ld.add_action(load_nodes)
     ld.add_action(load_composable_nodes)
+    ld.add_action(        IncludeLaunchDescription(
+                        PythonLaunchDescriptionSource(
+                            [
+                                os.path.join(
+                                    get_package_share_directory("twist_mux"),
+                                    "launch",
+                                    "twist_mux_launch.py",
+                                )
+                            ]
+                        ),
+                        launch_arguments={
+                            "use_sim_time": use_sim_time,
+                            "cmd_vel_out":"/diff_drive_controller/cmd_vel"
+                        }.items(),
+                    ))
 
     return ld

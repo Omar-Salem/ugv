@@ -146,7 +146,7 @@ def generate_launch_description():
     bringup_cmd_group = GroupAction(
         [
             PushROSNamespace(condition=IfCondition(use_namespace), namespace=namespace),
-            SetRemap(src='/cmd_vel',dst='/diff_drive_controller/cmd_vel'),
+            SetRemap(src='/cmd_vel',dst='/nav/cmd_vel'),
             Node(
                 condition=IfCondition(use_composition),
                 name='nav2_container',
