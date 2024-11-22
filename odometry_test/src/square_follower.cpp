@@ -24,30 +24,23 @@ public:
     {
       auto message = TwistStamped();
       message.header.stamp = this->now();
-
-      if (calculateDistance(startPosition_, currentPosition_) >= 1)
-      {
-        turning_ = true;
-        startPosition_ = currentPosition_;
-      }
-      if (turning_)
-      {
-        message.twist.angular.z = 0.1;
-      }
-      else
+      auto remainingDistance = calculateDistance(startPosition_, currentPosition_);
+      RCLCPP_INFO(this->get_logger(), "remainingDistance: '%f'", remainingDistance);
+      if (remainingDistance < 1)
       {
         message.twist.linear.x = 0.1;
       }
-      this->velocityPublisher_->publish(message);
-
-      auto turnAngle = abs(startYaw_ - currentYaw_);
-      RCLCPP_INFO(this->get_logger(), "turnAngle: '%f'", turnAngle);
-      RCLCPP_INFO(this->get_logger(), "currentYaw_: '%f'", currentYaw_);
-      if (turning_ && turnAngle >= 1.5708)
+      else
       {
-        turning_ = false;
-        startYaw_ = currentYaw_;
+        message.twist.angular.z = 0.1;
+        auto turnAngle = abs(startYaw_ - currentYaw_);
+        if (turnAngle >= 1.5708)
+        {
+          startYaw_ = currentYaw_;
+          startPosition_ = currentPosition_;
+        }
       }
+      this->velocityPublisher_->publish(message);
     };
 
     auto topic_callback =
@@ -61,8 +54,8 @@ public:
       m.getRPY(r, p, y);
       if (!yawInitialized_)
       {
-        startYaw_ = y;
         yawInitialized_ = true;
+        startYaw_ = y;
         startPosition_ = odom->pose.pose.position;
       }
       currentYaw_ = y;
