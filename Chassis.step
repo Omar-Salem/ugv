@@ -12,7 +12,7 @@ cturing Information (PMI)---4.0---2014-10-13'),
 
 FILE_NAME(
 /* name */ 'Chassis.step',
-/* time_stamp */ '2024-11-22T12:44:31+11:00',
+/* time_stamp */ '2024-11-22T12:55:38+11:00',
 /* author */ (''),
 /* organization */ (''),
 /* preprocessor_version */ 'ST-DEVELOPER v20',
@@ -2507,8 +2507,8 @@ SHAPE_REPRESENTATION_RELATIONSHIP()
 #333=NEXT_ASSEMBLY_USAGE_OCCURRENCE('Thicker Mount v6:1',
 'Thicker Mount v6:1','Thicker Mount v6:1',#31569,#31576,
 'Thicker Mount v6:1');
-#334=NEXT_ASSEMBLY_USAGE_OCCURRENCE('Component5:1','Component5:1',
-'Component5:1',#31569,#31570,'Component5:1');
+#334=NEXT_ASSEMBLY_USAGE_OCCURRENCE('base_link:1','base_link:1',
+'base_link:1',#31569,#31570,'base_link:1');
 #335=NEXT_ASSEMBLY_USAGE_OCCURRENCE('Nema 17 Closed loop v5 v1:1',
 'Nema 17 Closed loop v5 v1:1','Nema 17 Closed loop v5 v1:1',#31569,#31571,
 'Nema 17 Closed loop v5 v1:1');
@@ -2632,7 +2632,7 @@ REPRESENTATION_ITEM('')
 #418=STYLED_ITEM('',(#31642),#441);
 #419=STYLED_ITEM('',(#31646),#442);
 #420=STYLED_ITEM('',(#31649),#443);
-#421=MANIFOLD_SOLID_BREP('Body1',#12160);
+#421=MANIFOLD_SOLID_BREP('base_link',#12160);
 #422=MANIFOLD_SOLID_BREP('Body1',#12161);
 #423=MANIFOLD_SOLID_BREP('Body1',#12162);
 #424=MANIFOLD_SOLID_BREP('Body2',#12163);
@@ -43407,8 +43407,8 @@ SOLID_ANGLE_UNIT()
 #31566=SHAPE_REPRESENTATION('',(#13186,#13319),#31485);
 #31567=SHAPE_REPRESENTATION('',(#13187),#31486);
 #31568=PRODUCT_DEFINITION_CONTEXT('part definition',#31621,'design');
-#31569=PRODUCT_DEFINITION('Chassis','Chassis v12',#31586,#31568);
-#31570=PRODUCT_DEFINITION('Component5','Component5',#31587,#31568);
+#31569=PRODUCT_DEFINITION('Chassis','Chassis v15',#31586,#31568);
+#31570=PRODUCT_DEFINITION('base_link','base_link',#31587,#31568);
 #31571=PRODUCT_DEFINITION('Nema 17 Closed loop v5',
 'Nema 17 Closed loop v5 v1',#31588,#31568);
 #31572=PRODUCT_DEFINITION('ugv shaft','ugv shaft v26',#31589,#31568);
@@ -43445,8 +43445,8 @@ SOLID_ANGLE_UNIT()
 #31600=PRODUCT_DEFINITION_FORMATION('',$,#31637);
 #31601=PRODUCT_DEFINITION_FORMATION('',$,#31638);
 #31602=PRODUCT_DEFINITION_FORMATION('',$,#31639);
-#31603=PRODUCT_RELATED_PRODUCT_CATEGORY('Chassis v12','Chassis v12',(#31623));
-#31604=PRODUCT_RELATED_PRODUCT_CATEGORY('Component5','Component5',(#31624));
+#31603=PRODUCT_RELATED_PRODUCT_CATEGORY('Chassis v15','Chassis v15',(#31623));
+#31604=PRODUCT_RELATED_PRODUCT_CATEGORY('base_link','base_link',(#31624));
 #31605=PRODUCT_RELATED_PRODUCT_CATEGORY('Nema 17 Closed loop v5 v1',
 'Nema 17 Closed loop v5 v1',(#31625));
 #31606=PRODUCT_RELATED_PRODUCT_CATEGORY('ugv shaft v26','ugv shaft v26',
@@ -43475,8 +43475,8 @@ SOLID_ANGLE_UNIT()
 'ap242_managed_model_based_3d_engineering',2011,#31621);
 #31621=APPLICATION_CONTEXT('Managed model based 3d engineering');
 #31622=PRODUCT_CONTEXT('part definition',#31621,'mechanical');
-#31623=PRODUCT('Chassis','Chassis v12',$,(#31622));
-#31624=PRODUCT('Component5','Component5',$,(#31622));
+#31623=PRODUCT('Chassis','Chassis v15',$,(#31622));
+#31624=PRODUCT('base_link','base_link',$,(#31622));
 #31625=PRODUCT('Nema 17 Closed loop v5','Nema 17 Closed loop v5 v1',$,(#31622));
 #31626=PRODUCT('ugv shaft','ugv shaft v26',$,(#31622));
 #31627=PRODUCT('ugv shaft v1','ugv shaft v1',$,(#31622));
