@@ -24,17 +24,29 @@ public:
     {
       auto message = TwistStamped();
       message.header.stamp = this->now();
-      auto remainingDistance = calculateDistance(startPosition_, currentPosition_);
+
+      auto distanceTraveled = calculateDistance(startPosition_, currentPosition_);
+      auto remainingDistance = abs(1 - distanceTraveled);
       RCLCPP_INFO(this->get_logger(), "remainingDistance: '%f'", remainingDistance);
-      if (remainingDistance < 1)
+
+
+      RCLCPP_INFO(this->get_logger(), "currentYaw_: '%f'", currentYaw_);
+
+      auto angleTraveled = abs(abs(startYaw_) - abs(currentYaw_));
+      auto remainingAngle = abs(1.5708 - angleTraveled);
+      RCLCPP_INFO(this->get_logger(), "remainingAngle: '%f'", remainingAngle);
+
+      if (remainingDistance > 0.01) // Going straight
       {
-        message.twist.linear.x = 0.1;
+        message.twist.linear.x = Kp * remainingDistance;
       }
-      else
+      else // Turning
       {
-        message.twist.angular.z = 0.1;
-        auto turnAngle = abs(startYaw_ - currentYaw_);
-        if (turnAngle >= 1.5708)
+        if (remainingAngle > 0.01)
+        {
+          message.twist.angular.z = Kp * remainingAngle;
+        }
+        else
         {
           startYaw_ = currentYaw_;
           startPosition_ = currentPosition_;
@@ -80,7 +92,7 @@ private:
   Point currentPosition_;
 
   bool yawInitialized_;
-  bool turning_;
+  const int Kp = 5;
 
   double calculateDistance(Point p1, Point p2)
   {
