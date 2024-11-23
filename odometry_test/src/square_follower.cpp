@@ -25,29 +25,30 @@ public:
       auto message = TwistStamped();
       message.header.stamp = this->now();
 
-      if (calculateDistance(startPosition_, currentPosition_) >= 1)
+      auto distanceTraveled = calculateDistance(startPosition_, currentPosition_);
+      auto remainingDistance = abs(1 - distanceTraveled);
+      RCLCPP_INFO(this->get_logger(), "remainingDistance: '%f'", remainingDistance);
+
+      RCLCPP_INFO(this->get_logger(), "currentYaw_: '%f'", currentYaw_);
+
+      auto angleTraveled = abs(abs(startYaw_) - abs(currentYaw_));
+      auto remainingAngle = abs(1.5708 - angleTraveled);
+      RCLCPP_INFO(this->get_logger(), "remainingAngle: '%f'", remainingAngle);
+
+      if (remainingDistance > tolerance) // Going straight
       {
-        turning_ = true;
-        startPosition_ = currentPosition_;
+        message.twist.linear.x = Kp * remainingDistance;
       }
-      if (turning_)
+      else if (remainingAngle > tolerance) // Turning
       {
-        message.twist.angular.z = 0.1;
+        message.twist.angular.z = Kp * remainingAngle;
       }
       else
       {
-        message.twist.linear.x = 0.1;
+        startYaw_ = currentYaw_;
+        startPosition_ = currentPosition_;
       }
       this->velocityPublisher_->publish(message);
-
-      auto turnAngle = abs(startYaw_ - currentYaw_);
-      RCLCPP_INFO(this->get_logger(), "turnAngle: '%f'", turnAngle);
-      RCLCPP_INFO(this->get_logger(), "currentYaw_: '%f'", currentYaw_);
-      if (turning_ && turnAngle >= 1.5708)
-      {
-        turning_ = false;
-        startYaw_ = currentYaw_;
-      }
     };
 
     auto topic_callback =
@@ -61,8 +62,8 @@ public:
       m.getRPY(r, p, y);
       if (!yawInitialized_)
       {
-        startYaw_ = y;
         yawInitialized_ = true;
+        startYaw_ = y;
         startPosition_ = odom->pose.pose.position;
       }
       currentYaw_ = y;
@@ -87,7 +88,8 @@ private:
   Point currentPosition_;
 
   bool yawInitialized_;
-  bool turning_;
+  const int Kp = 5;
+  const double tolerance = 0.01;
 
   double calculateDistance(Point p1, Point p2)
   {
