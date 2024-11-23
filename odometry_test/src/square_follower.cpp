@@ -29,28 +29,24 @@ public:
       auto remainingDistance = abs(1 - distanceTraveled);
       RCLCPP_INFO(this->get_logger(), "remainingDistance: '%f'", remainingDistance);
 
-
       RCLCPP_INFO(this->get_logger(), "currentYaw_: '%f'", currentYaw_);
 
       auto angleTraveled = abs(abs(startYaw_) - abs(currentYaw_));
       auto remainingAngle = abs(1.5708 - angleTraveled);
       RCLCPP_INFO(this->get_logger(), "remainingAngle: '%f'", remainingAngle);
 
-      if (remainingDistance > 0.01) // Going straight
+      if (remainingDistance > tolerance) // Going straight
       {
         message.twist.linear.x = Kp * remainingDistance;
       }
-      else // Turning
+      else if (remainingAngle > tolerance) // Turning
       {
-        if (remainingAngle > 0.01)
-        {
-          message.twist.angular.z = Kp * remainingAngle;
-        }
-        else
-        {
-          startYaw_ = currentYaw_;
-          startPosition_ = currentPosition_;
-        }
+        message.twist.angular.z = Kp * remainingAngle;
+      }
+      else
+      {
+        startYaw_ = currentYaw_;
+        startPosition_ = currentPosition_;
       }
       this->velocityPublisher_->publish(message);
     };
@@ -93,6 +89,7 @@ private:
 
   bool yawInitialized_;
   const int Kp = 5;
+  const double tolerance = 0.01;
 
   double calculateDistance(Point p1, Point p2)
   {
