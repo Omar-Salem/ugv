@@ -11,7 +11,36 @@
     <gazebo>
         <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
             <parameters>$(find ugv_control)/config/diff_drive_controllers.yaml</parameters>
-            <!-- <parameters>$(find ugv_control)/config/gaz_ros2_ctl_use_sim.yaml</parameters> -->
+        </plugin>
+
+        <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+            <left_joint>rear_left_wheel_joint</left_joint>
+            <left_joint>front_left_wheel_joint</left_joint>
+            <right_joint>rear_right_wheel_joint</right_joint>
+            <right_joint>front_right_wheel_joint</right_joint>
+
+
+            <wheel_separation>0.512</wheel_separation> <!-- 0.32 * 1.6 from diff_drive_controllers.yaml-->
+            <wheel_radius>0.0395</wheel_radius>
+
+            <topic>diff_drive_controller/cmd_vel</topic>
+
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_link</child_frame_id>
+            <odom_topic>odom</odom_topic>
+            <odom_publisher_frequency>30</odom_publisher_frequency>
+            
+            <tf_topic>/tf</tf_topic>
+        </plugin>
+
+
+        <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+            <topic>joint_states</topic>
+            <joint_name>rear_left_wheel_joint</joint_name>
+            <joint_name>front_left_wheel_joint</joint_name>
+            <joint_name>rear_right_wheel_joint</joint_name>
+            <joint_name>front_right_wheel_joint</joint_name>
         </plugin>
     </gazebo>
 

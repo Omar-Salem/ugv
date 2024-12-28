@@ -53,11 +53,11 @@ def generate_launch_description():
             gazebo_world_arg,
             display_launch_file,
         ]
-        + create_gazebo_nodes(robot_urdf),
+        + create_gazebo_nodes(robot_urdf,share_dir),
     )
 
 
-def create_gazebo_nodes(robot_urdf) -> list:
+def create_gazebo_nodes(robot_urdf,share_dir) -> list:
     """
 
     :rtype: list
@@ -85,11 +85,16 @@ def create_gazebo_nodes(robot_urdf) -> list:
         ],
     )
 
+
+    bridge_params = os.path.join(share_dir,'config','gz_bridge.yaml')
     bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-        arguments=["/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan"],
-        output="screen",
+        arguments=[
+            '--ros-args',
+            '-p',
+            f'config_file:={bridge_params}',
+        ]
     )
 
     return [gazebo, gz_spawn_entity, bridge]
