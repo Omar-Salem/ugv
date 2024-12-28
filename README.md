@@ -128,7 +128,7 @@ echo "alias off='sudo shutdown -h now'" >> ~/.bash_aliases
 ### Display
 
 ```bash
-cd ~/ugv_ws && colcon build --packages-select ugv_description && source install/setup.bash && ros2 launch ugv_description display.launch.py use_joint_state_publisher:=True
+cd ~/ugv_ws && colcon build --packages-select ugv_description && source install/setup.bash && ros2 launch ugv_description display.launch.py use_gui:=true use_joint_state_publisher:=true
 ```
 
 ### Control
