@@ -46,6 +46,11 @@ def generate_launch_description():
                             "robot_urdf": robot_urdf,
                             "use_gui": "True",
                             "use_joint_state_publisher": "False",
+                #             "world":os.path.join(
+                #     get_package_share_directory("ugv_description"),
+                #     "worlds",
+                #     "walls",
+                # ),
                             "rviz_config_file": LaunchConfiguration("rviz_config_file"),
                         }.items(),
                     ),
