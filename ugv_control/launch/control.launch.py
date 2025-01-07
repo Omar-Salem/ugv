@@ -22,8 +22,10 @@ def generate_launch_description():
 
     display_node = create_display_node(share_dir)
     
-    micro_ros = ExecuteProcess(
-        cmd=[os.path.join(share_dir, "launch", "microros.sh"),LaunchConfiguration("micro_ros_port")], output="screen"
+    micro_ros = micro_ros = ExecuteProcess(
+        cmd=[['ros2 run micro_ros_agent micro_ros_agent serial --dev ',LaunchConfiguration("micro_ros_port")]], 
+        shell=True, 
+        output="screen"
     )
 
     rviz_config_file_arg = DeclareLaunchArgument(
