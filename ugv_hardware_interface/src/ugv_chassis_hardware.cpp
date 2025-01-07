@@ -16,11 +16,11 @@
 #include <limits>
 #include <vector>
 
-#include "ugv_chassis_firmware/ugv_chassis_hardware.hpp"
+#include "ugv_hardware_interface/ugv_chassis_hardware.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace ugv_chassis_firmware
+namespace ugv_hardware_interface
 {
         UGVChassisHardware::UGVChassisHardware() : node_(std::make_shared<rclcpp::Node>("ugv_motors_hw_interface_node"))
         {
@@ -154,9 +154,9 @@ namespace ugv_chassis_firmware
                 frontRightWheel->position_state = motorsOdom->front_right;
         }
 
-} // namespace ugv_chassis_firmware
+} // namespace ugv_hardware_interface
 
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-    ugv_chassis_firmware::UGVChassisHardware, hardware_interface::SystemInterface)
+    ugv_hardware_interface::UGVChassisHardware, hardware_interface::SystemInterface)

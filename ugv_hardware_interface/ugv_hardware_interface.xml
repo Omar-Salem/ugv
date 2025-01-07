@@ -1,0 +1,9 @@
+<library path="ugv_hardware_interface">
+  <class name="ugv_hardware_interface/UGVChassisHardware"
+         type="ugv_hardware_interface::UGVChassisHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Chassis differential drive
+    </description>
+  </class>
+</library>

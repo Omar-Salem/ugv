@@ -4,7 +4,7 @@
 
     <ros2_control name="UGVChassisHardware" type="system">
         <hardware>
-            <plugin>ugv_chassis_firmware/UGVChassisHardware</plugin>
+            <plugin>ugv_hardware_interface/UGVChassisHardware</plugin>
         </hardware>
         <xacro:joints/>
     </ros2_control>
