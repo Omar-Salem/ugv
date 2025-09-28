@@ -9,6 +9,8 @@ cd ~/ugv_ws && colcon build --packages-select ugv_nav && source install/setup.ba
 cd ~/ugv_ws && colcon build --packages-select ugv_nav && source install/setup.bash && ros2 launch ugv_nav gazebo.launch.py
 
 
+rviz2 -d /home/omar-salem/ugv_ws/src/ugv_nav/config/display.rviz
+
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/key/cmd_vel -p stamped:=True
 
 
