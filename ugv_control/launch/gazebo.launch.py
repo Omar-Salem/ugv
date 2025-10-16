@@ -30,6 +30,7 @@ def generate_launch_description():
         name="rviz_config_file",
         default_value=os.path.join(share_dir, "config", "display.rviz"),
     )
+    
     return LaunchDescription(
         [
             rviz_config_file_arg,
